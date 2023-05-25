@@ -1,5 +1,8 @@
+using GestorStock.BD.Data;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
+//CONTRUCCION DEL BUILDER
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
+
+//CONSTRUCCION DE LA APLICACION
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
