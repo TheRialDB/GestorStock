@@ -1,0 +1,38 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Log in</title>
+	<link rel="stylesheet" type="text/css" href="~/css/app.css"
+</head>
+<body>
+	<div class="login-form">
+		<h1>Login</h1>
+		<form action="/index.html" method="post">
+			<p>Usuario</p>
+			<input type="text" name="user" placeholder="Ingrese su usuario" />
+			<p>Constraseña</p>
+			<input type="password" name="Constraseña" placeholder="Ingrese su contraseña" />
+			<button type="submit">Ingresar</button>
+		</form>
+	</div>
+</body>
+</html>
+
+
+@code {
+
+	private void login()
+		{
+		// Lógica de inicio de sesión aquí (verificar credenciales, etc.)
+
+
+		// Si el inicio de sesión es exitoso, redirige a la página de índice
+		NavigationManager.NavigateTo("/");
+		}
+}
