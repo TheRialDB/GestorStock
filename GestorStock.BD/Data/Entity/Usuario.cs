@@ -20,7 +20,7 @@ namespace GestorStock.BD.Data.Entity
         public string correo { get; set; }
         [Required]
         public string contrasena { get; set; }
-        public int idRol {get; set; }
+        public int idRol { get; set; }
 
         public virtual Rol Rol { get; set; }
 
