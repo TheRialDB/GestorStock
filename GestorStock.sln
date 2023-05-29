@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorStock.Client", "Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorStock.Shared", "Shared\GestorStock.Shared.csproj", "{9361C477-D325-4A2D-A63E-0163143FAC86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorStock.BD", "GestorStock.BD\GestorStock.BD.csproj", "{477952AB-007C-4D16-9393-D2C13FC0B800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorStock.BD", "GestorStock.BD\GestorStock.BD.csproj", "{477952AB-007C-4D16-9393-D2C13FC0B800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
