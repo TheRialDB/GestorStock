@@ -8,17 +8,6 @@ body {
     overflow: hidden;
   }
   
-  .body {
-    height: auto;
-    min-height: auto;
-    object-fit: fill;
-    border-radius: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    font-family: Roboto Mono;
-    font-size: 20px;
-  }
   
 .hero-section {
     position: static;
@@ -34,7 +23,7 @@ body {
     display: block;
   }
   
-  .container {
+  .container1 {
     max-width: 600px;
     object-fit: fill;
     background-color: #081830;
@@ -144,66 +133,55 @@ body {
     width: 600px;
     height: 600px;
     filter: blur(150px);
-    -webkit-text-fill-color: inherit;
     background-color: #081830;
-    background-clip: border-box;
     border-radius: 100%;
     margin-top: -250px;
     margin-left: -250px;
-    margin-right: 0;
     position: absolute;
     top: 0%;
-    bottom: auto;
     left: 0%;
-    right: auto;
   }
   
   .big-circle-right {
     width: 600px;
     height: 600px;
     filter: blur(150px);
-    -webkit-text-fill-color: inherit;
     background-color: #081830;
-    background-clip: border-box;
     border-radius: 100%;
     margin-top: -250px;
-    margin-left: 0;
     margin-right: -250px;
     position: absolute;
     top: 0%;
-    bottom: auto;
-    left: auto;
     right: 0%;
   }
   
-  .div-block-2 {
+  .gradiente {
     height: 300px;
-    -webkit-text-fill-color: inherit;
     background-image: linear-gradient(#27476e, #0d6e83);
-    background-clip: border-box;
     position: absolute;
     top: auto;
     bottom: 0%;
     left: 0%;
     right: 0%;
   }
-  
-  @media screen and (max-width: 991px) {
-    .body {
-      object-fit: fill;
+
+@media screen and (max-height: 900px) {
+    .gradiente {
+        height: 100px;
     }
-  }
-  
-  @media screen and (max-width: 479px) {
-    .body {
-      height: auto;
+
+    .big-circle-left {
+        width: 500px;
+        height: 500px;
+        filter: blur(110px);
     }
-  
-    .bg-grad {
-      object-fit: cover;
+
+    .big-circle-right {
+        width: 450px;
+        height: 450px;
+        filter: blur(110px);
     }
-  }
-  
-  #w-node-_3f8d5194-1ed9-c777-5f64-56476fe590ed-2b2e3ebb {
-    grid-area: span 1 / span 1 / span 1 / span 1;
-  }
+    .page-content-wrapper {
+        margin-top: 130px;
+    }
+}
