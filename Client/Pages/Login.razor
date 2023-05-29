@@ -1,28 +1,42 @@
 ﻿@page "/login"
 @inject NavigationManager NavigationManager
 
-
+@layout EmptyLayout
 
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Log in</title>
-	<link rel="stylesheet" type="text/css" href="~/css/app.css"
+    <meta charset="utf-8" />
+    <title>Gestion de stock</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/styles.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
-<body>
-	<div class="login-form">
-		<h1>Login</h1>
-		<form action="/index.html" method="post">
-			<p>Usuario</p>
-			<input type="text" name="user" placeholder="Ingrese su usuario" />
+<body class="body">
+    <div class="page-content-wrapper">
+        <div class="content-login">
+            <div class="container">
+                <h1 class="heading">Iniciar SesionN</h1>
+                <div>
+                    <form data-name="Log-In-form" class="form">
+                        <input type="text" class="nombre-usuario-txt" placeholder="Nombre De Usuario" required="" />
+                        <input type="password" class="contrasena-txt" placeholder="Contraseña" required="" />
+                        <input type="submit" value="Ingresar" class="ingresar-btn" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-grad">
+        <div class="big-circle-left"></div>
+        <div class="big-circle-right"></div>
+        <div class="div-block-2"></div>
+    </div>
 
-			<p>Constraseña</p>
-			<input type="password" name="Constraseña" placeholder="Ingrese su contraseña" />
-			<button type="submit">Ingresar</button>
-		</form>
-	</div>
 </body>
+
 </html>
 
 
