@@ -11,13 +11,13 @@
 </head>
 <body>
 	<div>
-        <form>
+        @*<form>
             <input @bind="nombre" placeholder="Nombre"/>
             <input @bind="nombreUsuario" placeholder="Nombre de usuario"/>
             <input @bind="correo" placeholder="Correo eletrónico"/>
             <input type="password" @bind="contrasena" placeholder="Contraseña"/>
             <button @onclick="AddItem">Registrarse</button>
-        </form>
+        </form>*@
     </div>
 </body>
 </html>
@@ -28,9 +28,9 @@
     private string correo;
     private string contrasena;
 
-    private async Task AddItem()
-    {
-        var addItem = new Usuario { nombre = nombre, nombreUsuario = nombreUsuario, correo = correo, contrasena = contrasena, idRol = 2};
-        await Http.PostAsJsonAsync("api/TodoItems", addItem);
-    }
+    //private async Task AddItem()
+    //{
+    //    var addItem = new Usuario { nombre = nombre, nombreUsuario = nombreUsuario, correo = correo, contrasena = contrasena, idRol = 2};
+    //    await Http.PostAsJsonAsync("api/TodoItems", addItem);
+    //}
 }

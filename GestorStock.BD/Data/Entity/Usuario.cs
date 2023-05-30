@@ -31,9 +31,9 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en la CONTRASEÑA")]
         public string contrasena { get; set; }
 
-        public int idRol { get; set; }
+        //public int idRol { get; set; }
 
-        public virtual Rol Rol { get; set; }
+        //public virtual Rol Rol { get; set; }
 
 
     }
