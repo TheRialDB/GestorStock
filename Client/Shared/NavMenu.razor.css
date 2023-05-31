@@ -4,7 +4,7 @@
 
 .top-row {
     height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: #000C1B;
 }
 
 .navbar-brand {
@@ -21,6 +21,7 @@
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
+
 }
 
     .nav-item:first-of-type {
@@ -32,12 +33,16 @@
     }
 
     .nav-item ::deep a {
-        color: #d7d7d7;
+        color: #ffff;
         border-radius: 4px;
         height: 3rem;
         display: flex;
         align-items: center;
         line-height: 3rem;
+        border: 0px;
+        border-bottom: 1px;
+        border-color: #5dc1b9;
+        border-style: solid;
     }
 
 .nav-item ::deep a.active {
@@ -45,10 +50,10 @@
     color: white;
 }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
+        .nav-item ::deep a:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
 
 @media (min-width: 641px) {
     .navbar-toggler {

@@ -19,4 +19,16 @@
     <ProjectReference Include="..\Shared\GestorStock.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Envios.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Envios.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Styles\Envios.razor" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,27 @@
+﻿body {
+    background-color: #27476E;
+
+}
+
+.insquare {
+    max-width: 1000px;
+    object-fit: fill;
+    background-color: #192E48;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0dcaf0;
+}
+
+.infoIndex {
+    color: #ffff;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: block;
+    font-size:25px;
+}
