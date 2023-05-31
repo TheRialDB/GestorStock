@@ -28,7 +28,7 @@
                     <form data-name="Log-In-form" class="form">
                         <input type="text" @bind=login.Correo class="nombre-usuario-txt" placeholder="Correo" required="" />
                         <input type="password" @bind=login.Clave class="contrasena-txt" placeholder="Contraseña" required="" />
-                        <button @onclick="IniciarSesion" class="ingresar-btn" >iniciar</button>
+                        <button @onclick="IniciarSesion" class="ingresar-btn">iniciar</button>
                     </form>
                 </div>
             </div>
@@ -50,26 +50,26 @@
 
     private async Task IniciarSesion()
     {
-        var auth = (AutenticacionExtension)autenticacionProvider;
-        await auth.ActualizarEstadoAutenticacion(
-            new SesionDTO
-            {
-                Nombre= "JUAN",
-                Correo=login.Correo,
-                Rol= "Administrador"
-
-            }
-        );
-
-        navManager.NavigateTo("/Index", true);
         //var loginResponse = await httpClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
+
         //if (loginResponse.IsSuccessStatusCode)
         //{
         //    var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
         //    var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
         //    await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
-
         //    navManager.NavigateTo("/Index");
         //}
+
+        var sesionUsuario = new SesionDTO
+            {
+                Correo = "admin@gmail.com",
+                Nombre = "admin",
+                Rol = "Administrador"
+            };
+
+        var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
+
+        navManager.NavigateTo("/Index");
     }
 }

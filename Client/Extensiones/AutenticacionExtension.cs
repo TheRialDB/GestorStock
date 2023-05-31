@@ -27,7 +27,7 @@ namespace GestorStock.Client.Extensiones
                     new Claim(ClaimTypes.Email,sesionUsuario.Correo),
                     new Claim(ClaimTypes.Role,sesionUsuario.Rol)
 
-                }, "CustomAuth"));
+                }, "JwtAuth"));
 
                 await _sessionStorage.GuardarStorage("sesionUsuario", sesionUsuario);                
             }
@@ -54,7 +54,7 @@ namespace GestorStock.Client.Extensiones
                     new Claim(ClaimTypes.Email,sesionUsuario.Correo),
                     new Claim(ClaimTypes.Role,sesionUsuario.Rol)
 
-                }, "CustomAuth"));
+                }, "JwtAuth"));
 
             return await Task.FromResult(new AuthenticationState(claimsPrincipal));
 
