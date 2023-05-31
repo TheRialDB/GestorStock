@@ -1,5 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
+@using GestorStock.Client.Extensiones
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider autenticacionProvider
+@inject NavigationManager navManager
+
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -8,6 +14,7 @@
     <main>
         <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a @onclick="CerrarSesion" href="javascript:void(0)">Salir</a>
         </div>
 
         <article class="content px-4">
@@ -15,3 +22,13 @@
         </article>
     </main>
 </div>
+
+@code{
+    private async Task CerrarSesion()
+    {
+        var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        await autenticacionExt.ActualizarEstadoAutenticacion(null);
+        navManager.NavigateTo("/", true);
+    }
+}
+

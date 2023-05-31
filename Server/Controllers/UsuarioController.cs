@@ -1,33 +1,51 @@
-﻿//using GestorStock.BD.Data;
-//using GestorStock.BD.Data.Entity;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace GestorStock.Server.Controllers
-//{
-//    public class UsuarioController : Controller
-//    {
-//        public IActionResult Index()
-//        {
-//            return View();
-//        }
-//        Context _context;
-//        public UsuarioController(Context context)
-//        {
-//            _context = context;
-//        }
+using GestorStock.Shared;
+using GestorStock.BD.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace GestorStock.Server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsuarioController : ControllerBase
+    {
+        Context context;
+
+        public UsuarioController(Context context)
+        {
+            this.context = context;
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody]LoginDTO login)
+        {
+            //context.Usuarios.ToListAsync().Wait();
+            SesionDTO sesionDTO = new SesionDTO();  
 
 
-//        [HttpPost]
-//        public async Task<ActionResult<Usuario>> PostTodoItem(Usuario nuevoUsuario)
-//        {          
+            var usuarios = context.Usuarios.Where(user => user.correo.Equals(login.Correo) && user.contrasena.Equals(login.Clave)).ToList();
+            if (usuarios.Count != 0)
+            {
+                sesionDTO.Nombre = "Juan";
+                sesionDTO.Correo = login.Correo;
+                sesionDTO.Rol = "Administrador";
+            }
 
-//            _context.Add<Usuario>(nuevoUsuario);
-//            await _context.SaveChangesAsync();
+            //if (login.Correo == "juanprueba@gmail.com" && login.Clave == "probando123")
+            //{
 
-//            //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-//            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
-//        }
+            //    sesionDTO.Nombre = "Juan";
+            //    sesionDTO.Correo = login.Correo;
+            //    sesionDTO.Rol = "Administrador";
+            //}
 
-//    }
-//}
+            //return Ok(sesionDTO);
+            return StatusCode(StatusCodes.Status200OK, sesionDTO);
+
+
+        }
+    }
+}

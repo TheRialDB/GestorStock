@@ -1,6 +1,8 @@
 ﻿@page "/registro"
 @using GestorStock.BD.Data.Entity;
 @inject HttpClient Http
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize]
 
 <PageTitle>Registro</PageTitle>
 
