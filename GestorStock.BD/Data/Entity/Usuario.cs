@@ -27,7 +27,7 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el CORREO")]
         public string correo { get; set; }
 
-        [Required(ErrorMessage = "LA CONTRASEÑA es Obligatoria")]
+        [Required(ErrorMessage = "La CONTRASEÑA es Obligatoria")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en la CONTRASEÑA")]
         public string contrasena { get; set; }
 
