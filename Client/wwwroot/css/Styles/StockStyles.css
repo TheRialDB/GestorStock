@@ -1,0 +1,46 @@
+﻿body {
+    background-color: #27476e;
+    color: #fff;
+}
+
+.table {
+    color: #fff;
+
+}
+
+.botones {
+    font-family: Roboto Mono;
+    width: auto;
+    background-color: #1d0f76;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 800;
+    position: static;
+    color: #fff;
+    cursor: pointer;
+    border: 0;
+    border-radius: 14px;
+    padding: 9px 15px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cont-botones {
+    display:inline;
+    width: auto;
+    
+}
+
+@media screen and (max-width: 500px) {
+
+    .botones {
+        padding: 5px 9px;
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .px-4 {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+}
