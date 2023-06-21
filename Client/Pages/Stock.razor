@@ -37,24 +37,45 @@
     </div>
     <div class="d-flex">
 
-        <input type="submit" value="Cargar" class="botones" />
-        <input type="submit" value="Eliminar" class="botones" />
-        <input type="submit" value="Modificar" class="botones" />
+        <button type="button" class="botones"
+        @onclick="() => OpenCargarDialog()">
+            Cargar
+        </button>
+        <button type="button" class="botones"
+        @onclick="() => OpenEliminarDialog()">
+            Eliminar
+        </button>
+        <button type="button" class="botones"
+        @onclick="() => OpenModificarDialog()">
+            Modificar
+        </button>
 
     </div>
 
-    @if (DeleteDialogOpen)
+    @if (CargarDialogOpen)
     {
-        <GestorStock.Client.Pages.Modals.ModalCargar Title="Hey"
-                                                     Text="Do you want to delete this entry?"
-                                                     OnClose="@OnDeleteDialogClose">
+        <GestorStock.Client.Pages.Modals.ModalCargar Title="Cargar stock"
+                                                     Text=""
+                                                     OnClose="@OnCargarDialogClose">
         </GestorStock.Client.Pages.Modals.ModalCargar>
     }
 
-    <button type="button" class="btn btn-danger btn-sm"
-    @onclick="() => OpenDeleteDialog()">
-        Delete
-    </button>
+    @if (EliminarDialogOpen)
+    {
+        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+                                                     Text=""
+                                                     OnClose="@OnEliminarDialogClose">
+        </GestorStock.Client.Pages.Modals.ModalTextOnly>
+    }
+
+    @if (ModificarDialogOpen)
+    {
+        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar stock"
+                                                     Text=""
+                                                     OnClose="@OnModificarDialogClose">
+        </GestorStock.Client.Pages.Modals.ModalTextOnly>
+    }
+    
 
 </body>
 
@@ -62,17 +83,45 @@
 
 @code {
 
-    public bool DeleteDialogOpen { get; set; }
+    public bool CargarDialogOpen { get; set; }
 
-    private void OpenDeleteDialog()
+    public bool EliminarDialogOpen { get; set; }
+
+    public bool ModificarDialogOpen { get; set; }
+
+    private void OpenCargarDialog()
     {
-        DeleteDialogOpen = true;
+        CargarDialogOpen = true;
         StateHasChanged();
     }
 
-    private async Task OnDeleteDialogClose(bool accepted)
+    private async Task OnCargarDialogClose(bool accepted)
     {
-        DeleteDialogOpen = false;
+        CargarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenEliminarDialog()
+    {
+        EliminarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEliminarDialogClose(bool accepted)
+    {
+        EliminarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenModificarDialog()
+    {
+        ModificarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnModificarDialogClose(bool accepted)
+    {
+        ModificarDialogOpen = false;
         StateHasChanged();
     }
 
