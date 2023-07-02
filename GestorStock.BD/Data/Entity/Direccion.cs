@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace GestorStock.BD.Data.Entity
 {
-    public class Rol
+    public class Direccion
     {
-        [Key]
-        public int id { get; set; }
+        public int ID { get; set; }
 
-        [Required(ErrorMessage = "EL Nombre del Rol debe ser OBLIGATORIO")]
+        [Required(ErrorMessage = "El Nombre de la Direccion debe ser OBLIGATORIO")]
         [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
-        public string nombre { get; set; }
+        public string nombreDireccion { get; set; }
+
+
 
     }
 }
