@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GestorStock.BD.Data.Entity
 {
-    public class ProductoSimple
+    public class Producto
     {
         public int id { get; set; }
 

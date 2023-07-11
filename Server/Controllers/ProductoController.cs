@@ -6,45 +6,45 @@ using Microsoft.EntityFrameworkCore;
 namespace GestorStock.Server.Controllers
 {
     [ApiController]
-    [Route("api/ProductoSimple")]
+    [Route("api/Producto")]
 
-    public class ProductoSimpleController : ControllerBase
+    public class ProductoController : ControllerBase
     {
         private readonly Context context;
 
-        public ProductoSimpleController(Context context)
+        public ProductoController(Context context)
         {
             this.context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductoSimple>>> Get()
+        public async Task<ActionResult<List<Producto>>> Get()
         {
-            return await context.ProductosSimples.ToListAsync();
+            return await context.Productos.ToListAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(ProductoSimple productoSimple)
+        public async Task<ActionResult> Post(Producto producto)
         {
-            context.Add(productoSimple);
+            context.Add(producto);
             await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(ProductoSimple productoSimple, int id)
+        public async Task<ActionResult> Put(Producto producto, int id)
         {
-            if (id != productoSimple.id)
+            if (id != producto.id)
             {
                 BadRequest("El id del producto no coincide.");
             }
-            var existe = await context.ProductosSimples.AnyAsync(x => x.id == id);
+            var existe = await context.Productos.AnyAsync(x => x.id == id);
             if (!existe)
             {
                 return NotFound($"El producto con el ID={id} no existe");
             }
 
-            context.Update(productoSimple);
+            context.Update(producto);
             await context.SaveChangesAsync();
             return Ok();
         }
@@ -52,13 +52,13 @@ namespace GestorStock.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.ProductosSimples.AnyAsync(x => x.id == id);
+            var existe = await context.Productos.AnyAsync(x => x.id == id);
             if (!existe)
             {
                 return NotFound($"El producto con el ID={id} no existe");
             }
 
-            context.Remove(new ProductoSimple() { id = id });
+            context.Remove(new Producto() { id = id });
             await context.SaveChangesAsync();
             return Ok();
         }

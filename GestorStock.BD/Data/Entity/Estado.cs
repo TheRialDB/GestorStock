@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace GestorStock.BD.Data.Entity
 {
-    public class Unidad
+    public class Estado
     {
         [Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "El NOMBRE de la UNIDAD es Obligatorio")]
-        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el NOMBRE")]
-        public string nombreUnidad { get; set; }
+        [Required(ErrorMessage = "El NOMBRE del ESTADO es Obligatorio")]
+        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el ESTADO")]
+        public string nombreEstado { get; set; }
     }
 }

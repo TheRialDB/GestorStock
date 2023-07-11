@@ -17,9 +17,14 @@ namespace GestorStock.BD.Data
         public DbSet<Envio> Envios => Set<Envio>();
         public DbSet<Obra> Obras => Set<Obra>();
         public DbSet<Deposito> Depositos => Set<Deposito>();
-        public DbSet<ProductoSimple> ProductosSimples => Set<ProductoSimple>();
-        public DbSet<ProductoCompuesto> ProductosCompuestos => Set<ProductoCompuesto>();
+        public DbSet<Producto> Productos => Set<Producto>();
+        public DbSet<Componente> Componentes => Set<Componente>();
         public DbSet<Unidad> Unidades => Set<Unidad>();
+        public DbSet<Direccion> Direcciones => Set<Direccion>();
+        public DbSet<DetallePedido> DetallePedidos => Set<DetallePedido>();
+        public DbSet<Estado> Estados => Set<Estado>();
+        public DbSet<NotaPedido> NotaPedidos => Set<NotaPedido>();
+        public DbSet<Remito> Remitos => Set<Remito>();
 
         public Context(DbContextOptions options) : base(options)
         {

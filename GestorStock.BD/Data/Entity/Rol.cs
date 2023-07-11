@@ -12,6 +12,9 @@ namespace GestorStock.BD.Data.Entity
         [Key]
         public int id { get; set; }
 
+        [Required(ErrorMessage = "El NOMBRE del ROL es Obligatorio")]
+        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el nombre del ROL")]
+
         public string nombre { get; set; }
 
     }

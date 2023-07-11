@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace GestorStock.BD.Data.Entity
 {
-    public class Unidad
+    public class Componente
     {
         [Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "El NOMBRE de la UNIDAD es Obligatorio")]
-        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el NOMBRE")]
-        public string nombreUnidad { get; set; }
+        [Required(ErrorMessage = "La CANTIDAD de insumos es Obligatorio")]
+        public int cantidad { get; set; }
+
     }
 }
