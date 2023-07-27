@@ -14,5 +14,11 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "El NOMBRE de la Dirección es Obligatorio")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en la DIRECCIÓN")]
         public string nombreDireccion { get; set; }
+
+        //Conexiones
+        public int DepositoId{ get; set; }
+        public Deposito Deposito { get; set; }
+        public int ObraId { get; set; }
+        public Obra Obra { get; set; }
     }
 }

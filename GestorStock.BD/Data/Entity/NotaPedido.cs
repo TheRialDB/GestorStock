@@ -22,5 +22,11 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "El nombre del RECEPTOR es Obligatorio")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el RECEPTOR")]
         public string receptor { get; set; }
+
+        //Conexiones
+        public int EstadoId { get; set; }
+        public Estado Estado { get; set; }
+        public List<Remito> Remitos { get; set; } = new List<Remito>();
+        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
     }
 }

@@ -15,5 +15,8 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "El NOMBRE de la UNIDAD es Obligatorio")]
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el NOMBRE")]
         public string nombreUnidad { get; set; }
+
+        //Conexiones
+        public List<Producto> Productos { get; set; } = new List<Producto>();
     }
 }

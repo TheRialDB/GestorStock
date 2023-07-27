@@ -17,5 +17,8 @@ namespace GestorStock.BD.Data.Entity
 
         public string nombre { get; set; }
 
+        //Conexiones
+        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
+
     }
 }

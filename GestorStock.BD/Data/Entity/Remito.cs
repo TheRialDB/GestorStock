@@ -21,5 +21,8 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(150, ErrorMessage = "Solo se aceptan hasta 150 caracteres en la DESCRIPCIÓN")]
         public string descripcion { get; set; }
 
+        //Conexiones
+        public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
+
     }
 }

@@ -16,5 +16,11 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE")]
         public string nombreObra { get; set; }
 
+        //Conexiones
+        public int DireccionId { get; set; }
+        public Direccion Direccion { get; set; }
+        public List<Deposito> Depositos { get; set; } = new List<Deposito>();
+        public int EstadoId { get; set; }
+        public Estado Estado { get; set; }
     }
 }
