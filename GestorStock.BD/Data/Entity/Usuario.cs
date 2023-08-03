@@ -34,7 +34,6 @@ namespace GestorStock.BD.Data.Entity
         //Conexiones
         public int RolId { get; set; }
         public Rol Rol { get; set; }
-
         public List<Deposito> Depositos { get; set; } = new List<Deposito>();
 
     }

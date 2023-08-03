@@ -17,8 +17,7 @@ namespace GestorStock.BD.Data.Entity
         public string nombreEstado { get; set; }
 
         //Conexiones
-        public int ObraId { get; set; }
-        public Obra Obra { get; set; }
+        public List<Obra> Obras { get; set; } = new List<Obra>();
         public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
     }
 }

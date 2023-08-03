@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestorStock.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class inicio : Migration
+    public partial class Inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreDeposito = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    nombreDeposito = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    direccion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,35 +49,6 @@ namespace GestorStock.BD.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DetallePedidos", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Direcciones",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreDireccion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Direcciones", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Envios",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    origen = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    destino = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    estadoEnvio = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    nroRemito = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Envios", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +85,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreObra = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    nombreObra = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    direccion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,19 +140,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Solicitudes",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Solicitudes", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Unidades",
                 columns: table => new
                 {
@@ -228,12 +188,6 @@ namespace GestorStock.BD.Migrations
                 name: "DetallePedidos");
 
             migrationBuilder.DropTable(
-                name: "Direcciones");
-
-            migrationBuilder.DropTable(
-                name: "Envios");
-
-            migrationBuilder.DropTable(
                 name: "Estados");
 
             migrationBuilder.DropTable(
@@ -250,9 +204,6 @@ namespace GestorStock.BD.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Solicitudes");
 
             migrationBuilder.DropTable(
                 name: "Unidades");

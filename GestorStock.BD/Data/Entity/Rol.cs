@@ -19,6 +19,5 @@ namespace GestorStock.BD.Data.Entity
 
         //Conexiones
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
-
     }
 }

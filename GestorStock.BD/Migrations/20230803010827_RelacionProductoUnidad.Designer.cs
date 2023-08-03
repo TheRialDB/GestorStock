@@ -4,6 +4,7 @@ using GestorStock.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230803010827_RelacionProductoUnidad")]
+    partial class RelacionProductoUnidad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,15 +92,10 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("ProductoId");
 
                     b.ToTable("DetallePedidos");
                 });
@@ -372,17 +370,6 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Obra");
                 });
 
-            modelBuilder.Entity("GestorStock.BD.Data.Entity.DetallePedido", b =>
-                {
-                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
-                        .WithMany("DetallePedidos")
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Producto");
-                });
-
             modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
@@ -465,11 +452,6 @@ namespace GestorStock.BD.Migrations
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Obra", b =>
                 {
                     b.Navigation("Depositos");
-                });
-
-            modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
-                {
-                    b.Navigation("DetallePedidos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Rol", b =>

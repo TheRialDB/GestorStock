@@ -23,6 +23,5 @@ namespace GestorStock.BD.Data.Entity
 
         //Conexiones
         public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
-
     }
 }
