@@ -27,6 +27,6 @@ namespace GestorStock.BD.Data.Entity
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
         public List<Remito> Remitos { get; set; } = new List<Remito>();
-        //public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
+        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
     }
 }

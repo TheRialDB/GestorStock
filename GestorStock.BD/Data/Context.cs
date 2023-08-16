@@ -22,6 +22,7 @@ namespace GestorStock.BD.Data
             //    .WithOne(dir => dir.Deposito)
             //.HasForeignKey<Direccion>(c => c.DepositoId);
         }
+    
 
         public DbSet<Usuario> Usuarios => Set<Usuario>();
         public DbSet<Rol> Roles => Set<Rol>();
