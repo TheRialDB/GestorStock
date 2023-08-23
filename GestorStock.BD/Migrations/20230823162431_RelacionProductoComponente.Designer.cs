@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230803000217_Inicio")]
-    partial class Inicio
+    [Migration("20230823162431_RelacionProductoComponente")]
+    partial class RelacionProductoComponente
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace GestorStock.BD.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DepositoUsuario", b =>
+                {
+                    b.Property<int>("Depositosid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Usuariosid")
+                        .HasColumnType("int");
+
+                    b.HasKey("Depositosid", "Usuariosid");
+
+                    b.HasIndex("Usuariosid");
+
+                    b.ToTable("DepositoUsuario");
+                });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
                 {
@@ -49,6 +64,9 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int>("ObraId")
+                        .HasColumnType("int");
+
                     b.Property<string>("direccion")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -61,6 +79,8 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("ObraId");
+
                     b.ToTable("Depositos");
                 });
 
@@ -72,10 +92,20 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int>("NotaPedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("NotaPedidoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("DetallePedidos");
                 });
@@ -106,6 +136,9 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("emisor")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -121,6 +154,8 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("EstadoId");
+
                     b.ToTable("NotaPedidos");
                 });
 
@@ -131,6 +166,9 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("EstadoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("direccion")
                         .IsRequired()
@@ -144,6 +182,8 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("EstadoId");
+
                     b.ToTable("Obras");
                 });
 
@@ -154,6 +194,12 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("DepositoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnidadId")
+                        .HasColumnType("int");
 
                     b.Property<double>("cantidad")
                         .HasColumnType("float");
@@ -180,7 +226,26 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("DepositoId");
+
+                    b.HasIndex("UnidadId");
+
                     b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.ProductoComponente", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoId", "ComponenteId");
+
+                    b.HasIndex("ComponenteId");
+
+                    b.ToTable("ProductoComponentes");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Remito", b =>
@@ -256,6 +321,9 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("contrasena")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -278,10 +346,202 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("RolId");
+
                     b.HasIndex(new[] { "correo" }, "Usuario_correo_UQ")
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("NotaPedidoRemito", b =>
+                {
+                    b.Property<int>("NotaPedidosid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Remitosid")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotaPedidosid", "Remitosid");
+
+                    b.HasIndex("Remitosid");
+
+                    b.ToTable("NotaPedidoRemito");
+                });
+
+            modelBuilder.Entity("DepositoUsuario", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Deposito", null)
+                        .WithMany()
+                        .HasForeignKey("Depositosid")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("Usuariosid")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Obra", "Obra")
+                        .WithMany("Depositos")
+                        .HasForeignKey("ObraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Obra");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.DetallePedido", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", "NotaPedido")
+                        .WithMany("DetallePedidos")
+                        .HasForeignKey("NotaPedidoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                        .WithMany("DetallePedidos")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("NotaPedido");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
+                        .WithMany("NotaPedidos")
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Obra", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
+                        .WithMany("Obras")
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Deposito", "Depositos")
+                        .WithMany("Productos")
+                        .HasForeignKey("DepositoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Unidad", "Unidad")
+                        .WithMany("Productos")
+                        .HasForeignKey("UnidadId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Depositos");
+
+                    b.Navigation("Unidad");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.ProductoComponente", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Componente", "Componente")
+                        .WithMany("ProductoComponentes")
+                        .HasForeignKey("ComponenteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                        .WithMany("ProductoComponentes")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Componente");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Usuario", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Rol", "Rol")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("NotaPedidoRemito", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", null)
+                        .WithMany()
+                        .HasForeignKey("NotaPedidosid")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Remito", null)
+                        .WithMany()
+                        .HasForeignKey("Remitosid")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
+                {
+                    b.Navigation("ProductoComponentes");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
+                {
+                    b.Navigation("Productos");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Estado", b =>
+                {
+                    b.Navigation("NotaPedidos");
+
+                    b.Navigation("Obras");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
+                {
+                    b.Navigation("DetallePedidos");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Obra", b =>
+                {
+                    b.Navigation("Depositos");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
+                {
+                    b.Navigation("DetallePedidos");
+
+                    b.Navigation("ProductoComponentes");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Rol", b =>
+                {
+                    b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Unidad", b =>
+                {
+                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }

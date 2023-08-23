@@ -16,5 +16,6 @@ namespace GestorStock.BD.Data.Entity
         public int cantidad { get; set; }
 
         //Conexiones
+        public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
     }
 }
