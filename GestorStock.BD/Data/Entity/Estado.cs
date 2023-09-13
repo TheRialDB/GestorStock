@@ -15,5 +15,9 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "El NOMBRE del ESTADO es Obligatorio")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el ESTADO")]
         public string nombreEstado { get; set; }
+
+        //Conexiones
+        public List<Obra> Obras { get; set; } = new List<Obra>();
+        public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
     }
 }

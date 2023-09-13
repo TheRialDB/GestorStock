@@ -29,5 +29,13 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "El ESTADO es Obligatorio")]
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el ESTADO")]
         public string estado { get; set; }
+
+        //Conexiones
+        public int DepositoId { get; set; }
+        public Deposito Depositos { get; set; }
+        public int UnidadId { get; set; }
+        public Unidad Unidad { get; set; }
+        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
+        public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
     }
 }

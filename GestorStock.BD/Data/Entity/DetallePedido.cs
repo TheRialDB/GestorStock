@@ -12,5 +12,12 @@ namespace GestorStock.BD.Data.Entity
         [Key]
         public int id { get; set; }
         public int cantidad { get; set; }
+
+        //Conexiones
+        public int ProductoId { get; set; }
+        public Producto Producto { get; set; }
+        public int NotaPedidoId { get; set; }
+        public NotaPedido NotaPedido { get; set; }
+
     }
 }
