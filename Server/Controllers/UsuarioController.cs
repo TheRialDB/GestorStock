@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using GestorStock.Shared;
 using GestorStock.BD.Data.Entity;
 using GestorStock.BD.Data;
@@ -30,6 +29,7 @@ namespace GestorStock.Server.Controllers
             }
 
             return lista;
+
         }
 
 
