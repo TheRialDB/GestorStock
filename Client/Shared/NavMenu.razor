@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject NavigationManager NavigationManager
 
 <div class="sidebar @(sidebarOpen ? "open" : "")">
     <div class="logo-details">
@@ -9,35 +9,35 @@
     </div>
     <ul class="nav-list">
         <li>
-            <a href="#">
+            <a href="/Index">
                 <i class='bx bx-grid-alt'></i>
                 <span class="links_name">Inicio</span>
             </a>
             <span class="tooltip">Inicio</span>
         </li>
         <li>
-            <a href="#">
+            <a href="/Stock">
                 <i class='bx bx-package'></i>
                 <span class="links_name">Stock</span>
             </a>
             <span class="tooltip">Stock</span>
         </li>
         <li>
-            <a href="#">
+            <a href="/Obras">
                 <i class='bx bxs-factory'></i>
                 <span class="links_name">Obras</span>
             </a>
             <span class="tooltip">Obras</span>
         </li>
         <li>
-            <a href="#">
+            <a href="/Solicitudes">
                 <i class='bx bx-envelope'></i>
                 <span class="links_name">Solicitudes</span>
             </a>
             <span class="tooltip">Solicitudes</span>
         </li>
         <li>
-            <a href="#">
+            <a href="/Envios">
                 <i class='bx bxs-truck'></i>
                 <span class="links_name">Envios</span>
             </a>
@@ -77,6 +77,11 @@
 
     }
 
+    private void navigateToStock()
+    {
+        NavigationManager.NavigateTo("/Stock");
+
+    }
 
 
 
