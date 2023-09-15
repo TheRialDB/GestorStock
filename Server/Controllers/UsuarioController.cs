@@ -1,57 +1,115 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using GestorStock.Shared;
-//using GestorStock.BD.Data;
-//using Microsoft.EntityFrameworkCore;
+using GestorStock.BD.Data.Entity;
+using GestorStock.BD.Data;
+using Microsoft.EntityFrameworkCore;
+using GestorStock.Shared.DTO;
 
 namespace GestorStock.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Usuario")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        //Context context;
+        private readonly Context context;
 
-        //public UsuarioController(Context context)
-        //{
-        //    this.context = context;
-        //}
-
-        [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]LoginDTO login)
+        public UsuarioController(Context context)
         {
-            //context.Usuarios.ToListAsync().Wait();            
+            this.context = context;
+        }
 
-
-            //var usuarios = context.Usuarios.Where(user => user.correo.Equals(login.Correo) && user.contrasena.Equals(login.Clave)).ToList();
-            //if (usuarios.Count != 0)
-            //{
-            //    sesionDTO.Nombre = "Juan";
-            //    sesionDTO.Correo = login.Correo;
-            //    sesionDTO.Rol = "Administrador";
-            //}
-            SesionDTO sesionDTO = new SesionDTO();
-
-            if (login.Correo == "admin@gmail.com" && login.Clave == "admin")
+        [HttpGet]
+        public async Task<ActionResult<List<Usuario>>> Get()
+        {
+            var lista = await context.Usuarios.ToListAsync();
+            if (lista == null || lista.Count == 0)
             {
-
-                sesionDTO.Nombre = "admin";
-                sesionDTO.Correo = login.Correo;
-                sesionDTO.Rol = "Administrador";
-            }
-            else
-            {
-                sesionDTO.Nombre = "empleado";
-                sesionDTO.Correo = login.Correo;
-                sesionDTO.Rol = "Empleado";
+                return BadRequest("No hay usuarios cargados");
             }
 
-            //return Ok(sesionDTO);
-            return StatusCode(StatusCodes.Status200OK, sesionDTO);
-
+            return lista;
 
         }
+
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Usuario?>> Get(int id)
+        {
+            var existe = await context.Usuarios.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"El usuario {id} no existe");
+            }
+            return await context.Usuarios.FirstOrDefaultAsync(ped => ped.id == id);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<int>> Post(UsuarioDTO entidad)
+        {
+            try
+            {
+                var existe = await context.Roles.AnyAsync(x => x.id == entidad.RolId);
+                if (!existe)
+                {
+                    return NotFound($"La profesión de id={entidad.RolId} no existe");
+                }
+               
+                Usuario pepe = new Usuario();
+
+               
+                pepe.nombre = entidad.nombre;
+                pepe.nombreUsuario = entidad.nombreUsuario;
+                pepe.correo = entidad.correo;
+                pepe.contrasena = entidad.contrasena;
+                pepe.RolId = entidad.RolId;
+              
+
+                await context.AddAsync(pepe);
+                await context.SaveChangesAsync();
+                return pepe.id;
+
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(Usuario usuario, int id)
+        {
+            if (id != usuario.id)
+            {
+                BadRequest("El id del usuario no coincide.");
+            }
+            var existe = await context.Usuarios.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"El usuario con el ID={id} no existe");
+            }
+
+            context.Update(usuario);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var existe = await context.Usuarios.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"El usuario con el ID={id} no existe");
+            }
+
+            context.Remove(new Usuario() { id = id });
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+
     }
 }

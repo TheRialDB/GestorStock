@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230823155703_Inicio")]
+    [Migration("20230913172806_Inicio")]
     partial class Inicio
     {
         /// <inheritdoc />
@@ -233,6 +233,21 @@ namespace GestorStock.BD.Migrations
                     b.ToTable("Productos");
                 });
 
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.ProductoComponente", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoId", "ComponenteId");
+
+                    b.HasIndex("ComponenteId");
+
+                    b.ToTable("ProductoComponentes");
+                });
+
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Remito", b =>
                 {
                     b.Property<int>("id")
@@ -359,13 +374,13 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.Deposito", null)
                         .WithMany()
                         .HasForeignKey("Depositosid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestorStock.BD.Data.Entity.Usuario", null)
                         .WithMany()
                         .HasForeignKey("Usuariosid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -374,7 +389,7 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.Obra", "Obra")
                         .WithMany("Depositos")
                         .HasForeignKey("ObraId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Obra");
@@ -385,13 +400,13 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", "NotaPedido")
                         .WithMany("DetallePedidos")
                         .HasForeignKey("NotaPedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
                         .WithMany("DetallePedidos")
                         .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("NotaPedido");
@@ -404,7 +419,7 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
                         .WithMany("NotaPedidos")
                         .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Estado");
@@ -415,7 +430,7 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
                         .WithMany("Obras")
                         .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Estado");
@@ -426,13 +441,13 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.Deposito", "Depositos")
                         .WithMany("Productos")
                         .HasForeignKey("DepositoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestorStock.BD.Data.Entity.Unidad", "Unidad")
                         .WithMany("Productos")
                         .HasForeignKey("UnidadId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Depositos");
@@ -440,12 +455,31 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Unidad");
                 });
 
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.ProductoComponente", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Componente", "Componente")
+                        .WithMany("ProductoComponentes")
+                        .HasForeignKey("ComponenteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                        .WithMany("ProductoComponentes")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Componente");
+
+                    b.Navigation("Producto");
+                });
+
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Usuario", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Rol", "Rol")
                         .WithMany("Usuarios")
                         .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Rol");
@@ -456,14 +490,19 @@ namespace GestorStock.BD.Migrations
                     b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", null)
                         .WithMany()
                         .HasForeignKey("NotaPedidosid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestorStock.BD.Data.Entity.Remito", null)
                         .WithMany()
                         .HasForeignKey("Remitosid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
+                {
+                    b.Navigation("ProductoComponentes");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
@@ -491,6 +530,8 @@ namespace GestorStock.BD.Migrations
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
                 {
                     b.Navigation("DetallePedidos");
+
+                    b.Navigation("ProductoComponentes");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Rol", b =>

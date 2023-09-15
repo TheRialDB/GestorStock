@@ -4,7 +4,7 @@
 @layout LoginLayout
 @inject HttpClient httpClient
 @using GestorStock.Client.Extensiones
-@using GestorStock.Shared
+@*@using GestorStock.Shared*@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider autenticacionProvider
 
@@ -25,11 +25,11 @@
             <div class="container1">
                 <h1 class="heading">Iniciar Sesion</h1>
                 <div>
-                    <form data-name="Log-In-form" class="form">
+                    @*<form data-name="Log-In-form" class="form">
                         <input type="text" @bind=login.Correo class="nombre-usuario-txt" placeholder="Correo" required="" />
                         <input type="password" @bind=login.Clave class="contrasena-txt" placeholder="Contraseña" required="" />
                         <button @onclick="IniciarSesion" class="ingresar-btn">iniciar</button>
-                    </form>
+                    </form>*@
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
 </html>
 
 
-@code {
+@*@code {
     private LoginDTO login = new LoginDTO();
 
     private async Task IniciarSesion()
@@ -72,4 +72,4 @@
 
         navManager.NavigateTo("/Index");
     }
-}
+}*@
