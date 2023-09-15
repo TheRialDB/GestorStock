@@ -55,19 +55,19 @@ namespace GestorStock.Server.Controllers
                     return NotFound($"La profesión de id={entidad.RolId} no existe");
                 }
                
-                Usuario pepe = new Usuario();
+                Usuario nuevousuario = new Usuario();
 
                
-                pepe.nombre = entidad.nombre;
-                pepe.nombreUsuario = entidad.nombreUsuario;
-                pepe.correo = entidad.correo;
-                pepe.contrasena = entidad.contrasena;
-                pepe.RolId = entidad.RolId;
+                nuevousuario.nombre = entidad.nombre;
+                nuevousuario.nombreUsuario = entidad.nombreUsuario;
+                nuevousuario.correo = entidad.correo;
+                nuevousuario.contrasena = entidad.contrasena;
+                nuevousuario.RolId = entidad.RolId;
               
 
-                await context.AddAsync(pepe);
+                await context.AddAsync(nuevousuario);
                 await context.SaveChangesAsync();
-                return pepe.id;
+                return nuevousuario.id;
 
 
             }
