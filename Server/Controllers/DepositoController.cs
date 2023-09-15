@@ -53,15 +53,15 @@ namespace GestorStock.Server.Controllers
                     return NotFound($"El deposito {entidad.ObraId} no existe");
                 }
 
-                Deposito pepe = new Deposito();
+                Deposito nuevodeposito = new Deposito();
 
-                pepe.ObraId = entidad.ObraId;
-                pepe.nombreDeposito = entidad.nombreDeposito;
-                pepe.direccion = entidad.direccion;
+                nuevodeposito.ObraId = entidad.ObraId;
+                nuevodeposito.nombreDeposito = entidad.nombreDeposito;
+                nuevodeposito.direccion = entidad.direccion;
 
-                await context.AddAsync(pepe);
+                await context.AddAsync(nuevodeposito);
                 await context.SaveChangesAsync();
-                return pepe.id;
+                return nuevodeposito.id;
 
             }
             catch (Exception e)

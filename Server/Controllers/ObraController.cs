@@ -62,15 +62,15 @@ namespace GestorStock.Server.Controllers
                     return NotFound($"El estado de id={entidad.EstadoId} no existe");
                 }
 
-                Obra pepe = new Obra();
+                Obra nuevaobra = new Obra();
 
-                pepe.EstadoId = entidad.EstadoId;
-                pepe.nombreObra = entidad.nombreObra;
-                pepe.direccion = entidad.direccion;
+                nuevaobra.EstadoId = entidad.EstadoId;
+                nuevaobra.nombreObra = entidad.nombreObra;
+                nuevaobra.direccion = entidad.direccion;
 
-                await context.AddAsync(pepe);
+                await context.AddAsync(nuevaobra);
                 await context.SaveChangesAsync();
-                return pepe.id;
+                return nuevaobra.id;
 
             }
             catch (Exception e)
