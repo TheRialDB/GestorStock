@@ -1,5 +1,6 @@
 ﻿using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
+using GestorStock.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,15 +21,64 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Producto>>> Get()
         {
-            return await context.Productos.ToListAsync();
+            var lista = await context.Productos.ToListAsync();
+            if (lista == null || lista.Count == 0)
+            {
+                return BadRequest("No hay productos cargados");
+            }
+
+            return lista;
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Producto?>> Get(int id)
+        {
+            var existe = await context.Productos.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"El producto {id} no existe");
+            }
+            return await context.Productos.FirstOrDefaultAsync(ped => ped.id == id);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Producto producto)
+        public async Task<ActionResult <int>> Post(ProductoDTO entidad)
         {
-            context.Add(producto);
-            await context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
+                if (!existe)
+                {
+                    return NotFound($"El deposito de id={entidad.DepositoId} no existe");
+                }
+
+                existe = await context.Unidades.AnyAsync(x => x.id == entidad.UnidadId);
+                if (!existe)
+                {
+                    return NotFound($"La unidad de id={entidad.UnidadId} no existe");
+                }
+
+                Producto nuevoproducto = new Producto();
+
+                nuevoproducto.DepositoId = entidad.DepositoId;
+                nuevoproducto.UnidadId = entidad.UnidadId;
+                nuevoproducto.codigo = entidad.codigo;
+                nuevoproducto.nombreProducto = entidad.nombreProducto;
+                nuevoproducto.descripcion = entidad.descripcion;
+                nuevoproducto.cantidad = entidad.cantidad;
+                nuevoproducto.estado = entidad.estado;
+
+
+                await context.AddAsync(nuevoproducto);
+                await context.SaveChangesAsync();
+                return nuevoproducto.id;
+
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{id:int}")]

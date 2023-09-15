@@ -2,6 +2,7 @@
 using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+using GestorStock.Shared.DTO;
 
 namespace GestorStock.Server.Controllers
 {
@@ -20,15 +21,53 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Deposito>>> Get()
         {
-            return await context.Depositos.ToListAsync();
+            var lista = await context.Depositos.ToListAsync();
+            if (lista == null || lista.Count == 0)
+            {
+                return BadRequest("No hay depositos cargados");
+            }
+
+            return lista;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Deposito deposito)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Deposito?>> Get(int id)
         {
-            context.Add(deposito);
-            await context.SaveChangesAsync();
-            return Ok();
+            var existe = await context.Depositos.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"El deposito {id} no existe");
+            }
+            return await context.Depositos.FirstOrDefaultAsync(ped => ped.id == id);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<int>> Post(DepositoDTO entidad)
+        {
+            try
+            {
+                var existe = await context.Obras.AnyAsync(x => x.id == entidad.ObraId);
+                if (!existe)
+                {
+                    return NotFound($"El deposito {entidad.ObraId} no existe");
+                }
+
+                Deposito pepe = new Deposito();
+
+                pepe.ObraId = entidad.ObraId;
+                pepe.nombreDeposito = entidad.nombreDeposito;
+                pepe.direccion = entidad.direccion;
+
+                await context.AddAsync(pepe);
+                await context.SaveChangesAsync();
+                return pepe.id;
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{id:int}")]

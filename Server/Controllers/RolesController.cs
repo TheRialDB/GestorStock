@@ -20,7 +20,15 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Rol>>> Get()
         {
-            return await context.Roles.ToListAsync();
+            //return await context.Roles.ToListAsync();
+
+            var lista = await context.Roles.ToListAsync();
+            if (lista == null || lista.Count == 0)
+            {
+                return BadRequest("No hay roles cargados");
+            }
+
+            return lista;
         }
 
         [HttpGet("{id:int}")]
@@ -37,7 +45,6 @@ namespace GestorStock.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Post(Rol rol)
         {
-            //return BadRequest("ERROR DE PRUEBA");
             context.Add(rol);
             await context.SaveChangesAsync();
             return rol.id;

@@ -9,7 +9,6 @@ namespace GestorStock.BD.Data.Entity
 {
     public class Componente
     {
-        [Key]
         public int id { get; set; }
 
         [Required(ErrorMessage = "La CANTIDAD de insumos es Obligatorio")]
