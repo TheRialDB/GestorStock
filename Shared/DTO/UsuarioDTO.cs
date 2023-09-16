@@ -1,22 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    [Index(nameof(correo), Name = "Usuario_correo_UQ", IsUnique = true)]
-    public class Usuario
+    public class UsuarioDTO
     {
-        [Key]
-        public int id { get; set; }
-
-        [Required(ErrorMessage = "El NOMBRE es Obligatorio")]
-        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE")]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "El NOMBRE DE USUARIO es Obligatorio")]
@@ -29,12 +21,8 @@ namespace GestorStock.BD.Data.Entity
 
         [Required(ErrorMessage = "La CONTRASEÑA es Obligatoria")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en la CONTRASEÑA")]
+
         public string contrasena { get; set; }
-
-        //Conexiones
         public int RolId { get; set; }
-        public Rol Rol { get; set; }
-        public List<Deposito> Depositos { get; set; } = new List<Deposito>();
-
     }
 }

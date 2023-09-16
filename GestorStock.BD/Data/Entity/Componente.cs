@@ -9,21 +9,12 @@ namespace GestorStock.BD.Data.Entity
 {
     public class Componente
     {
-        public int ID { get; set; }
+        public int id { get; set; }
 
-        
-        public int idComponentes { get; set; }
-
-        [Required(ErrorMessage = "La Cantidad del Componente debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "La CANTIDAD de insumos es Obligatorio")]
         public int cantidad { get; set; }
 
-      
-
-
-
-
-
-
+        //Conexiones
+        public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
     }
 }

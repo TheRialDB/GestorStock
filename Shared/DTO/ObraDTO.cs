@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    public class Obra
+    public class ObraDTO
     {
-        public int id { get; set; }
 
         [Required(ErrorMessage = "El NOMBRE de la OBRA es Obligatorio")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE")]
@@ -21,15 +19,6 @@ namespace GestorStock.BD.Data.Entity
         public string direccion { get; set; }
 
         //Conexiones
-        public List<Deposito> Depositos { get; set; } = new List<Deposito>();
         public int EstadoId { get; set; }
-        public Estado Estado { get; set; }
-
-        public int idDeposito { get; set;}
-        public Deposito Deposito { get; set; }
-
-
-       
-        
     }
 }

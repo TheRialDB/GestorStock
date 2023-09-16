@@ -1,7 +1,12 @@
 ﻿@page "/"
-@inject NavigationManager NavigationManager
+@inject NavigationManager navManager
 
-@layout EmptyLayout
+@layout LoginLayout
+@inject HttpClient httpClient
+@using GestorStock.Client.Extensiones
+@*@using GestorStock.Shared*@
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider autenticacionProvider
 
 <!DOCTYPE html>
 <html>
@@ -20,11 +25,11 @@
             <div class="container1">
                 <h1 class="heading">Iniciar Sesion</h1>
                 <div>
-                    <form data-name="Log-In-form" class="form">
-                        <input type="text" class="nombre-usuario-txt" placeholder="Nombre De Usuario" required="" />
-                        <input type="password" class="contrasena-txt" placeholder="Contraseña" required="" />
-                        <input type="submit" value="Ingresar" class="ingresar-btn" />
-                    </form>
+                    @*<form data-name="Log-In-form" class="form">
+                        <input type="text" @bind=login.Correo class="nombre-usuario-txt" placeholder="Correo" required="" />
+                        <input type="password" @bind=login.Clave class="contrasena-txt" placeholder="Contraseña" required="" />
+                        <button @onclick="IniciarSesion" class="ingresar-btn">iniciar</button>
+                    </form>*@
                 </div>
             </div>
         </div>
@@ -40,14 +45,31 @@
 </html>
 
 
-@code {
+@*@code {
+    private LoginDTO login = new LoginDTO();
 
-	private void login()
-		{
-		// Lógica de inicio de sesión aquí (verificar credenciales, etc.)
+    private async Task IniciarSesion()
+    {
+        //var loginResponse = await httpClient.PostAsJsonAsync<LoginDTO>("/api/Usuario/Login", login);
 
+        //if (loginResponse.IsSuccessStatusCode)
+        //{
+        //    var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
+        //    var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        //    await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
+        //    navManager.NavigateTo("/Index");
+        //}
 
-		// Si el inicio de sesión es exitoso, redirige a la página de índice
-		NavigationManager.NavigateTo("/");
-		}
-}
+        var sesionUsuario = new SesionDTO
+            {
+                Correo = "admin@gmail.com",
+                Nombre = "admin",
+                Rol = "Administrador"
+            };
+
+        var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
+
+        navManager.NavigateTo("/Index");
+    }
+}*@

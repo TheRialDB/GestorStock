@@ -9,10 +9,15 @@ namespace GestorStock.BD.Data.Entity
 {
     public class Estado
     {
-        public int Id { get; set; }
+        [Key]
+        public int id { get; set; }
 
-        [Required(ErrorMessage = "La nombre del Estado debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "El NOMBRE del ESTADO es Obligatorio")]
+        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el ESTADO")]
         public string nombreEstado { get; set; }
+
+        //Conexiones
+        public List<Obra> Obras { get; set; } = new List<Obra>();
+        public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
     }
 }

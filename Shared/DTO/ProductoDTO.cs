@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    public class Producto
+    public class ProductoDTO
     {
-        public int id { get; set; }
-
         [Required(ErrorMessage = "El CODIGO del PRODUCTO es Obligatorio")]
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el CODIGO")]
         public string codigo { get; set; }
@@ -32,10 +30,6 @@ namespace GestorStock.BD.Data.Entity
 
         //Conexiones
         public int DepositoId { get; set; }
-        public Deposito Depositos { get; set; }
         public int UnidadId { get; set; }
-        public Unidad Unidad { get; set; }
-        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
-        public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
     }
 }

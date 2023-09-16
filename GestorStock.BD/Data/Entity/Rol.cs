@@ -12,9 +12,12 @@ namespace GestorStock.BD.Data.Entity
         [Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "EL Nombre del Rol debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "El NOMBRE del ROL es Obligatorio")]
+        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el nombre del ROL")]
+
         public string nombre { get; set; }
 
+        //Conexiones
+        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
     }
 }

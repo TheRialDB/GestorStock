@@ -9,27 +9,24 @@ namespace GestorStock.BD.Data.Entity
 {
     public class NotaPedido
     {
+        [Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "La Fecha del Pedido de Nota debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
-
+        [Required(ErrorMessage = "La FECHA DEL PEDIDO es Obligatoria")]
         public DateTime fechaPedido { get; set; }
 
-        [Required(ErrorMessage = "El Emisor en la Nota de Pedido debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
-        public string emisor {  get; set; }
+        [Required(ErrorMessage = "El nombre del EMISOR es Obligatorio")]
+        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el nombre del EMISOR")]
+        public string emisor { get; set; }
 
-        [Required(ErrorMessage = "EL Receptor en la Nota de Pedido debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "El nombre del RECEPTOR es Obligatorio")]
+        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el RECEPTOR")]
         public string receptor { get; set; }
 
-        //Atributos
-        public int idDetallePedido { get; set; }
-        public DetallePedido detallePedido { get; set; }
-
-      
-
-
+        //Conexiones
+        public int EstadoId { get; set; }
+        public Estado Estado { get; set; }
+        public List<Remito> Remitos { get; set; } = new List<Remito>();
+        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
     }
 }

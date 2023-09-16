@@ -9,10 +9,11 @@ namespace GestorStock.BD.Data.Entity
 {
     public class Remito
     {
-        public int ID { get; set; }
+        [Key]
+        public int id { get; set; }
 
-        [Required(ErrorMessage = "El Codigo del Remito debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "El CÓDIGO del remito es Obligatorio")]
+        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el CÓDIGO")]
         public string codigo { get; set; }
 
         [Required(ErrorMessage = "La Fecha de Egreso del Remito debe ser OBLIGATORIO")]
@@ -22,21 +23,11 @@ namespace GestorStock.BD.Data.Entity
         [Required(ErrorMessage = "La Fecha de Ingreso del Remito debe ser OBLIGATORIO")]
         [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
         public DateTime fechaIngreso { get; set; }
-
-        [Required(ErrorMessage = "La Descrpcion del Remito debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        [Required(ErrorMessage = "La DESCRIPCIÓN del remito es Obligatoria")]
+        [MaxLength(150, ErrorMessage = "Solo se aceptan hasta 150 caracteres en la DESCRIPCIÓN")]
         public string descripcion { get; set; }
 
-        // Atributos 
-
-        public int idNotaPedido {get; set; }
-        
-        public NotaPedido NotaPedido { get; set; }  
-
-        public int idEstado { get; set; }
-
-        public Estado estado { get; set; }  
-
-
+        //Conexiones
+        public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
     }
 }
