@@ -4,7 +4,7 @@
 
 <PageTitle>Stock</PageTitle>
 
-<h3>Stock</h3>
+<h2 class="text-center">Stock</h2>
 <!DOCTYPE HTML>
 
 <html>
@@ -13,72 +13,190 @@
 
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link href="/css/Styles/StockStyles.css" rel="stylesheet" type="text/css" />
+    <link href="/css/Styles/StockStyles.css?version=0.1" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body class="align-content-center">
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
+  <div class="insquare"> 
+    <div class="table-responsive rounded-3">
+            <table class="table table-striped table-hover table-bordered">
+            <thead id="table-headers">
                 <tr>
                     <th>Codigo</th>
                     <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Estado</th>
                     <th>Deposito</th>
                     <th>Direccion</th>
-                    <th>Unidad</th>
-                    <th>Cantidad</th>
-                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Tornillo</td>
+                    <td>jhgjghk</td>
+                    <td>6</td>
+                    <td>kg</td>
+                    <td>disponible</td>
+                    <td>depo 2</td>
+                    <td>Jorge newbery 896</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Tornillo</td>
+                    <td>jhgjghk</td>
+                    <td>6</td>
+                    <td>kg</td>
+                    <td>disponible</td>
+                    <td>depo 2</td>
+                    <td>Jorge newbery 896</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Tornillo</td>
+                    <td>jhgjghk</td>
+                    <td>6</td>
+                    <td>kg</td>
+                    <td>disponible</td>
+                    <td>depo 2</td>
+                    <td>Jorge newbery 896</td>
+                </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Tornillo</td>
+                        <td>jhgjghk</td>
+                        <td>6</td>
+                        <td>kg</td>
+                        <td>disponible</td>
+                        <td>depo 2</td>
+                        <td>Jorge newbery 896</td>
+                    </tr>
             </tbody>
         </table>
+
+        </div>
+
+        <div class="d-flex">
+
+            <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenCargarDialog()">
+                Cargar
+            </button>
+            <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenEliminarDialog()">
+                Eliminar
+            </button>
+            <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenModificarDialog()">
+                Modificar
+            </button>
+
+        </div>
+
+        @if (CargarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
+                                                         Text=""
+                                                         OnClose="@OnCargarDialogClose">
+            </GestorStock.Client.Pages.Modals.ModalCargar>
+        }
+
+        @if (EliminarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+                                                           Text=""
+                                                           OnClose="@OnEliminarDialogClose">
+            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+        }
+
+        @if (ModificarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
+                                                           Text=""
+                                                           OnClose="@OnModificarDialogClose">
+            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+        }
+
+
     </div>
-    <div class="d-flex">
 
-        <button type="button" class="botones"
-        @onclick="() => OpenCargarDialog()">
-            Cargar
-        </button>
-        <button type="button" class="botones"
-        @onclick="() => OpenEliminarDialog()">
-            Eliminar
-        </button>
-        <button type="button" class="botones"
-        @onclick="() => OpenModificarDialog()">
-            Modificar
-        </button>
+    <h2 class="text-center header">Todos los depositos</h2>
 
+    <div class="insquare">
+        <div class="table-responsive rounded-3">
+            <table class="table table-striped table-hover table-bordered">
+                <thead id="table-headers">
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Estado</th>
+                        <th>Deposito</th>
+                        <th>Direccion</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    @if (CargarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalCargar Title="Cargar stock"
-                                                     Text=""
-                                                     OnClose="@OnCargarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalCargar>
-    }
-
-    @if (EliminarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
-                                                     Text=""
-                                                     OnClose="@OnEliminarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
-
-    @if (ModificarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar stock"
-                                                     Text=""
-                                                     OnClose="@OnModificarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
-    
-
 </body>
-
 </html>
 
 @code {

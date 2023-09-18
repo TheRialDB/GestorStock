@@ -1,4 +1,13 @@
-.main{
-    margin-left:120px;
-    margin-right:10px;
+.main {
+    margin-left: 120px;
+    margin-right: 2%;
+    margin-top: 2%;
+    
+}
+@media (max-width: 420px){
+
+    .main {
+
+        margin-left: 85px;
+    }
 }

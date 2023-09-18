@@ -1,29 +1,44 @@
 ﻿body {
-    background-color: #27476e;
-    color: #fff;
+}
+
+.header {
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+#table-headers {
+    font-size: 18px;
+    font-weight: bold;
+    --bs-table-bg: #11101d;
+    border-radius: 9px;
 }
 
 .table {
-    color: #fff;
+    --bs-table-striped-bg: rgb(0 0 0);
+    --bs-table-hover-bg: rgb(255 255 255 / 5%);
+    --bs-table-bg: #0c0024;
+}
 
+.insquare {
+    object-fit: fill;
+    border-radius: 9px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #341a5d63;
+    padding: 2%;
 }
 
 .botones {
     font-family: Roboto Mono;
     width: auto;
-    background-color: #1d0f76;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     font-weight: 800;
     position: static;
-    color: #fff;
     cursor: pointer;
-    border: 0;
-    border-radius: 14px;
     padding: 9px 15px;
     font-size: 20px;
-    font-weight: 500;
 }
 
 .cont-botones {
