@@ -46,31 +46,33 @@
             Modificar
         </button>
 
+            @if (NuevoDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
+                                                             Text=""
+                                                             OnClose="@OnNuevoDialogClose">
+                </GestorStock.Client.Pages.Modals.ModalCargar>
+            }
+
+            @if (EliminarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+                                                               Text=""
+                                                               OnClose="@OnEliminarDialogClose">
+                </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            }
+
+            @if (ModificarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
+                                                               Text=""
+                                                               OnClose="@OnModificarDialogClose">
+                </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            }
+
     </div>
  </div>
-    @if (NuevoDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
-                                                     Text=""
-                                                     OnClose="@OnNuevoDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalCargar>
-    }
 
-    @if (EliminarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
-                                                       Text=""
-                                                       OnClose="@OnEliminarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
-
-    @if (ModificarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
-                                                       Text=""
-                                                       OnClose="@OnModificarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
 
 
 </body>
