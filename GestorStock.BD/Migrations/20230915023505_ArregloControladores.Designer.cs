@@ -4,6 +4,7 @@ using GestorStock.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230915023505_ArregloControladores")]
+    partial class ArregloControladores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -349,6 +352,9 @@ namespace GestorStock.BD.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("RolId");
+
+                    b.HasIndex(new[] { "correo" }, "Usuario_correo_UQ")
+                        .IsUnique();
 
                     b.ToTable("Usuarios");
                 });

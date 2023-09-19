@@ -1,7 +1,12 @@
 ﻿@page "/"
-@inject NavigationManager NavigationManager
+@inject NavigationManager navManager
 
-@layout EmptyLayout
+@layout LoginLayout
+@inject HttpClient httpClient
+@using GestorStock.Client.Extensiones
+@*@using GestorStock.Shared*@
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider autenticacionProvider
 
 <html>
 <head>
@@ -37,12 +42,20 @@
 </body>
 </html>
 
-@code {
+        //if (loginResponse.IsSuccessStatusCode)
+        //{
+        //    var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
+        //    var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        //    await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
+        //    navManager.NavigateTo("/Index");
+        //}
 
     private void login()
     {
         // Lógica de inicio de sesión aquí (verificar credenciales, etc.)
 
+        var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+        await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
 
         // Si el inicio de sesión es exitoso, redirige a la página de índice
         NavigationManager.NavigateTo("/index");
