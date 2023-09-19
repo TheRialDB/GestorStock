@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230915023505_ArregloControladores")]
-    partial class ArregloControladores
+    [Migration("20230919165306_Inicio")]
+    partial class Inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,7 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
+                        .HasMaxLength(40)
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -267,9 +268,11 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<DateTime>("fechaEgreso")
+                        .HasMaxLength(40)
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("fechaIngreso")
+                        .HasMaxLength(40)
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");

@@ -25,8 +25,7 @@ namespace GestorStock.BD.Data.Entity
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
 
-        public int idDeposito { get; set;}
-        public Deposito Deposito { get; set; }
+       
 
 
        
