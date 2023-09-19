@@ -1,12 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-@using GestorStock.Client.Extensiones
-@using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider autenticacionProvider
-@inject NavigationManager navManager
-
+<link rel="stylesheet" href="/MainLayout.razor.css?version=0.1"/>
 
 <div class="page">
+
+
     <div class="sidebar">
         <NavMenu />
     </div>
@@ -14,11 +12,11 @@
     <main>
         <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            <a @onclick="CerrarSesion" href="javascript:void(0)">Salir</a>
         </div>
 
-        <article class="content px-4">
             @Body
+
+
         </article>
     </main>
 </div>
