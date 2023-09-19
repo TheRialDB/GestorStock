@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\Styles\Envios.razor" />
+    <None Include="wwwroot\css\Styles\StockStyles.css" />
   </ItemGroup>
 
 </Project>

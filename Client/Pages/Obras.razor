@@ -3,9 +3,124 @@
 @attribute [Authorize]
 
 <PageTitle>Obras</PageTitle>
-
 <h3>Obras</h3>
 
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/StockStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="align-content-center">
+
+ <div class="insquare">
+    <div class="table-responsive rounded-3">
+        <table class="table table-striped table-hover table-bordered">
+            <thead id="table-headers">
+                <tr>
+                    <th>Nro</th>
+                    <th>Nombre</th>
+                    <th>Direccion</th>
+                    <th>Estado</th>
+                    <th>Ver Mas</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex">
+
+        <button type="button" class="btn btn-info botones"
+        @onclick="() => OpenNuevoDialog()">
+            Nuevo
+        </button>
+        <button type="button" class="btn btn-info botones"
+        @onclick="() => OpenEliminarDialog()">
+            Eliminar
+        </button>
+        <button type="button" class="btn btn-info botones"
+        @onclick="() => OpenModificarDialog()">
+            Modificar
+        </button>
+
+    </div>
+ </div>
+    @if (NuevoDialogOpen)
+    {
+        <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
+                                                     Text=""
+                                                     OnClose="@OnNuevoDialogClose">
+        </GestorStock.Client.Pages.Modals.ModalCargar>
+    }
+
+    @if (EliminarDialogOpen)
+    {
+        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+                                                       Text=""
+                                                       OnClose="@OnEliminarDialogClose">
+        </GestorStock.Client.Pages.Modals.ModalTextOnly>
+    }
+
+    @if (ModificarDialogOpen)
+    {
+        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
+                                                       Text=""
+                                                       OnClose="@OnModificarDialogClose">
+        </GestorStock.Client.Pages.Modals.ModalTextOnly>
+    }
+
+
+</body>
+
+</html>
+
 @code {
+
+    public bool NuevoDialogOpen { get; set; }
+
+    public bool EliminarDialogOpen { get; set; }
+
+    public bool ModificarDialogOpen { get; set; }
+
+    private void OpenNuevoDialog()
+    {
+        NuevoDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnNuevoDialogClose(bool accepted)
+    {
+        NuevoDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenEliminarDialog()
+    {
+        EliminarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEliminarDialogClose(bool accepted)
+    {
+        EliminarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenModificarDialog()
+    {
+        ModificarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnModificarDialogClose(bool accepted)
+    {
+        ModificarDialogOpen = false;
+        StateHasChanged();
+    }
 
 }
