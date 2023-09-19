@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace GestorStock.BD.Data.Entity
 {
-    [Index(nameof(correo), Name = "Usuario_correo_UQ", IsUnique = true)]
     public class Usuario
     {
-        [Key]
         public int id { get; set; }
 
         [Required(ErrorMessage = "El NOMBRE es Obligatorio")]

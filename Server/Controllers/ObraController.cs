@@ -43,14 +43,6 @@ namespace GestorStock.Server.Controllers
             return await context.Obras.FirstOrDefaultAsync(ped => ped.id == id);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Post(Obra obra)
-        //{
-        //    context.Add(obra);
-        //    await context.SaveChangesAsync();
-        //    return Ok();
-        //}
-
         [HttpPost]
         public async Task<ActionResult<int>> Post(ObraDTO entidad)
         {
@@ -81,21 +73,26 @@ namespace GestorStock.Server.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Obra obra, int id)
+        public async Task<ActionResult> Put(ObraDTO obraDTO, int id)
         {
-            if (id != obra.id)
+            //comprobar que ese id exista en la base de datos
+            var exist = await context.Obras.AnyAsync(e => e.id == id);
+            if (!exist)
             {
-                BadRequest("El id de la obra no coincide.");
-            }
-            var existe = await context.Obras.AnyAsync(x => x.id == id);
-            if (!existe)
-            {
-                return NotFound($"La obra con el ID={id} no existe");
+                return BadRequest("La Obra no existe");
             }
 
-            context.Update(obra);
+            Obra entidad = new Obra();
+
+            entidad.id = id;
+            entidad.nombreObra = obraDTO.nombreObra;
+            entidad.direccion = obraDTO.direccion;
+            entidad.EstadoId = obraDTO.EstadoId;
+
+            //actualizar
+            context.Update(entidad);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok("Actualizado con Exito");
         }
 
         [HttpDelete("{id:int}")]

@@ -82,21 +82,29 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Producto producto, int id)
+        public async Task<ActionResult> Put(ProductoDTO productoDTO, int id)
         {
-            if (id != producto.id)
+            //comprobar que ese id exista en la base de datos
+            var exist = await context.Productos.AnyAsync(e => e.id == id);
+            if (!exist)
             {
-                BadRequest("El id del producto no coincide.");
-            }
-            var existe = await context.Productos.AnyAsync(x => x.id == id);
-            if (!existe)
-            {
-                return NotFound($"El producto con el ID={id} no existe");
+                return BadRequest("El Producto no existe");
             }
 
-            context.Update(producto);
+            Producto entidad = new Producto();
+            entidad.id = id;
+            entidad.codigo = productoDTO.codigo;
+            entidad.nombreProducto = productoDTO.nombreProducto;
+            entidad.descripcion = productoDTO.descripcion;
+            entidad.cantidad = productoDTO.cantidad;
+            entidad.estado = productoDTO.estado;
+            entidad.DepositoId = productoDTO.DepositoId;
+            entidad.UnidadId = productoDTO.UnidadId;
+
+            //actualizar
+            context.Update(entidad);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok("Actualizado con Exito");
         }
 
         [HttpDelete("{id:int}")]

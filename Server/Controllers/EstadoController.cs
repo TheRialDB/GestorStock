@@ -2,6 +2,7 @@
 using GestorStock.BD.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using GestorStock.Shared.DTO;
 
 namespace GestorStock.Server.Controllers
 {
@@ -52,21 +53,24 @@ namespace GestorStock.Server.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Estado estado, int id)
+        public async Task<ActionResult> Put(EstadoDTO estadoDTO, int id)
         {
-            if (id != estado.id)
+            //comprobar que ese id exista en la base de datos
+            var exist = await context.Estados.AnyAsync(e => e.id == id);
+            if (!exist)
             {
-                BadRequest("El id del estado no coincide.");
-            }
-            var existe = await context.Estados.AnyAsync(x => x.id == id);
-            if (!existe)
-            {
-                return NotFound($"El estado con ID={id} no existe");
+                return BadRequest("El Estado no existe");
             }
 
-            context.Update(estado);
+            Estado entidad = new Estado();
+
+            entidad.id = id;
+            entidad.nombreEstado = estadoDTO.nombreEstado;
+
+            //actualizar
+            context.Update(entidad);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok("Actualizado con Exito");
         }
 
         [HttpDelete("{id:int}")]

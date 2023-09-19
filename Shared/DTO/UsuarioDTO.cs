@@ -9,6 +9,9 @@ namespace GestorStock.Shared.DTO
 {
     public class UsuarioDTO
     {
+
+        [Required(ErrorMessage = "El NOMBRE es Obligatorio")]
+        [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE")]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "El NOMBRE DE USUARIO es Obligatorio")]
