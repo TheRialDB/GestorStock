@@ -75,19 +75,23 @@ namespace GestorStock.Server.Controllers
 
         [HttpPut("{id:int}")]
 
-        public async Task<ActionResult> Put(NotaPedido notaPedido, int id)
+        public async Task<ActionResult> Put(NotaPedidoDTO notaPedidoDTO, int id)
         {
-            if (id != notaPedido.id) 
-            {
-                return BadRequest("El id de nota pedido no coincide");
-            }
-            var existe = await context.NotaPedidos.AnyAsync(x => x.id == id);
-            if (existe)
+            
+            var exist = await context.NotaPedidos.AnyAsync(x => x.id == id);
+            if (!exist) 
             {
                 return NotFound($"La nota pedido con el ID={id} no existe ");
             }
 
-            context.Update(notaPedido);
+            NotaPedido entidad = new NotaPedido();
+            entidad.id = id;
+            entidad.fechaPedido = notaPedidoDTO.fechaPedido;
+            entidad.emisor = notaPedidoDTO.emisor;
+            entidad.receptor = notaPedidoDTO.receptor;
+            entidad.EstadoId = notaPedidoDTO.EstadoId;
+
+            context.Update(entidad);
             await context.SaveChangesAsync();
             return Ok();
         }

@@ -71,19 +71,24 @@ namespace GestorStock.Server.Controllers
 
         [HttpPut("{id:int}")]
 
-        public async Task<ActionResult> Put(Remito remito, int id)
+        public async Task<ActionResult> Put(RemitoDTO remitoDTO, int id)
         {
-            if (id != remito.id)
-            {
-                return BadRequest("El id del remito no coincide");
-            }
+           
             var existe = await context.Remitos.AnyAsync(x => x.id == id);
-            if (existe)
+            if (!existe)
             {
                 return NotFound($"El remito con el ID={id} no existe ");
             }
 
-            context.Update(remito);
+            Remito entidad = new Remito();
+            entidad.id = id;
+            entidad.codigo = remitoDTO.codigo;
+            entidad.fechaIngreso = remitoDTO.fechaIngreso;
+            entidad.fechaEgreso = remitoDTO.fechaEgreso;
+            entidad.descripcion = remitoDTO.descripcion;
+
+
+            context.Update(entidad);
             await context.SaveChangesAsync();
             return Ok();
         }

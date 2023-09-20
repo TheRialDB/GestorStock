@@ -14,11 +14,10 @@ namespace GestorStock.Shared.DTO
         public string codigo { get; set; }
 
         [Required(ErrorMessage = "La Fecha de Egreso del Remito debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+      
         public DateTime fechaEgreso { get; set; }
 
         [Required(ErrorMessage = "La Fecha de Ingreso del Remito debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
         public DateTime fechaIngreso { get; set; }
         [Required(ErrorMessage = "La DESCRIPCIÓN del remito es Obligatoria")]
         [MaxLength(150, ErrorMessage = "Solo se aceptan hasta 150 caracteres en la DESCRIPCIÓN")]
