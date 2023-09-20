@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GestorStock.Shared.DTO
 {
-    public class ComponenteDTO
+    public class EstadoDTO
     {
-        public int cantidad { get; set; }
+        public string nombreEstado { get; set; }
     }
 }

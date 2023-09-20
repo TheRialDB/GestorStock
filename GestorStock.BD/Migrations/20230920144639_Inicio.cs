@@ -72,7 +72,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    simbolo = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
