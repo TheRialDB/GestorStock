@@ -148,26 +148,26 @@
 
         @if (CargarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalCargar Title="Cargar"
+            <GestorStock.Client.Pages.Modals.Stock.ModalCargar Title="Cargar"
                                                          Text=""
                                                          OnClose="@OnCargarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalCargar>
+            </GestorStock.Client.Pages.Modals.Stock.ModalCargar>
         }
 
         @if (EliminarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+            <GestorStock.Client.Pages.Modals.Stock.ModalEliminar Title="Eliminar"
                                                            Text=""
                                                            OnClose="@OnEliminarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            </GestorStock.Client.Pages.Modals.Stock.ModalEliminar>
         }
 
         @if (ModificarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar"
+            <GestorStock.Client.Pages.Modals.Stock.ModalModificar Title="Modificar"
                                                            Text=""
                                                            OnClose="@OnModificarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            </GestorStock.Client.Pages.Modals.Stock.ModalModificar>
         }
 
 
