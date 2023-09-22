@@ -3,7 +3,7 @@
 @attribute [Authorize]
 
 <PageTitle>Obras</PageTitle>
-<h3>Obras</h3>
+<h3 class="text-center">Obras</h3>
 
 <html>
 
@@ -48,31 +48,33 @@
             Modificar
         </button>
 
+            @if (NuevoDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalCargar Title="Nueva Obra"
+                                                             Text=""
+                                                             OnClose="@OnNuevoDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalCargar>
+            }
+
+            @if (EliminarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalEliminar Title="Eliminar"
+                                                               Text=""
+                                                               OnClose="@OnEliminarDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalEliminar>
+            }
+
+            @if (ModificarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalModificar Title="Modificar Obra"
+                                                               Text=""
+                                                               OnClose="@OnModificarDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalModificar>
+            }
+
     </div>
  </div>
-    @if (NuevoDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
-                                                     Text=""
-                                                     OnClose="@OnNuevoDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalCargar>
-    }
 
-    @if (EliminarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
-                                                       Text=""
-                                                       OnClose="@OnEliminarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
-
-    @if (ModificarDialogOpen)
-    {
-        <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
-                                                       Text=""
-                                                       OnClose="@OnModificarDialogClose">
-        </GestorStock.Client.Pages.Modals.ModalTextOnly>
-    }
 
 
 </body>
