@@ -1,6 +1,7 @@
 ﻿@page "/obras"
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
+@inject IHttpServicio http
 
 <PageTitle>Obras</PageTitle>
 <h3>Obras</h3>
@@ -22,12 +23,41 @@
         <table class="table table-striped table-hover table-bordered">
             <thead id="table-headers">
                 <tr>
-                    <th>Nro</th>
+                    <th>Nro de obra</th>
                     <th>Nombre</th>
                     <th>Direccion</th>
                     <th>Estado</th>
-                    <th>Ver Mas</th>
                 </tr>
+
+                @if(Error)
+                {
+                  <tr>@Mensaje</tr>       
+                }
+                else
+                {
+                        
+                
+                @if (obras == null)
+                        {
+                        <tr>Cargando...</tr>
+                        }
+                else if (obras.Count == 0)
+                        {
+                        <tr>No existen los datos</tr>
+                        }
+                else
+                        {
+                        @foreach (var item in obras)
+                            {
+                            <tr>
+                                <td>@item.EstadoId</td>
+                                <td>@item.nombreObra</td>
+                                <td>@item.direccion</td>
+                                <td>@item.Estado</td>
+                            </tr>
+                            }
+                }       }
+
             </thead>
             <tbody>
             </tbody>
@@ -35,7 +65,7 @@
     </div>
     <div class="d-flex">
 
-        <button type="button" class="btn btn-info botones"
+        <button type="button" class="btn btn-info botones" href="obras/agregar"
         @onclick="() => OpenNuevoDialog()">
             Nuevo
         </button>
@@ -82,6 +112,32 @@
 </html>
 
 @code {
+
+    List<Obra>? obras;
+    bool Error = false;
+    string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+        {
+        await base.OnInitializedAsync();
+        await Leer();
+        }
+
+    private async Task Leer()
+        {
+        var respuesta = await http.Get<List<Obra>>("api/Obra"); //GET
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+            {
+            obras = respuesta.Respuesta;
+            }
+        else
+            {
+            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
+            }
+        }
+
+
 
     public bool NuevoDialogOpen { get; set; }
 

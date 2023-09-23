@@ -26,7 +26,7 @@ namespace GestorStock.Server.Controllers
             var lista = await context.Obras.ToListAsync();
             if (lista == null || lista.Count == 0)
             {
-                return BadRequest("No hay obras cargadas");
+                return NotFound("No hay obras cargadas");
             }
 
             return lista;

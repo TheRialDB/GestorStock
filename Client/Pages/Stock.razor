@@ -192,7 +192,7 @@
                         <th>Direccion</th>
                     </tr>
 
-                    @if (Productos == null)
+                    @*@if (Productos == null)
                         {
                         <tr>Cargando...</tr>
                         }
@@ -209,7 +209,7 @@
                             <tr>@item.cantidad</tr>
                             <tr>@item.estado</tr>
                             //<tr>@item.nombreDeposito</tr>
-                            }
+                            }*@
                         }
 
                 </thead>
@@ -224,7 +224,9 @@
 
 @code {
 
-    private List<Producto> Productos;
+    //stand by
+
+    //private List<Producto> Productos;
 
     ////protected override async Task OnInitializedAsync()
     //    {

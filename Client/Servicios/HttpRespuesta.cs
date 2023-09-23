@@ -33,7 +33,7 @@
                 case System.Net.HttpStatusCode.Forbidden:
                 return "Error, no tiene autorización a ejecutar este proceso";
                 case System.Net.HttpStatusCode.NotFound:
-                return "Error, dirección no encontrado";
+                return "Error, no se pudo encontrar la informacion";
                 default:
                 return HttpResponseMessage.Content.ReadAsStringAsync().Result;
                 }

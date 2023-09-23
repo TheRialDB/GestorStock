@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestorStock.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicio : Migration
+    public partial class inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +72,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    simbolo = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -350,12 +351,6 @@ namespace GestorStock.BD.Migrations
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
-
-            migrationBuilder.CreateIndex(
-                name: "Usuario_correo_UQ",
-                table: "Usuarios",
-                column: "correo",
-                unique: true);
         }
 
         /// <inheritdoc />
