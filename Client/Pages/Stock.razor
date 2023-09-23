@@ -1,7 +1,7 @@
 ﻿@page "/stock"
+@using GestorStock.BD.Data;
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
-
 @using Modals
 
 <PageTitle>Stock</PageTitle>
@@ -191,6 +191,27 @@
                         <th>Deposito</th>
                         <th>Direccion</th>
                     </tr>
+
+                    @if (Productos == null)
+                        {
+                        <tr>Cargando...</tr>
+                        }
+                    else if (Productos.Count == 0)
+                        {
+                        <tr>No existe el producto cargado</tr>
+                        }
+                    else
+                        {
+                        @foreach (var item in Productos)
+                            {
+                            <tr>@item.codigo</tr>
+                            <tr>@item.nombreProducto</tr>
+                            <tr>@item.cantidad</tr>
+                            <tr>@item.estado</tr>
+                            //<tr>@item.nombreDeposito</tr>
+                            }
+                        }
+
                 </thead>
                 <tbody>
 
@@ -202,6 +223,17 @@
 </html>
 
 @code {
+
+    private List<Producto> Productos;
+
+    ////protected override async Task OnInitializedAsync()
+    //    {
+    //    Productos = await dbContext.Productos
+    //        .Include(p => p.Depositos) 
+    //        .ToListAsync();
+    //    }
+
+    
 
     public bool CargarDialogOpen { get; set; }
 

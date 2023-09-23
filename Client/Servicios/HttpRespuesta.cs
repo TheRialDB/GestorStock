@@ -28,7 +28,6 @@
                 {
                 case System.Net.HttpStatusCode.BadRequest:
                 return "Error, no se pudo procesar la información";
-                
                 case System.Net.HttpStatusCode.Unauthorized:
                 return "Error, no está logueado";
                 case System.Net.HttpStatusCode.Forbidden:
