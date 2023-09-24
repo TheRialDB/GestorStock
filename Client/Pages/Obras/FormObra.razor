@@ -15,14 +15,6 @@
 			<ValidationMessage For="@(() => obra.direccion)" />
 		</div>
 	</div>
-
-	<div class="form-group">
-		<label>Nro de la obra</label>
-		<div>
-				<InputNumber class="form-control" @bind-Value="@obra.EstadoId" />
-			<ValidationMessage For="@(() => obra.EstadoId)" />
-		</div>
-	</div>
 	<br/>
 	<button class="btn btn-primary" type="submit">Aceptar</button>
 	<button class="btn btn-primary" @oneclick="onCancel">Cancelar</button>

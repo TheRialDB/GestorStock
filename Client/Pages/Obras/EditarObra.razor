@@ -1,4 +1,4 @@
-﻿@page "/obra/editar/{obraid:int}"
+﻿@page "/obras/editar/{obraid:int}"
 @inject IHttpServicio http
 @inject NavigationManager navigationManager
 <h3>EditarObra</h3>
@@ -39,7 +39,7 @@
 
 	private async Task Mostrar()
 		{
-		var respuesta = await http.Get<Obra>($"api/Profesiones/{obraid}");
+		var respuesta = await http.Get<Obra>($"api/Obra/{obraid}");
 
 		if (!respuesta.Error)
 			{

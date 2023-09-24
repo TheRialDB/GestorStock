@@ -26,7 +26,7 @@
                     <th>Nro de obra</th>
                     <th>Nombre</th>
                     <th>Direccion</th>
-                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
 
                 @if(Error)
@@ -50,18 +50,15 @@
                         @foreach (var item in obras)
                             {
                             <tr>
-                                <td>@item.EstadoId</td>
+                                <td>@item.id</td>
                                 <td>@item.nombreObra</td>
                                 <td>@item.direccion</td>
-                                <td>@item.Estado</td>
-
                                <td>
                                    <a class="btn btn-primary"
-                                      ref="obras/editar/@item.id">
+                                      href="obras/editar/@item.id">
                                       Modificar      
                                    </a>
-                               </td>
-                               <td>
+
                                <a class="btn btn-primary"
                                   @onclick="()=>Eliminar(item)">
                                   Eliminar
@@ -85,14 +82,14 @@
             @onclick="() => CrearObra()">
             Nuevo
         </button>
-        <button type="button" class="btn btn-info botones"
+        @*<button type="button" class="btn btn-info botones"
         @onclick="() => OpenEliminarDialog()">
             Eliminar
         </button>
         <button type="button" class="btn btn-info botones"
         @onclick="() => OpenModificarDialog()">
             Modificar
-        </button>
+        </button>*@
 
             @if (NuevoDialogOpen)
             {
@@ -127,7 +124,9 @@
 
 </html>
 
+@*<Confirmacion @ref='confirmacion'></Confirmacion>*@
 @code {
+
 
     [Inject]
     private NavigationManager NavigationManager { get; set; }
@@ -136,6 +135,8 @@
     bool Error = false;
     string Mensaje = "";
     Obra ObraBorrar;
+    //Confirmacion confirmacion;
+
 
     protected override async Task OnInitializedAsync()
         {
@@ -146,6 +147,7 @@
 
     private async Task Leer()
         {
+        obras = new();
         var respuesta = await http.Get<List<Obra>>("api/Obra"); //GET
         Error = respuesta.Error;
         if (!respuesta.Error)
@@ -158,17 +160,21 @@
             }
         }
 
+
+
     private void CrearObra() //oneclick
         {
         NavigationManager.NavigateTo("/obras/agregar");
         }
 
 
+
     private async Task Eliminar (Obra obrBorrar)
-    {
+        {
+        //confirmacion.Ver();
         ObraBorrar = obrBorrar;
 
-        var respuesta = await http.Delete($"api/Obras/{ObraBorrar.id}");
+        var respuesta = await http.Delete($"api/Obra/{ObraBorrar.id}");
         if (respuesta.Error)
         {
             var body = "ERROR: no se pudo eliminar";  
