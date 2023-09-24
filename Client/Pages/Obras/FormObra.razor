@@ -25,10 +25,12 @@
 	</div>
 	<br/>
 	<button class="btn btn-primary" type="submit">Aceptar</button>
+	<button class="btn btn-primary" @oneclick="onCancel">Cancelar</button>
 
 </EditForm>
 
 @code {
 	[Parameter] public Obra obra { get; set; } = new Obra();
 	[Parameter] public EventCallback onValidSubmit { get; set; }
+	[Parameter] public EventCallback onCancel { get; set; }
 }

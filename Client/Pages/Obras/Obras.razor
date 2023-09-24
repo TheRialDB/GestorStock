@@ -54,7 +54,23 @@
                                 <td>@item.nombreObra</td>
                                 <td>@item.direccion</td>
                                 <td>@item.Estado</td>
+
+                               <td>
+                                   <a class="btn btn-primary"
+                                      ref="obras/editar/@item.id">
+                                      Modificar      
+                                   </a>
+                               </td>
+                               <td>
+                               <a class="btn btn-primary"
+                                  @onclick="()=>Eliminar(item)">
+                                  Eliminar
+
+                               </a>
+                               </td>
+
                             </tr>
+                            
                             }
                 }       }
 
@@ -119,12 +135,14 @@
     List<Obra>? obras;
     bool Error = false;
     string Mensaje = "";
+    Obra ObraBorrar;
 
     protected override async Task OnInitializedAsync()
         {
         await base.OnInitializedAsync();
         await Leer();
         }
+
 
     private async Task Leer()
         {
@@ -140,12 +158,26 @@
             }
         }
 
-    private void CrearObra()
+    private void CrearObra() //oneclick
         {
         NavigationManager.NavigateTo("/obras/agregar");
         }
 
 
+    private async Task Eliminar (Obra obrBorrar)
+    {
+        ObraBorrar = obrBorrar;
+
+        var respuesta = await http.Delete($"api/Obras/{ObraBorrar.id}");
+        if (respuesta.Error)
+        {
+            var body = "ERROR: no se pudo eliminar";  
+        }
+
+        ObraBorrar = null;
+        await Leer();
+
+    }
 
 
 

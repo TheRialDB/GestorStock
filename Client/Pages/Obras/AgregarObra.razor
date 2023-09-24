@@ -4,7 +4,7 @@
 @inject IHttpServicio http
 
 
-<FormObra obra="obras" onValidSubmit="Agregar"/>
+<FormObra obra="obras" onValidSubmit="Agregar" onCancel="Cancelar"/>
 
 
 
@@ -25,10 +25,19 @@
 				EstadoId = obras.EstadoId
 		};
 
-		var httpRespuesta = await http.Post<ObraDTO>("api/Obra", obraDTO);
+		var httpRespuesta = await http.Post<ObraDTO>("api/Obra", obraDTO); //post
+
+		if (httpRespuesta.Error)
+			{
+			var body = httpRespuesta.HttpResponseMessage;
+			}
 
 		navigationManager.NavigateTo("/obras");
 
-	}
+		}
 
+	private async void Cancelar()
+		{
+		navigationManager.NavigateTo("/obras");
+		}
 }
