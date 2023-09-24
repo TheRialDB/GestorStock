@@ -13,13 +13,22 @@
 
                      <div class="input-group">
 
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Nombre" style="margin-bottom:10px">
+                        <InputText id="msg" type="text" class="form-control" name="msg" placeholder="Nombre" style="margin-bottom:10px" @bind-Value="@obra.nombreObra" />
+                        <ValidationMessage For="@(() => obra.nombreObra)" />
 
                      </div>
 
+                  @*  <div>
+                        <InputText class="form-control" @bind-Value="@obra.nombreObra" />
+                        <ValidationMessage For="@(() => obra.nombreObra)" />
+                    </div>*@
+
+
+
+
                     <div class="input-group">
 
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Direccion" style="margin-bottom:10px">
+                        <inputText id="msg" type="text" class="form-control" name="msg" placeholder="Direccion" style="margin-bottom:10px"     />
 
                     </div>
 
@@ -41,6 +50,12 @@
 </div>
 
 @code {
+
+    
+    [Parameter] public ObraDTO obra { get; set; }
+    [Parameter] public EventCallback onValidSubmit { get; set; }
+
+
 
     [Parameter]
     public string Title { get; set; }

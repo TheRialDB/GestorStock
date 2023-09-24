@@ -1,9 +1,10 @@
 ﻿@page "/obras/agregar"
 <h3>Agregar Obra</h3>
+@inject NavigationManager navigationManager
+@inject IHttpServicio http
 
-<FormObra obras="obras" onValidSubmit="Agregar"/>
 
-
+<FormObra obra="obras" onValidSubmit="Agregar"/>
 
 
 
@@ -13,10 +14,20 @@
 
 
 @code {
-	ObraDTO obras = new ObraDTO();
+	Obra obras = new Obra();
 
-	private async void Agregar(){
+	private async Task Agregar()
+		{
+		ObraDTO obraDTO = new()
+		{
+				nombreObra = obras.nombreObra,
+				direccion = obras.direccion,
+				EstadoId = obras.EstadoId
+		};
 
+		var httpRespuesta = await http.Post<ObraDTO>("api/Obra", obraDTO);
+
+		navigationManager.NavigateTo("/obras");
 
 	}
 

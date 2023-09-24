@@ -3,7 +3,7 @@
 <div class="form-group">
 	<label>Nombre de la obra</label>
 	<div>
-		<InputText class="form-control" @bind-Value="@obra.nombreObra" />
+				<InputText class="form-control" @bind-Value="@obra.nombreObra" />
 			<ValidationMessage For="@(() => obra.nombreObra)" />
 	</div>
 </div>
@@ -11,7 +11,7 @@
 	<div class="form-group">
 		<label>Dirección de la obra</label>
 		<div>
-			<InputText class="form-control" @bind-Value="@obra.direccion" />
+				<InputText class="form-control" @bind-Value="@obra.direccion" />
 			<ValidationMessage For="@(() => obra.direccion)" />
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 	<div class="form-group">
 		<label>Nro de la obra</label>
 		<div>
-			<InputNumber class="form-control" @bind-Value="@obra.EstadoId" />
+				<InputNumber class="form-control" @bind-Value="@obra.EstadoId" />
 			<ValidationMessage For="@(() => obra.EstadoId)" />
 		</div>
 	</div>
@@ -29,6 +29,6 @@
 </EditForm>
 
 @code {
-	[Parameter]public ObraDTO obra { get; set;}
-	[Parameter]public EventCallback onValidSubmit { get; set; }
+	[Parameter] public Obra obra { get; set; } = new Obra();
+	[Parameter] public EventCallback onValidSubmit { get; set; }
 }
