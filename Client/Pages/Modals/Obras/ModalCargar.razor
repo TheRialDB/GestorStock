@@ -1,4 +1,8 @@
-﻿<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
+﻿@using GestorStock.Client.Pages.Obras
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+
+<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
@@ -9,52 +13,39 @@
             </div>
             <div class="modal-body">
 
-                <form action="/action_page.php">
 
-                     <div class="input-group">
-
-                        <InputText id="msg" type="text" class="form-control" name="msg" placeholder="Nombre" style="margin-bottom:10px" @bind-Value="@obra.nombreObra" />
-                        <ValidationMessage For="@(() => obra.nombreObra)" />
-
-                     </div>
-
-                  @*  <div>
-                        <InputText class="form-control" @bind-Value="@obra.nombreObra" />
-                        <ValidationMessage For="@(() => obra.nombreObra)" />
-                    </div>*@
-
-
-
-
-                    <div class="input-group">
-
-                        <inputText id="msg" type="text" class="form-control" name="msg" placeholder="Direccion" style="margin-bottom:10px"     />
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Estado" style="margin-bottom:10px">
-
-                    </div>
-
-                </form>
+                <FormObra obra="obras" onValidSubmit="Agregar" />
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@ModalCancel">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="@ModalOk">Save changes</button>
-            </div>
+
         </div>
     </div>
 </div>
 
 @code {
 
-    
-    [Parameter] public ObraDTO obra { get; set; }
-    [Parameter] public EventCallback onValidSubmit { get; set; }
 
+    Obra obras = new Obra();
+
+    private async Task Agregar()
+    {
+        ObraDTO obraDTO = new()
+            {
+                nombreObra = obras.nombreObra,
+                direccion = obras.direccion,
+                EstadoId = obras.EstadoId
+            };
+
+        var httpRespuesta = await http.Post<ObraDTO>("api/Obra", obraDTO); //post
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+
+        await OnClose.InvokeAsync(true);
+
+    }
 
 
     [Parameter]

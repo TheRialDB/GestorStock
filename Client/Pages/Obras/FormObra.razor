@@ -15,10 +15,23 @@
 			<ValidationMessage For="@(() => obra.direccion)" />
 		</div>
 	</div>
-	<br/>
-	<button class="btn btn-primary" type="submit">Aceptar</button>
-	<button class="btn btn-primary" @oneclick="onCancel">Cancelar</button>
 
+	<div class="form-group">
+		<label>Estado de la obra</label>
+		<div>
+			<InputSelect class="form-control" @bind-Value="@obra.EstadoId" >
+				<option value="1"> No Iniciado </option>
+				<option value="2"> En construccion </option>
+				<option value="3"> Terminado </option>
+			</InputSelect>
+			<ValidationMessage For="@(() => obra.EstadoId)" />
+		</div>
+	</div>
+
+	<div class="modal-footer">
+	<button class="btn btn-info" type="submit">Aceptar</button>
+	<button class="btn btn-secondary" @oneclick="onCancel">Cancelar</button>
+	</div>
 </EditForm>
 
 @code {

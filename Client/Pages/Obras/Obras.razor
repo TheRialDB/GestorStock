@@ -3,8 +3,10 @@
 @attribute [Authorize]
 @inject IHttpServicio http
 
+
 <PageTitle>Obras</PageTitle>
 <h3 class="text-center">Obras</h3>
+<!DOCTYPE HTML>
 
 <html>
 
@@ -12,7 +14,7 @@
 
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link href="/css/Styles/StockStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+    <link href="/css/Styles/ObrasStyles.css?version=0.1" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -20,66 +22,69 @@
 
  <div class="insquare">
     <div class="table-responsive rounded-3">
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped table-hover table-bordered text-center">
             <thead id="table-headers">
                 <tr>
                     <th>Nro de obra</th>
                     <th>Nombre</th>
                     <th>Direccion</th>
-                    <th>Acciones</th>
+                    <th>Estado</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
                 </tr>
 
-                @if(Error)
-                {
-                  <tr>@Mensaje</tr>       
-                }
-                else
-                {
-                        
                 
-                @if (obras == null)
-                        {
-                        <tr>Cargando...</tr>
-                        }
-                else if (obras.Count == 0)
-                        {
-                        <tr>No existen los datos</tr>
-                        }
-                else
-                        {
-                        @foreach (var item in obras)
-                            {
-                            <tr>
-                                <td>@item.id</td>
-                                <td>@item.nombreObra</td>
-                                <td>@item.direccion</td>
-                               <td>
-                                   <a class="btn btn-primary"
-                                      href="obras/editar/@item.id">
-                                      Modificar      
-                                   </a>
-
-                               <a class="btn btn-primary"
-                                  @onclick="()=>Eliminar(item)">
-                                  Eliminar
-
-                               </a>
-                               </td>
-
-                            </tr>
-                            
-                            }
-                }       }
-
             </thead>
             <tbody>
+
+                    @if (Error)
+                    {
+                        <tr>@Mensaje</tr>
+                    }
+                    else
+                    {
+
+
+                        @if (obras == null)
+                        {
+                            <tr>Cargando...</tr>
+                        }
+                        else if (obras.Count == 0)
+                        {
+                            <tr>No existen los datos</tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in obras)
+                            {
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td>@item.nombreObra</td>
+                                    <td>@item.direccion</td>
+                                    <td>
+                                        <a class="btn btn-primary table-button"
+                                        @onclick="() => OpenModificarDialog(item.id)">
+                                          Modificar
+                                        </a>
+             
+                                    </td>
+                                    <td>
+                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                    </td>
+                                </tr>
+
+                            }
+                        }       }
+
+
             </tbody>
         </table>
     </div>
     <div class="d-flex">
 
         <button type="button" class="btn btn-info botones" 
-            @onclick="() => CrearObra()">
+            @onclick="() => OpenNuevoDialog()">
             Nuevo
         </button>
         @*<button type="button" class="btn btn-info botones"
@@ -111,6 +116,7 @@
             {
                 <GestorStock.Client.Pages.Modals.Obras.ModalModificar Title="Modificar Obra"
                                                                Text=""
+                                                               obraid="selectedItemToEditId"
                                                                OnClose="@OnModificarDialogClose">
                 </GestorStock.Client.Pages.Modals.Obras.ModalModificar>
             }
@@ -135,42 +141,43 @@
     bool Error = false;
     string Mensaje = "";
     Obra ObraBorrar;
+
+    List<Estado>? Estados;
     //Confirmacion confirmacion;
 
 
     protected override async Task OnInitializedAsync()
-        {
+    {
         await base.OnInitializedAsync();
         await Leer();
-        }
-
+    }
 
     private async Task Leer()
-        {
+    {
         obras = new();
         var respuesta = await http.Get<List<Obra>>("api/Obra"); //GET
         Error = respuesta.Error;
         if (!respuesta.Error)
-            {
+        {
             obras = respuesta.Respuesta;
-            }
-        else
-            {
-            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
-            }
         }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
+        }
+    }
 
 
 
     private void CrearObra() //oneclick
-        {
+    {
         NavigationManager.NavigateTo("/obras/agregar");
-        }
+    }
 
 
 
     private async Task Eliminar (Obra obrBorrar)
-        {
+    {
         //confirmacion.Ver();
         ObraBorrar = obrBorrar;
 
@@ -202,12 +209,14 @@
     {
         NuevoDialogOpen = true;
         StateHasChanged();
+        
     }
 
     private async Task OnNuevoDialogClose(bool accepted)
     {
         NuevoDialogOpen = false;
         StateHasChanged();
+        await Leer();
     }
 
     private void OpenEliminarDialog()
@@ -222,8 +231,11 @@
         StateHasChanged();
     }
 
-    private void OpenModificarDialog()
+    int selectedItemToEditId = -1;
+
+    private void OpenModificarDialog(int itemId)
     {
+        selectedItemToEditId = itemId;
         ModificarDialogOpen = true;
         StateHasChanged();
     }
@@ -232,6 +244,7 @@
     {
         ModificarDialogOpen = false;
         StateHasChanged();
+        await Leer();
     }
-
 }
+

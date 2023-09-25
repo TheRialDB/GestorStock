@@ -1,4 +1,8 @@
-﻿<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
+﻿@inject IHttpServicio http
+@using GestorStock.Client.Pages.Obras
+@page "/Editmodal"
+
+<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
@@ -9,44 +13,61 @@
             </div>
             <div class="modal-body">
 
-                <form action="/action_page.php">
+                <FormObra obra="obras" onValidSubmit="Agregar"/>
 
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Numero de obra" style="margin-bottom:10px">
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Nombre" style="margin-bottom:10px">
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Direccion" style="margin-bottom:10px">
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Estado" style="margin-bottom:10px">
-
-                    </div>
-
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@ModalCancel">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="@ModalOk">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
+
+    Obra obras = new();
+    string Mensaje = "";
+
+    [Parameter] public int obraid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Mostrar();
+
+    }
+
+    private async Task Agregar() //put
+    {
+
+        var respuesta = await http.Put<Obra>($"api/Obra/{obraid}",
+        obras);
+
+        if (respuesta.Error)
+        {
+            var body = respuesta.HttpResponseMessage;
+        }
+
+        await OnClose.InvokeAsync(true);
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Obra>($"api/Obra/{obraid}");
+
+        if (!respuesta.Error)
+        {
+            obras = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+
+    }
+
+
+    [Parameter] public int ItemId { get; set; }
+
+
+
 
     [Parameter]
     public string Title { get; set; }
