@@ -2,7 +2,33 @@
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
 
+<PageTitle>Envios</PageTitle>
+
 <h3>Envios</h3>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"
+	    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/css/Styles/EnvioStyles.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div class="table table-hover"
+		<table class="table">
+		<thead>
+			<tr>
+				<th>Codigo</th>
+				<th>Estado</th>
+				<th>Direccion</th>
+				<th>Remito</th>
+			</tr>
+		</thead>
+		</table>
+		</div>
+	</body>
+</html>
+
 
 @code {
 

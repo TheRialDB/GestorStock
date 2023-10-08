@@ -44,8 +44,8 @@ namespace GestorStock.BD.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     codigo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    fechaEgreso = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    fechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    fechaEgreso = table.Column<DateTime>(type: "datetime2", maxLength: 40, nullable: false),
+                    fechaIngreso = table.Column<DateTime>(type: "datetime2", maxLength: 40, nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
@@ -72,7 +72,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    simbolo = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,7 +252,7 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    cantidad = table.Column<int>(type: "int", nullable: false),
+                    cantidad = table.Column<int>(type: "int", maxLength: 40, nullable: false),
                     ProductoId = table.Column<int>(type: "int", nullable: false),
                     NotaPedidoId = table.Column<int>(type: "int", nullable: false)
                 },
