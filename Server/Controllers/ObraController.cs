@@ -48,7 +48,7 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Estados.AnyAsync(x => 1 == entidad.EstadoId);
+                var existe = await context.Estados.AnyAsync(x => x.id == entidad.EstadoId);
                 if (!existe)
                 {
                     return NotFound($"El estado de id={entidad.EstadoId} no existe");
