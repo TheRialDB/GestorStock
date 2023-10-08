@@ -44,33 +44,66 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Estado estado)
+        public async Task<ActionResult<int>> Post(EstadoDTO entidad)
         {
-            context.Add(estado);
-            await context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+
+                Estado estado = new Estado();
+
+                estado.nombreEstado = entidad.nombreEstado;
+
+                await context.AddAsync(estado);
+                await context.SaveChangesAsync();
+                return estado.id;
+
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(EstadoDTO estadoDTO, int id)
         {
-            //comprobar que ese id exista en la base de datos
-            var exist = await context.Estados.AnyAsync(e => e.id == id);
-            if (!exist)
+            try
             {
-                return BadRequest("El Estado no existe");
+                var existen = await context.Estados.AnyAsync(x => x.id == id);
+                if (!existen)
+                {
+                    return NotFound($"El estado con el ID={id} no existe");
+                }
+
+                Estado estado = new Estado();
+
+                estado.nombreEstado = estadoDTO.nombreEstado;
+
+                await context.AddAsync(estado);
+                await context.SaveChangesAsync();
+                return Ok();
+
+
             }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            //if (id != estado.id)
+            //{
+            //    BadRequest("El id del estado no coincide.");
+            //}
+            //var existe = await context.Estados.AnyAsync(x => x.id == id);
+            //if (!existe)
+            //{
+            //    return NotFound($"El estado con ID={id} no existe");
+            //}
 
-            Estado entidad = new Estado();
-
-            entidad.id = id;
-            entidad.nombreEstado = estadoDTO.nombreEstado;
-
-            //actualizar
-            context.Update(entidad);
-            await context.SaveChangesAsync();
-            return Ok("Actualizado con Exito");
+            //context.Update(estado);
+            //await context.SaveChangesAsync();
+            //return Ok();
         }
 
         [HttpDelete("{id:int}")]
