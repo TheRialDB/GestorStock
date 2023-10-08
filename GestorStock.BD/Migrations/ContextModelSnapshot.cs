@@ -96,6 +96,7 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
+                        .HasMaxLength(40)
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -264,9 +265,11 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<DateTime>("fechaEgreso")
+                        .HasMaxLength(40)
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("fechaIngreso")
+                        .HasMaxLength(40)
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");

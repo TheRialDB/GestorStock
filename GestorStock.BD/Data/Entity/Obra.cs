@@ -24,5 +24,11 @@ namespace GestorStock.BD.Data.Entity
         public List<Deposito> Depositos { get; set; } = new List<Deposito>();
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
+
+       
+
+
+       
+        
     }
 }

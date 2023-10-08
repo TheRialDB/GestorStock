@@ -80,21 +80,46 @@ namespace GestorStock.Server.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(DetallePedido detallePedido, int id)
+        public async Task<ActionResult> Put(DetallePedidoDTO detallePedidoDTO, int id)
         {
-            if (id != detallePedido.id)
+            try
             {
-                BadRequest("El id del detalle de pedido no coincide.");
-            }
-            var existe = await context.DetallePedidos.AnyAsync(x => x.id == id);
-            if (!existe)
-            {
-                return NotFound($"El detalle de pedido con el ID={id} no existe");
-            }
+                var existe = await context.Productos.AnyAsync(x => x.id == detallePedidoDTO.ProductoId);
+                if (!existe)
+                {
+                    return NotFound($"El producto de id={detallePedidoDTO.ProductoId} no existe");
+                }
+                var existes = await context.NotaPedidos.AnyAsync(x => x.id == detallePedidoDTO.NotaPedidoId);
+                if (!existes)
+                {
+                    return NotFound($"La nota de pedido con id={detallePedidoDTO.NotaPedidoId} no existe");
+                }
+                var existen = await context.DetallePedidos.AnyAsync(x => x.id == id);
+                if (!existen)
+                {
+                    return NotFound($"El detalle de pedido con el ID={id} no existe");
+                }
 
-            context.Update(detallePedido);
-            await context.SaveChangesAsync();
-            return Ok();
+                DetallePedido pepe = new DetallePedido();
+
+                pepe.id = id;
+                pepe.cantidad = detallePedidoDTO.cantidad;
+                pepe.NotaPedidoId = detallePedidoDTO.NotaPedidoId;
+                pepe.ProductoId = detallePedidoDTO.ProductoId;
+
+               
+
+                context.Update(pepe);
+                await context.SaveChangesAsync();
+                return Ok();
+
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+           
         }
 
         [HttpDelete("{id:int}")]

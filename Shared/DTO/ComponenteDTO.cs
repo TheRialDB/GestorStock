@@ -8,5 +8,6 @@ namespace GestorStock.Shared.DTO
 {
     public class ComponenteDTO
     {
+        public int cantidad { get; set; }
     }
 }

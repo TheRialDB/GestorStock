@@ -11,6 +11,9 @@ namespace GestorStock.BD.Data.Entity
     {
         [Key]
         public int id { get; set; }
+
+        [Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
+        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
         public int cantidad { get; set; }
 
         //Conexiones

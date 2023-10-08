@@ -44,30 +44,61 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Componente componente)
+        public async Task<ActionResult<int>> Post(ComponenteDTO entidad)
         {
-            context.Add(componente);
-            await context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+
+                Componente componente = new Componente();
+
+                componente.cantidad = entidad.cantidad;
+
+                await context.AddAsync(componente);
+                await context.SaveChangesAsync();
+                return componente.id;
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Componente componente, int id)
+        public async Task<ActionResult> Put(ComponenteDTO componente, int id)
         {
-            if (id != componente.id)
+            try
             {
-                BadRequest("El id del componente no coincide.");
+
+                Componente pepe = new Componente();
+
+                pepe.cantidad = componente.cantidad;
+                pepe.id = id;
+
+                context.Update(pepe);
+                await context.SaveChangesAsync();
+                return Ok();
+
             }
-            var existe = await context.Componentes.AnyAsync(x => x.id == id);
-            if (!existe)
+            catch (Exception e)
             {
-                return NotFound($"El componente con el ID={id} no existe");
+                return BadRequest(e.Message);
             }
 
-            context.Update(componente);
-            await context.SaveChangesAsync();
-            return Ok();
+            //if (id != componente.id)
+            //{
+            //    BadRequest("El id del componente no coincide.");
+            //}
+            //var existe = await context.Componentes.AnyAsync(x => x.id == id);
+            //if (!existe)
+            //{
+            //    return NotFound($"El componente con el ID={id} no existe");
+            //}
+
+            //context.Update(componente);
+            //await context.SaveChangesAsync();
+            //return Ok();
         }
 
         [HttpDelete("{id:int}")]
