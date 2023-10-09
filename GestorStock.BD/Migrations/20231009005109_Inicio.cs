@@ -44,8 +44,8 @@ namespace GestorStock.BD.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     codigo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    fechaEgreso = table.Column<DateTime>(type: "datetime2", maxLength: 40, nullable: false),
-                    fechaIngreso = table.Column<DateTime>(type: "datetime2", maxLength: 40, nullable: false),
+                    fechaEgreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    fechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
@@ -351,12 +351,6 @@ namespace GestorStock.BD.Migrations
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
-
-            migrationBuilder.CreateIndex(
-                name: "Usuario_correo_UQ",
-                table: "Usuarios",
-                column: "correo",
-                unique: true);
         }
 
         /// <inheritdoc />

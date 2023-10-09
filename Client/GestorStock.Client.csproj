@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\Styles\EnviosStyles.css" />
     <Content Remove="wwwroot\css\Styles\ObrasStyles.css" />
   </ItemGroup>
 
@@ -32,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\Styles\EnviosStyles.css" />
     <None Include="wwwroot\css\Styles\ObrasStyles.css" />
     <None Include="wwwroot\css\Styles\StockStyles.css" />
   </ItemGroup>
