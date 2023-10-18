@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<link rel="stylesheet" href="/MainLayout.razor.css?version=0.1"/>
+<link rel="stylesheet" href="/MainLayout.razor.css?version=0.1" />
 
 <div class="page">
 
@@ -16,17 +16,7 @@
 
             @Body
 
-@* 
-        </article> *@
+
+        </article>
     </main>
 </div>
-
-@code{
-    private async Task CerrarSesion()
-    {
-        //var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
-        //await autenticacionExt.ActualizarEstadoAutenticacion(null);
-        navManager.NavigateTo("/", true);
-    }
-}
-
