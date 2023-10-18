@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\Styles\EnviosStyles.css" />
+    <Content Remove="wwwroot\css\Styles\ObrasStyles.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
@@ -28,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\Styles\EnviosStyles.css" />
+    <None Include="wwwroot\css\Styles\ObrasStyles.css" />
     <None Include="wwwroot\css\Styles\StockStyles.css" />
   </ItemGroup>
 

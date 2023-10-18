@@ -1,7 +1,7 @@
 ﻿@page "/stock"
+@using GestorStock.BD.Data;
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
-
 @using Modals
 
 <PageTitle>Stock</PageTitle>
@@ -150,26 +150,26 @@
 
         @if (CargarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalCargar Title="Nueva Obra"
+            <GestorStock.Client.Pages.Modals.Stock.ModalCargar Title="Cargar"
                                                          Text=""
                                                          OnClose="@OnCargarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalCargar>
+            </GestorStock.Client.Pages.Modals.Stock.ModalCargar>
         }
 
         @if (EliminarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Eliminar"
+            <GestorStock.Client.Pages.Modals.Stock.ModalEliminar Title="Eliminar"
                                                            Text=""
                                                            OnClose="@OnEliminarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            </GestorStock.Client.Pages.Modals.Stock.ModalEliminar>
         }
 
         @if (ModificarDialogOpen)
         {
-            <GestorStock.Client.Pages.Modals.ModalTextOnly Title="Modificar Obra"
+            <GestorStock.Client.Pages.Modals.Stock.ModalModificar Title="Modificar"
                                                            Text=""
                                                            OnClose="@OnModificarDialogClose">
-            </GestorStock.Client.Pages.Modals.ModalTextOnly>
+            </GestorStock.Client.Pages.Modals.Stock.ModalModificar>
         }
 
 
@@ -191,6 +191,27 @@
                         <th>Deposito</th>
                         <th>Direccion</th>
                     </tr>
+
+                    @*@if (Productos == null)
+                        {
+                        <tr>Cargando...</tr>
+                        }
+                    else if (Productos.Count == 0)
+                        {
+                        <tr>No existe el producto cargado</tr>
+                        }
+                    else
+                        {
+                        @foreach (var item in Productos)
+                            {
+                            <tr>@item.codigo</tr>
+                            <tr>@item.nombreProducto</tr>
+                            <tr>@item.cantidad</tr>
+                            <tr>@item.estado</tr>
+                            //<tr>@item.nombreDeposito</tr>
+                            }*@
+                        }
+
                 </thead>
                 <tbody>
 
@@ -202,6 +223,19 @@
 </html>
 
 @code {
+
+    //stand by
+
+    //private List<Producto> Productos;
+
+    ////protected override async Task OnInitializedAsync()
+    //    {
+    //    Productos = await dbContext.Productos
+    //        .Include(p => p.Depositos) 
+    //        .ToListAsync();
+    //    }
+
+    
 
     public bool CargarDialogOpen { get; set; }
 

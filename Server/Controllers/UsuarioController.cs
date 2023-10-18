@@ -5,6 +5,7 @@ using GestorStock.BD.Data.Entity;
 using GestorStock.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using GestorStock.Shared.DTO;
+using BlazorCrud.Shared;
 
 namespace GestorStock.Server.Controllers
 {
@@ -79,22 +80,31 @@ namespace GestorStock.Server.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Usuario usuario, int id)
+        public async Task<ActionResult> Put(UsuarioDTO usuarioDTO, int id)
         {
-            if (id != usuario.id)
+            //comprobar que ese id exista en la base de datos
+            var exist = await context.Usuarios.AnyAsync(e => e.id == id);
+            if (!exist)
             {
-                BadRequest("El id del usuario no coincide.");
-            }
-            var existe = await context.Usuarios.AnyAsync(x => x.id == id);
-            if (!existe)
-            {
-                return NotFound($"El usuario con el ID={id} no existe");
+                return BadRequest("El Usuario no existe");
             }
 
-            context.Update(usuario);
+            Usuario entidad = new Usuario();
+            entidad.id = id;
+            entidad.nombre = usuarioDTO.nombre;
+            entidad.nombreUsuario = usuarioDTO.correo;
+            entidad.correo = usuarioDTO.correo;
+            entidad.contrasena = usuarioDTO.contrasena;
+            entidad.RolId = usuarioDTO.RolId;
+            
+
+
+            //actualizar
+            context.Update(entidad);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok("Actualizado con Exito");
         }
+
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)

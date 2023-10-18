@@ -20,5 +20,5 @@ namespace GestorStock.Shared.DTO
 
         //Conexiones
         public int EstadoId { get; set; }
-    }
+		}
 }

@@ -96,6 +96,7 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
+                        .HasMaxLength(40)
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -349,9 +350,6 @@ namespace GestorStock.BD.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("RolId");
-
-                    b.HasIndex(new[] { "correo" }, "Usuario_correo_UQ")
-                        .IsUnique();
 
                     b.ToTable("Usuarios");
                 });

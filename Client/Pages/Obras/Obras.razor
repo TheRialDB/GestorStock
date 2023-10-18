@@ -1,0 +1,249 @@
+﻿@page "/obras"
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize]
+@inject IHttpServicio http
+
+
+<PageTitle>Obras</PageTitle>
+<h3 class="text-center">Obras</h3>
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/ObrasStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="align-content-center">
+
+ <div class="insquare">
+    <div class="table-responsive rounded-3">
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead id="table-headers">
+                <tr>
+                    <th>Nro de obra</th>
+                    <th>Nombre</th>
+                    <th>Direccion</th>
+                    <th>Modificar</th>
+                    <th></th>
+                </tr>
+
+                
+            </thead>
+            <tbody>
+
+                    @if (Error)
+                    {
+                        <tr>@Mensaje</tr>
+                    }
+                    else
+                    {
+
+
+                        @if (obras == null)
+                        {
+                            <tr>Cargando...</tr>
+                        }
+                        else if (obras.Count == 0)
+                        {
+                            <tr>No existen los datos</tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in obras)
+                            {
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td>@item.nombreObra</td>
+                                    <td>@item.direccion</td>
+                                    <td>
+                                        <a class="btn btn-primary table-button"
+                                        @onclick="() => OpenModificarDialog(item.id)">
+                                          Modificar
+                                        </a>
+             
+                                    </td>
+                                    <td>
+                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                    </td>
+                                </tr>
+
+                            }
+                        }       }
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex">
+
+        <button type="button" class="btn btn-info botones" 
+            @onclick="() => OpenNuevoDialog()">
+            Nuevo
+        </button>
+        @*<button type="button" class="btn btn-info botones"
+        @onclick="() => OpenEliminarDialog()">
+            Eliminar
+        </button>
+        <button type="button" class="btn btn-info botones"
+        @onclick="() => OpenModificarDialog()">
+            Modificar
+        </button>*@
+
+            @if (NuevoDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalCargar Title="Nueva Obra"
+                                                             Text=""
+                                                             OnClose="@OnNuevoDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalCargar>
+            }
+
+            @if (EliminarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalEliminar Title="Eliminar"
+                                                               Text=""
+                                                               OnClose="@OnEliminarDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalEliminar>
+            }
+
+            @if (ModificarDialogOpen)
+            {
+                <GestorStock.Client.Pages.Modals.Obras.ModalModificar Title="Modificar Obra"
+                                                               Text=""
+                                                               obraid="selectedItemToEditId"
+                                                               OnClose="@OnModificarDialogClose">
+                </GestorStock.Client.Pages.Modals.Obras.ModalModificar>
+            }
+
+    </div>
+ </div>
+
+
+
+</body>
+
+</html>
+
+@*<Confirmacion @ref='confirmacion'></Confirmacion>*@
+@code {
+
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    List<Obra>? obras;
+    bool Error = false;
+    string Mensaje = "";
+    Obra ObraBorrar;
+
+    List<Estado>? Estados;
+    //Confirmacion confirmacion;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        obras = new();
+        var respuesta = await http.Get<List<Obra>>("api/Obra"); //GET
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+        {
+            obras = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
+        }
+    }
+
+
+
+    private void CrearObra() //oneclick
+    {
+        NavigationManager.NavigateTo("/obras/agregar");
+    }
+
+
+
+    private async Task Eliminar (Obra obrBorrar)
+    {
+        //confirmacion.Ver();
+        ObraBorrar = obrBorrar;
+
+        var respuesta = await http.Delete($"api/Obra/{ObraBorrar.id}");
+        if (respuesta.Error)
+        {
+            var body = "ERROR: no se pudo eliminar";  
+        }
+
+        ObraBorrar = null;
+        await Leer();
+
+    }
+
+
+
+
+
+
+
+
+    public bool NuevoDialogOpen { get; set; }
+
+    public bool EliminarDialogOpen { get; set; }
+
+    public bool ModificarDialogOpen { get; set; }
+
+    private void OpenNuevoDialog()
+    {
+        NuevoDialogOpen = true;
+        StateHasChanged();
+        
+    }
+
+    private async Task OnNuevoDialogClose(bool accepted)
+    {
+        NuevoDialogOpen = false;
+        StateHasChanged();
+        await Leer();
+    }
+
+    private void OpenEliminarDialog()
+    {
+        EliminarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEliminarDialogClose(bool accepted)
+    {
+        EliminarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    int selectedItemToEditId = -1;
+
+    private void OpenModificarDialog(int itemId)
+    {
+        selectedItemToEditId = itemId;
+        ModificarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnModificarDialogClose(bool accepted)
+    {
+        ModificarDialogOpen = false;
+        StateHasChanged();
+        await Leer();
+    }
+}
+

@@ -6,14 +6,13 @@
 .insquare {
     max-width: 1000px;
     object-fit: fill;
-    border-radius: 30px;
+    border-radius: 9px;
     margin-left: auto;
     margin-right: auto;
     padding: 2%;
     display: block;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #0dcaf0;
+    margin-top: 10%;
+    background-color: #341a5d63;
 }
 
 .infoIndex {

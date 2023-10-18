@@ -17,8 +17,18 @@
     --bs-table-striped-bg: rgb(0 0 0);
     --bs-table-hover-bg: rgb(255 255 255 / 5%);
     --bs-table-bg: #0c0024;
+    font-size:20px;
 }
 
+.trash-button {
+    color: #ff0000;
+    position: relative;
+}
+
+
+.table-button{
+
+}
 
 .insquare {
     object-fit: fill;

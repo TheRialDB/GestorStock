@@ -72,7 +72,8 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    nombreUnidad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    simbolo = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,7 +252,7 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    cantidad = table.Column<int>(type: "int", nullable: false),
+                    cantidad = table.Column<int>(type: "int", maxLength: 40, nullable: false),
                     ProductoId = table.Column<int>(type: "int", nullable: false),
                     NotaPedidoId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -350,12 +351,6 @@ namespace GestorStock.BD.Migrations
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
-
-            migrationBuilder.CreateIndex(
-                name: "Usuario_correo_UQ",
-                table: "Usuarios",
-                column: "correo",
-                unique: true);
         }
 
         /// <inheritdoc />
