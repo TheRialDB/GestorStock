@@ -42,33 +42,9 @@
     private void login()
     {
         // Lógica de inicio de sesión aquí (verificar credenciales, etc.)
->>>>>>>>> Temporary merge branch 2
 
-        //if (loginResponse.IsSuccessStatusCode)
-        //{
-        //    var sesionUsuario = await loginResponse.Content.ReadFromJsonAsync<SesionDTO>();
-        //    var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
-        //    await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
-        //    navManager.NavigateTo("/Index");
-        //}
 
-<<<<<<<<< Temporary merge branch 1
-        var sesionUsuario = new SesionDTO
-            {
-                Correo = "admin@gmail.com",
-                Nombre = "admin",
-                Rol = "Administrador"
-            };
-
-        var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
-        await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
-
-        navManager.NavigateTo("/Index");
-    }
-}*@
-=========
         // Si el inicio de sesión es exitoso, redirige a la página de índice
         NavigationManager.NavigateTo("/index");
     }
 }
->>>>>>>>> Temporary merge branch 2
