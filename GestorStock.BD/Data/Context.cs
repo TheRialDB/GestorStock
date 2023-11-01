@@ -25,6 +25,7 @@ namespace GestorStock.BD.Data
         public DbSet<NotaPedido> NotaPedidos => Set<NotaPedido>();
         public DbSet<Remito> Remitos => Set<Remito>();
         public DbSet<ProductoComponente> ProductoComponentes => Set<ProductoComponente>();
+        public DbSet<Stock> Stocks => Set<Stock>();
 
         public Context(DbContextOptions options) : base(options)
         {
