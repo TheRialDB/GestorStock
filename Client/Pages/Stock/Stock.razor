@@ -1,0 +1,326 @@
+﻿@page "/stock"
+@using GestorStock.BD.Data;
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize]
+@using Modals
+
+<PageTitle>Stock</PageTitle>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/StockStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="align-content-center">
+
+    <div class="insquare-header"> 
+
+
+        <h2 class="text-center">Stock</h2>
+
+        <button type="button" class="btn btn-info botones"
+                @onclick="() => OpenCargarDialog()">
+            Cargar
+        </button>
+
+    </div>
+
+  <div class="insquare"> 
+    <div class="table-responsive rounded-3">
+            <table class="table table-striped table-hover table-bordered">
+            <thead id="table-headers">
+                <tr>
+                    <th class="th-cod">Codigo</th>
+                    <th>Nombre</th>
+                    <th class="th-cant">Cantidad</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3F2</td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style="color:lawngreen">D</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td> 3F2</td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style ="color:red">N</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style="color:lawngreen">D</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style="color:lawngreen">D</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style="color:lawngreen">D</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6</td>
+                    <td style="color:red">N</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6 </td>
+                    <td style="color:red">N</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6 </td>
+                    <td style="color:lawngreen">D</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+                <tr>
+                    <td>3F2 </td>
+                    <td>Tornillo (unidad)</td>
+                    <td>6 </td>
+                    <td style="color:red">N</td>
+                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
+        <div class="d-flex">
+
+@*            <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenEliminarDialog()">
+                Eliminar
+            </button>
+            <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenModificarDialog()">
+                Modificar
+            </button>*@
+
+        </div>
+
+        @if (CargarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.Stock.ModalCargar Title="Cargar"
+                                                         Text=""
+                                                         OnClose="@OnCargarDialogClose">
+            </GestorStock.Client.Pages.Modals.Stock.ModalCargar>
+        }
+
+        @if (EliminarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.Stock.ModalEliminar Title="Eliminar"
+                                                           Text=""
+                                                           OnClose="@OnEliminarDialogClose">
+            </GestorStock.Client.Pages.Modals.Stock.ModalEliminar>
+        }
+
+        @if (ModificarDialogOpen)
+        {
+            <GestorStock.Client.Pages.Modals.Stock.ModalModificar Title="Modificar"
+                                                           Text=""
+                                                           OnClose="@OnModificarDialogClose">
+            </GestorStock.Client.Pages.Modals.Stock.ModalModificar>
+        }
+
+
+    </div>
+
+    <h2 class="text-center header">Todos los depositos</h2>
+
+    <div class="insquare">
+        <div class="table-responsive rounded-3">
+            <table class="table table-striped table-hover table-bordered">
+                <thead id="table-headers">
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th></th>
+                        <th>Deposito</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:lawngreen">D</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:red">N</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:lawngreen">D</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:lawngreen">D</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:lawngreen">D</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:red">N</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:red">N</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:lawngreen">D</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                    <tr>
+                        <td>3F2 </td>
+                        <td>Tornillo (unidad)</td>
+                        <td>6</td>
+                        <td style="color:red">N</td>
+                        <td>depo 2</td>
+                        <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
+                        <td> <i class='bx bx-trash trash-button table-button'></i> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+@code {
+
+    //stand by
+
+    //private List<Producto> Productos;
+
+    ////protected override async Task OnInitializedAsync()
+    //    {
+    //    Productos = await dbContext.Productos
+    //        .Include(p => p.Depositos) 
+    //        .ToListAsync();
+    //    }
+
+    
+
+    public bool CargarDialogOpen { get; set; }
+
+    public bool EliminarDialogOpen { get; set; }
+
+    public bool ModificarDialogOpen { get; set; }
+
+    private void OpenCargarDialog()
+    {
+        CargarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnCargarDialogClose(bool accepted)
+    {
+        CargarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenEliminarDialog()
+    {
+        EliminarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEliminarDialogClose(bool accepted)
+    {
+        EliminarDialogOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenModificarDialog()
+    {
+        ModificarDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnModificarDialogClose(bool accepted)
+    {
+        ModificarDialogOpen = false;
+        StateHasChanged();
+    }
+
+}
