@@ -62,7 +62,7 @@
                                     <td>@item.direccion</td>
                                     <td>
                                         <a class="btn btn-primary table-button"
-                                        @onclick="() => OpenModificarDialog(item.id)">
+                                        @onclick="() => OpenModificarObra(item.id)">
                                           Modificar
                                         </a>
              
@@ -82,43 +82,42 @@
     </div>
     <div class="d-flex">
 
-        <button type="button" class="btn btn-info botones" 
-            @onclick="() => OpenNuevoDialog()">
+        <button type="button" class="btn btn-info botones"
+            @onclick="() => OpenNuevaObra()">
             Nuevo
         </button>
-        @*<button type="button" class="btn btn-info botones"
-        @onclick="() => OpenEliminarDialog()">
-            Eliminar
-        </button>
-        <button type="button" class="btn btn-info botones"
-        @onclick="() => OpenModificarDialog()">
-            Modificar
-        </button>*@
 
-            @if (NuevoDialogOpen)
+            @if (NuevaObraOpen)
             {
-                <GestorStock.Client.Pages.Modals.Obras.ModalCargar Title="Nueva Obra"
-                                                             Text=""
-                                                             OnClose="@OnNuevoDialogClose">
-                </GestorStock.Client.Pages.Modals.Obras.ModalCargar>
+                <GestorStock.Client.Pages.Obras.Modals.ModalCargar 
+
+                                                             OnClose="@OnNuevaObraClose">
+
+                </GestorStock.Client.Pages.Obras.Modals.ModalCargar>
             }
 
-            @if (EliminarDialogOpen)
+            @if (ModificarObraOpen)
             {
-                <GestorStock.Client.Pages.Modals.Obras.ModalEliminar Title="Eliminar"
-                                                               Text=""
-                                                               OnClose="@OnEliminarDialogClose">
-                </GestorStock.Client.Pages.Modals.Obras.ModalEliminar>
-            }
+                <GestorStock.Client.Pages.Obras.Modals.ModalModificar 
 
-            @if (ModificarDialogOpen)
-            {
-                <GestorStock.Client.Pages.Modals.Obras.ModalModificar Title="Modificar Obra"
-                                                               Text=""
                                                                obraid="selectedItemToEditId"
-                                                               OnClose="@OnModificarDialogClose">
-                </GestorStock.Client.Pages.Modals.Obras.ModalModificar>
+                                                               OnClose="@OnModificarObraClose">
+
+                </GestorStock.Client.Pages.Obras.Modals.ModalModificar>
             }
+
+            <Confirmacion @ref="confirmar"
+                       verCancelar="true"
+                       verOk="true"
+                       onCancel="Cancelar"
+                       onConfirm="Borrar">
+
+                <div>
+                    <p>Está por borrar el producto @ObraBorrar.nombreObra</p>
+                    <br />
+                    <p>¿Está seguro que desea continuar?</p>
+                </div>
+            </Confirmacion>
 
     </div>
  </div>
@@ -136,6 +135,7 @@
     [Inject]
     private NavigationManager NavigationManager { get; set; }
 
+    Confirmacion confirmar;
     List<Obra>? obras;
     bool Error = false;
     string Mensaje = "";
@@ -166,82 +166,62 @@
         }
     }
 
-
-
-    private void CrearObra() //oneclick
-    {
-        NavigationManager.NavigateTo("/obras/agregar");
-    }
-
-
-
     private async Task Eliminar (Obra obrBorrar)
     {
-        //confirmacion.Ver();
         ObraBorrar = obrBorrar;
-
+        confirmar.Ver();
+    }
+    private async Task Borrar()
+    {
         var respuesta = await http.Delete($"api/Obra/{ObraBorrar.id}");
         if (respuesta.Error)
         {
-            var body = "ERROR: no se pudo eliminar";  
+            var body = "ERROR: no se pudo eliminar";
         }
 
-        ObraBorrar = null;
+        Cancelar();
         await Leer();
+    }
 
+    private void Cancelar()
+    {
+        confirmar.Ocultar();
+        ObraBorrar = null;
     }
 
 
 
+    public bool NuevaObraOpen { get; set; }
 
 
+    public bool ModificarObraOpen { get; set; }
 
-
-
-    public bool NuevoDialogOpen { get; set; }
-
-    public bool EliminarDialogOpen { get; set; }
-
-    public bool ModificarDialogOpen { get; set; }
-
-    private void OpenNuevoDialog()
+    private void OpenNuevaObra()
     {
-        NuevoDialogOpen = true;
+        NuevaObraOpen = true;
         StateHasChanged();
         
     }
 
-    private async Task OnNuevoDialogClose(bool accepted)
+    private async Task OnNuevaObraClose(bool accepted)
     {
-        NuevoDialogOpen = false;
+        NuevaObraOpen = false;
         StateHasChanged();
         await Leer();
     }
 
-    private void OpenEliminarDialog()
-    {
-        EliminarDialogOpen = true;
-        StateHasChanged();
-    }
-
-    private async Task OnEliminarDialogClose(bool accepted)
-    {
-        EliminarDialogOpen = false;
-        StateHasChanged();
-    }
-
     int selectedItemToEditId = -1;
 
-    private void OpenModificarDialog(int itemId)
+    private void OpenModificarObra(int itemId)
     {
         selectedItemToEditId = itemId;
-        ModificarDialogOpen = true;
+        ModificarObraOpen = true;
         StateHasChanged();
     }
 
-    private async Task OnModificarDialogClose(bool accepted)
+    private async Task OnModificarObraClose(bool accepted)
     {
-        ModificarDialogOpen = false;
+        ModificarObraOpen = false;
         StateHasChanged();
         await Leer();
     }

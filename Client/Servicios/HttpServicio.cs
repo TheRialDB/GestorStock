@@ -13,19 +13,19 @@ namespace GestorStock.Client.Servicios
             }
 
         public async Task<HttpRespuesta<T>> Get<T>(string url)
-            {
+        {
             var response = await http.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
-                {
+            {
                 var respuesta = await DesSerlizar<T>(response);
                 return new HttpRespuesta<T>(respuesta, false, response);
-                }
-            else
-                {
-                return new HttpRespuesta<T>(default, true, response);
-                }
             }
+            else
+            {
+                return new HttpRespuesta<T>(default, true, response);
+            }
+        }
 
         public async Task<HttpRespuesta<object>> Post<T>(string url, T enviar)
             {

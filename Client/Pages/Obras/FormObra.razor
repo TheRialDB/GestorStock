@@ -1,4 +1,6 @@
-﻿<EditForm Model="obra" OnValidSubmit="onValidSubmit">
+﻿@inject IHttpServicio http
+
+<EditForm Model="obra" OnValidSubmit="onValidSubmit">
 	<DataAnnotationsValidator/>
 <div class="form-group">
 	<label>Nombre de la obra</label>
@@ -18,19 +20,24 @@
 
 	<div class="form-group">
 		<label>Estado de la obra</label>
-		<div>
-			<InputSelect class="form-control" @bind-Value="@obra.EstadoId" >
-				<option value="1"> No Iniciado </option>
-				<option value="2"> En construccion </option>
-				<option value="3"> Terminado </option>
-			</InputSelect>
-			<ValidationMessage For="@(() => obra.EstadoId)" />
-		</div>
+		@if (estados != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@obra.EstadoId">
+					<option value="0">Selecciona un estado</option>
+					@foreach (var estado in estados)
+					{
+						<option value="@estado.id">@estado.nombreEstado</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(() => obra.EstadoId)" />
+			</div>
+		}
 	</div>
 
 	<div class="modal-footer">
 	<button class="btn btn-info" type="submit">Aceptar</button>
-	<button class="btn btn-secondary" @oneclick="onCancel">Cancelar</button>
+	<button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
 	</div>
 </EditForm>
 
@@ -38,4 +45,35 @@
 	[Parameter] public Obra obra { get; set; } = new Obra();
 	[Parameter] public EventCallback onValidSubmit { get; set; }
 	[Parameter] public EventCallback onCancel { get; set; }
+
+	public List<Estado>? estados { get; set; } = new();
+
+
+	bool error = false;
+	string mensaje = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Leer();
+	}
+
+	private async Task Leer()
+	{
+		estados = null;
+
+		var respuesta = await http.Get<List<Estado>>("api/Estado");
+
+		error = respuesta.Error;
+
+		if (!respuesta.Error)
+		{
+			estados = respuesta.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta.ObtenerError();
+		}
+
+	}
 }

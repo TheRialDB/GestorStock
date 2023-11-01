@@ -6,7 +6,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Obra</h5>
                 <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,7 +14,7 @@
             <div class="modal-body">
 
 
-                <FormObra obra="obras" onValidSubmit="Agregar" />
+                <FormObra obra="obra" onValidSubmit="Agregar" onCancel="@ModalCancel"/>
 
             </div>
 
@@ -25,15 +25,15 @@
 @code {
 
 
-    Obra obras = new Obra();
+    private Obra obra = new ();
 
     private async Task Agregar()
     {
         ObraDTO obraDTO = new()
             {
-                nombreObra = obras.nombreObra,
-                direccion = obras.direccion,
-                EstadoId = obras.EstadoId
+                nombreObra = obra.nombreObra,
+                direccion = obra.direccion,
+                EstadoId = obra.EstadoId
             };
 
         var httpRespuesta = await http.Post<ObraDTO>("api/Obra", obraDTO); //post
@@ -49,22 +49,11 @@
 
 
     [Parameter]
-    public string Title { get; set; }
-
-    [Parameter]
-    public string Text { get; set; }
-
-    [Parameter]
     public EventCallback<bool> OnClose { get; set; }
 
     private Task ModalCancel()
     {
         return OnClose.InvokeAsync(false);
-    }
-
-    private Task ModalOk()
-    {
-        return OnClose.InvokeAsync(true);
     }
 
 }
