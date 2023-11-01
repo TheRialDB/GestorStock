@@ -22,6 +22,9 @@ namespace GestorStock.BD.Data.Entity
 
         //Conexiones
         public List<Deposito> Depositos { get; set; } = new List<Deposito>();
+
+        [Required(ErrorMessage = "El Estado de la OBRA es Obligatoria")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un ESTADO")]
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
 

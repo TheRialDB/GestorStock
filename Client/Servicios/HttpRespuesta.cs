@@ -35,7 +35,7 @@
                 case System.Net.HttpStatusCode.NotFound:
                 return "Error, no se pudo encontrar la informacion";
                 default:
-                return HttpResponseMessage.Content.ReadAsStringAsync().Result;
+                return HttpResponseMessage.Content.ReadAsStringAsync().ToString();
                 }
             }
         }
