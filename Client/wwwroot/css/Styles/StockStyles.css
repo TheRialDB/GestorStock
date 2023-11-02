@@ -19,6 +19,17 @@
     --bs-table-bg: #0c0024;
 }
 
+.insquare-header {
+    object-fit: fill;
+    border-radius: 9px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #341a5d63;
+    padding: 2%;
+    margin-bottom: 1%;
+    max-width: 300px;
+}
+
 
 .insquare {
     object-fit: fill;
@@ -32,20 +43,36 @@
 .botones {
     font-family: Roboto Mono;
     width: auto;
-    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     font-weight: 800;
-    position: static;
     cursor: pointer;
     padding: 9px 15px;
     font-size: 20px;
+}
+
+.trash-button {
+    color: #ff0000;
+    position: relative;
+}
+
+.edit-button {
+    color: aqua;
+    position: relative;
 }
 
 .cont-botones {
     display:inline;
     width: auto;
     
+}
+
+.th-cant {
+    max-width: 50px;
+}
+
+.th-cod{
+    max-width:50px;
 }
 
 @media screen and (max-width: 500px) {
