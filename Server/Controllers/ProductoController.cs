@@ -21,7 +21,10 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Producto>>> Get()
         {
-            var lista = await context.Productos.ToListAsync();
+            var lista = await context.Productos
+                .Include(producto => producto.Unidad)
+                .ToListAsync();
+
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay productos cargados");

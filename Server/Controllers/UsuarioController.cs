@@ -23,8 +23,11 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> Get()
         {
-            var lista = await context.Usuarios.ToListAsync();
-            if (lista == null || lista.Count == 0)
+            var lista = await context.Usuarios
+                .Include(usuario => usuario.Rol)
+                .ToListAsync();
+
+			if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay usuarios cargados");
             }

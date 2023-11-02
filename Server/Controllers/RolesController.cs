@@ -22,7 +22,11 @@ namespace GestorStock.Server.Controllers
         {
             //return await context.Roles.ToListAsync();
 
-            var lista = await context.Roles.ToListAsync();
+            var lista = await context.Roles
+                .Include(rol => rol.Usuario)
+                .ToListAsync();
+
+
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay roles cargados");

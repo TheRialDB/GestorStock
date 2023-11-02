@@ -20,7 +20,11 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DetallePedido>>> Get()
         {
-            var lista = await context.DetallePedidos.ToListAsync();
+            var lista = await context.DetallePedidos
+                .Include(detallepedido => detallepedido.Producto)
+                .Include(detallepedido => detallepedido.NotaPedido)
+                .ToListAsync();
+
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay detalles de pedidos cargados");
