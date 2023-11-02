@@ -54,6 +54,5 @@ namespace GestorStock.BD.Data
             base.OnModelCreating(modelBuilder);
         }
 
-
     }
 }

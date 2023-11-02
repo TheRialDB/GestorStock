@@ -23,7 +23,12 @@ namespace GestorStock.Server.Controllers
         {
             //return await context.Obras.ToListAsync();
 
-            var lista = await context.Obras.ToListAsync();
+            //var lista = await context.Obras.ToListAsync();
+
+            var lista = await context.Obras
+            .Include(obra => obra.Estado) // Include the Estado navigation property
+            .ToListAsync();
+
             if (lista == null || lista.Count == 0)
             {
                 return NotFound("No hay obras cargadas");
@@ -31,6 +36,7 @@ namespace GestorStock.Server.Controllers
 
             return lista;
         }
+
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Obra?>> Get(int id)
@@ -108,6 +114,9 @@ namespace GestorStock.Server.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+
+
 
     }
 }

@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
 @inject IHttpServicio http
-
+@* @inject ObraServicio obraServicio *@
 
 <PageTitle>Obras</PageTitle>
 <h3 class="text-center">Obras</h3>
@@ -27,6 +27,7 @@
                 <tr>
                     <th>Nro de obra</th>
                     <th>Nombre</th>
+                    <th>Estado</th>
                     <th>Direccion</th>
                     <th>Modificar</th>
                     <th></th>
@@ -59,6 +60,7 @@
                                 <tr>
                                     <td>@item.id</td>
                                     <td>@item.nombreObra</td>
+                                    <td>@item.Estado.nombreEstado</td>
                                     <td>@item.direccion</td>
                                     <td>
                                         <a class="btn btn-primary table-button"
@@ -148,6 +150,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        // obras = await obraServicio.GetObrasWithEstadoAsync();
         await Leer();
     }
 
