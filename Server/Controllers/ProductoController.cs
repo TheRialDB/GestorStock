@@ -46,13 +46,13 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
-                if (!existe)
-                {
-                    return NotFound($"El deposito de id={entidad.DepositoId} no existe");
-                }
+                //var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
+                //if (!existe)
+                //{
+                //    return NotFound($"El deposito de id={entidad.DepositoId} no existe");
+                //}
 
-                existe = await context.Unidades.AnyAsync(x => x.id == entidad.UnidadId);
+                var existe = await context.Unidades.AnyAsync(x => x.id == entidad.UnidadId);
                 if (!existe)
                 {
                     return NotFound($"La unidad de id={entidad.UnidadId} no existe");
@@ -60,13 +60,13 @@ namespace GestorStock.Server.Controllers
 
                 Producto nuevoproducto = new Producto();
 
-                nuevoproducto.DepositoId = entidad.DepositoId;
+                //nuevoproducto.DepositoId = entidad.DepositoId;
                 nuevoproducto.UnidadId = entidad.UnidadId;
                 nuevoproducto.codigo = entidad.codigo;
                 nuevoproducto.nombreProducto = entidad.nombreProducto;
-                nuevoproducto.descripcion = entidad.descripcion;
-                nuevoproducto.cantidad = entidad.cantidad;
-                nuevoproducto.estado = entidad.estado;
+               //nuevoproducto.descripcion = entidad.descripcion;
+                //nuevoproducto.cantidad = entidad.cantidad;
+                //nuevoproducto.estado = entidad.estado;
 
 
                 await context.AddAsync(nuevoproducto);
@@ -95,10 +95,10 @@ namespace GestorStock.Server.Controllers
             entidad.id = id;
             entidad.codigo = productoDTO.codigo;
             entidad.nombreProducto = productoDTO.nombreProducto;
-            entidad.descripcion = productoDTO.descripcion;
-            entidad.cantidad = productoDTO.cantidad;
-            entidad.estado = productoDTO.estado;
-            entidad.DepositoId = productoDTO.DepositoId;
+            //entidad.descripcion = productoDTO.descripcion;
+            //entidad.cantidad = productoDTO.cantidad;
+            //entidad.estado = productoDTO.estado;
+            //entidad.DepositoId = productoDTO.DepositoId;
             entidad.UnidadId = productoDTO.UnidadId;
 
             //actualizar

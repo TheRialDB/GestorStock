@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    public class Stock
+    public class StockDTO
     {
-        public int id { get; set; }
-
-
         [Required(ErrorMessage = "La CANTIDAD es Obligatoria")]
         public double cantidad { get; set; }
 
@@ -19,11 +16,9 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el ESTADO")]
         public string estado { get; set; }
 
-        //Conexiones
+        public int DepositoId { get; set; }
 
         public int ProductoId { get; set; }
-        public Producto Productos { get; set; }
-        public int DepositoId { get; set; }
-        public Deposito Depositos { get; set; }
+
     }
 }

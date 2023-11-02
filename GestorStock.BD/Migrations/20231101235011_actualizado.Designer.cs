@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231101195224_inicio")]
-    partial class inicio
+    [Migration("20231101235011_actualizado")]
+    partial class actualizado
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,26 +196,10 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("DepositoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
 
-                    b.Property<double>("cantidad")
-                        .HasColumnType("float");
-
                     b.Property<string>("codigo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("descripcion")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("estado")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -226,8 +210,6 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("DepositoId");
 
                     b.HasIndex("UnidadId");
 
@@ -294,6 +276,32 @@ namespace GestorStock.BD.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Stock", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("DepositoId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("cantidad")
+                        .HasColumnType("float");
+
+                    b.Property<string>("estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("DepositoId");
+
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Unidad", b =>
@@ -441,19 +449,11 @@ namespace GestorStock.BD.Migrations
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
                 {
-                    b.HasOne("GestorStock.BD.Data.Entity.Deposito", "Depositos")
-                        .WithMany("Productos")
-                        .HasForeignKey("DepositoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("GestorStock.BD.Data.Entity.Unidad", "Unidad")
                         .WithMany("Productos")
                         .HasForeignKey("UnidadId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Depositos");
 
                     b.Navigation("Unidad");
                 });
@@ -475,6 +475,17 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Componente");
 
                     b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Stock", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Deposito", "Depositos")
+                        .WithMany("Stocks")
+                        .HasForeignKey("DepositoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Depositos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Usuario", b =>
@@ -510,7 +521,7 @@ namespace GestorStock.BD.Migrations
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
                 {
-                    b.Navigation("Productos");
+                    b.Navigation("Stocks");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Estado", b =>
