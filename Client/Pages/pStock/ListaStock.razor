@@ -25,7 +25,7 @@
         <h2 class="stock">Stock</h2>
 
         <button type="button" class="btn btn-info botones"
-                @onclick="() => OpenCargarDialog()">
+                @onclick="() => OpenCargarStock()">
             +
         </button>
 
@@ -45,6 +45,47 @@
                 </tr>
             </thead>
             <tbody>
+
+                @if (Error)
+                {
+                    <tr>@Mensaje</tr>
+                }
+                else
+                {
+
+                    @if (stock == null)
+                    {
+                        <tr>Cargando...</tr>
+                    }
+                    else if (stock.Count == 0)
+                    {
+                        <tr>No existen los datos</tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in stock)
+                        {
+                            <tr>
+                                <td>@item.Productos.codigo</td>
+                                <td>@item.Productos.nombreProducto</td>
+                                <td>@item.cantidad</td>
+                                <td>@item.estado</td>
+                                <td>
+
+                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
+
+                                </td>
+                                <td>
+                                    <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                </td>
+
+                            </tr>
+
+                        }
+                    }
+                }
+
                 <tr>
                     <td>3F2</td>
                     <td>Tornillo (unidad)</td>
@@ -131,9 +172,9 @@
 
         @if (ModificarStockOpen)
         {
-            <GestorStock.Client.Pages.Modals.Stock.ModalModificar
+            <GestorStock.Client.Pages.pStock.modals.ModalModificar
                                                            OnClose="@OnModificarStockClose">
-            </GestorStock.Client.Pages.Modals.Stock.ModalModificar>
+            </GestorStock.Client.Pages.pStock.modals.ModalModificar>
         }
 
 
@@ -251,7 +292,58 @@
 
     public bool ModificarStockOpen { get; set; }
 
-    private void OpenCargarDialog()
+    Confirmacion confirmar;
+    List<Stock>? stock;
+    bool Error = false;
+    string Mensaje = "";
+    Stock StockBorrar;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        stock = new();
+        var respuesta = await http.Get<List<Stock>>("api/Stock"); //GET
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+        {
+            stock = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
+        }
+    }
+
+    private async Task Eliminar(Stock stockBorrar)
+    {
+        StockBorrar = stockBorrar;
+        confirmar.Ver();
+    }
+    private async Task Borrar()
+    {
+        var respuesta = await http.Delete($"api/Stock/{StockBorrar.id}");
+        if (respuesta.Error)
+        {
+            var body = "ERROR: no se pudo eliminar";
+        }
+
+        Cancelar();
+        await Leer();
+    }
+
+    private void Cancelar()
+    {
+        confirmar.Ocultar();
+        StockBorrar = null;
+    }
+
+    private void OpenCargarStock()
     {
         CargarStockOpen = true;
         StateHasChanged();
@@ -263,7 +355,9 @@
         StateHasChanged();
     }
 
-    private void OpenModificarDialog()
+    int selectedItemToEditId = -1;
+
+    private void OpenModificarStock(int itemId)
     {
         ModificarStockOpen = true;
         StateHasChanged();

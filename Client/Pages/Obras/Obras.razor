@@ -147,14 +147,12 @@
     string Mensaje = "";
     Obra ObraBorrar;
 
-    List<Estado>? Estados;
     //Confirmacion confirmacion;
 
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        // obras = await obraServicio.GetObrasWithEstadoAsync();
         await Leer();
     }
 
