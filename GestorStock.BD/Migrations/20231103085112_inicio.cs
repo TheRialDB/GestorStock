@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestorStock.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class actualizado : Migration
+    public partial class inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -295,6 +295,7 @@ namespace GestorStock.BD.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     cantidad = table.Column<double>(type: "float", nullable: false),
                     estado = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
                     DepositoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -304,6 +305,12 @@ namespace GestorStock.BD.Migrations
                         name: "FK_Stocks_Depositos_DepositoId",
                         column: x => x.DepositoId,
                         principalTable: "Depositos",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Stocks_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -359,6 +366,11 @@ namespace GestorStock.BD.Migrations
                 column: "DepositoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Stocks_ProductoId",
+                table: "Stocks",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
@@ -395,19 +407,19 @@ namespace GestorStock.BD.Migrations
                 name: "Componentes");
 
             migrationBuilder.DropTable(
-                name: "Productos");
+                name: "Depositos");
 
             migrationBuilder.DropTable(
-                name: "Depositos");
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Unidades");
+                name: "Obras");
 
             migrationBuilder.DropTable(
-                name: "Obras");
+                name: "Unidades");
 
             migrationBuilder.DropTable(
                 name: "Estados");

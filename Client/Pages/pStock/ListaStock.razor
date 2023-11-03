@@ -1,8 +1,9 @@
 ﻿@page "/stock"
 @using GestorStock.BD.Data;
+@inject IHttpServicio http
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
-@using Modals
+
 
 <PageTitle>Stock</PageTitle>
 
@@ -123,9 +124,9 @@
 
         @if (CargarStockOpen)
         {
-            <GestorStock.Client.Pages.Modals.Stock.ModalCargar
+            <GestorStock.Client.Pages.pStock.modals.ModalCargar
                                                          OnClose="@OnCargarStockClose">
-            </GestorStock.Client.Pages.Modals.Stock.ModalCargar>
+            </GestorStock.Client.Pages.pStock.modals.ModalCargar>
         }
 
         @if (ModificarStockOpen)

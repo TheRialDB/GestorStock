@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231101235011_actualizado.Designer.cs
-    [Migration("20231101235011_actualizado")]
-    partial class actualizado
-========
-    [Migration("20231101222239_inicio")]
+    [Migration("20231103085112_inicio")]
     partial class inicio
->>>>>>>> dev-dergazarian:GestorStock.BD/Migrations/20231101222239_inicio.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,6 +289,9 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("DepositoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
                     b.Property<double>("cantidad")
                         .HasColumnType("float");
 
@@ -305,6 +303,8 @@ namespace GestorStock.BD.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("DepositoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("Stocks");
                 });
@@ -490,7 +490,15 @@ namespace GestorStock.BD.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Productos")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Depositos");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Usuario", b =>

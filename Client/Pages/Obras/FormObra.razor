@@ -2,13 +2,14 @@
 
 <EditForm Model="obra" OnValidSubmit="onValidSubmit">
 	<DataAnnotationsValidator/>
-<div class="form-group">
-	<label>Nombre de la obra</label>
-	<div>
-				<InputText class="form-control" @bind-Value="@obra.nombreObra" />
-			<ValidationMessage For="@(() => obra.nombreObra)" />
+
+	<div class="form-group">
+		<label>Nombre de la obra</label>
+		<div>
+					<InputText class="form-control" @bind-Value="@obra.nombreObra" />
+				<ValidationMessage For="@(() => obra.nombreObra)" />
+		</div>
 	</div>
-</div>
 
 	<div class="form-group">
 		<label>Dirección de la obra</label>

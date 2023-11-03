@@ -11,7 +11,7 @@
     position: relative;
 }
 
-.obras {
+.productos {
     display: block;
     font-size: 32px;
     margin-block-start: auto;
@@ -52,7 +52,7 @@
     background-color: #341a5d63;
     padding: 10px 2%;
     margin-bottom: 1%;
-    max-width: 250px;
+    max-width: 300px;
     display: flex
 }
 

@@ -21,8 +21,13 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Producto>>> Get()
         {
-            var lista = await context.Productos.ToListAsync();
-            if (lista == null || lista.Count == 0)
+			//var lista = await context.Productos.ToListAsync();
+
+			var lista = await context.Productos
+            .Include(producto => producto.Unidad) // Include the Estado navigation property
+            .ToListAsync();
+
+			if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay productos cargados");
             }
@@ -95,10 +100,6 @@ namespace GestorStock.Server.Controllers
             entidad.id = id;
             entidad.codigo = productoDTO.codigo;
             entidad.nombreProducto = productoDTO.nombreProducto;
-            //entidad.descripcion = productoDTO.descripcion;
-            //entidad.cantidad = productoDTO.cantidad;
-            //entidad.estado = productoDTO.estado;
-            //entidad.DepositoId = productoDTO.DepositoId;
             entidad.UnidadId = productoDTO.UnidadId;
 
             //actualizar

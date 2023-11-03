@@ -286,6 +286,9 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("DepositoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
                     b.Property<double>("cantidad")
                         .HasColumnType("float");
 
@@ -297,6 +300,8 @@ namespace GestorStock.BD.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("DepositoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("Stocks");
                 });
@@ -482,7 +487,15 @@ namespace GestorStock.BD.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Productos")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Depositos");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Usuario", b =>

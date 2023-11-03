@@ -1,0 +1,124 @@
+﻿@inject IHttpServicio http
+
+
+<EditForm Model="stock" OnValidSubmit="onValidSubmit">
+	<DataAnnotationsValidator />
+
+	<div class="form-group">
+
+		<label>Producto</label>
+
+		@if (productos != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@stock.ProductoId">
+					<option value="0"> Selecciona un producto </option>
+					@foreach (var producto in productos)
+					{
+						<option value="@producto.id">@producto.nombreProducto</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(() => stock.ProductoId)" />
+
+			</div>
+		}
+	</div>
+
+	<div class="form-group">
+		<label>Cantidad de productos</label>
+		<div>
+			<InputNumber class="form-control" @bind-Value="@stock.cantidad" />
+			<ValidationMessage For="@(() => stock.cantidad)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Estado del producto</label>
+		<div>
+			<InputSelect class="form-control" @bind-Value="@stock.estado" >
+				<option value="D"> Disponible </option>
+				<option value="N"> No Disponible </option>
+				<option value="I"> Indeterminado </option>
+			</InputSelect>
+			<ValidationMessage For="@(() => stock.estado)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+
+		<label>Deposito</label>
+
+		@if (depositos != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@stock.DepositoId">
+					<option value="0"> Selecciona un deposito </option>
+					@foreach (var deposito in depositos)
+					{
+						<option value="@deposito.id">@deposito.nombreDeposito</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(() => stock.DepositoId)" />
+
+			</div>
+		}
+	</div>
+		
+	<div class="modal-footer">
+		<button class="btn btn-info" type="submit">Aceptar</button>
+		<button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter] public GestorStock.BD.Data.Entity.Stock stock { get; set; } = new BD.Data.Entity.Stock();
+	[Parameter] public EventCallback onValidSubmit { get; set; }
+	[Parameter] public EventCallback onCancel { get; set; }
+
+	public List<Producto>? productos { get; set; } = new();
+
+	public List<Deposito>? depositos { get; set; } = new();
+
+	bool error2 = false;
+	bool error = false;
+	string mensaje = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Leer();
+	}
+
+	private async Task Leer()
+	{
+		productos = null;
+
+		depositos = null;
+
+		var respuesta = await http.Get<List<Producto>>("api/Estado");
+
+		var respuesta2 = await http.Get<List<Deposito>>("api/Estado");
+
+		error = respuesta.Error;
+
+		error2 = respuesta2.Error;
+
+		if (!respuesta.Error)
+		{
+			productos = respuesta.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta.ObtenerError();
+		}
+
+		if (!respuesta2.Error)
+		{
+			depositos = respuesta2.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta2.ObtenerError();
+		}
+	}
+}
