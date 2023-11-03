@@ -35,7 +35,8 @@ namespace GestorStock.BD.Data.Entity
         //public Deposito Depositos { get; set; }
         public int UnidadId { get; set; }
         public Unidad Unidad { get; set; }
-        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
+
+     
         public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
     }
 }
