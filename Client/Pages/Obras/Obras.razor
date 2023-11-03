@@ -2,10 +2,10 @@
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
 @inject IHttpServicio http
-@* @inject ObraServicio obraServicio *@
+
 
 <PageTitle>Obras</PageTitle>
-<h3 class="text-center">Obras</h3>
+
 <!DOCTYPE HTML>
 
 <html>
@@ -19,6 +19,17 @@
 </head>
 
 <body class="align-content-center">
+
+    <div class="insquare-header">
+
+        <h2 class="obras">Obras</h2>
+
+        <button type="button" class="btn btn-info botones"
+                @onclick="() => OpenNuevaObra()">
+            +
+        </button>
+    </div>
+
 
  <div class="insquare">
     <div class="table-responsive rounded-3">
@@ -37,57 +48,50 @@
             </thead>
             <tbody>
 
-                    @if (Error)
+                @if (Error)
+                {
+                    <tr>@Mensaje</tr>
+                }
+                else
+                {
+
+                    @if (obras == null)
                     {
-                        <tr>@Mensaje</tr>
+                        <tr>Cargando...</tr>
+                    }
+                    else if (obras.Count == 0)
+                    {
+                        <tr>No existen los datos</tr>
                     }
                     else
                     {
+                        @foreach (var item in obras)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td>@item.nombreObra</td>
+                                <td>@item.Estado.nombreEstado</td>
+                                <td>@item.direccion</td>
+                                <td>
 
-
-                        @if (obras == null)
-                        {
-                            <tr>Cargando...</tr>
-                        }
-                        else if (obras.Count == 0)
-                        {
-                            <tr>No existen los datos</tr>
-                        }
-                        else
-                        {
-                            @foreach (var item in obras)
-                            {
-                                <tr>
-                                    <td>@item.id</td>
-                                    <td>@item.nombreObra</td>
-                                    <td>@item.Estado.nombreEstado</td>
-                                    <td>@item.direccion</td>
-                                    <td>
-                                        <a class="btn btn-primary table-button"
-                                        @onclick="() => OpenModificarObra(item.id)">
-                                          Modificar
-                                        </a>
+                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarObra(item.id)"></i>
              
-                                    </td>
-                                    <td>
-                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+                                </td>
+                                <td>
+                                    <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
-                                    </td>
-                                </tr>
+                                </td>
 
-                            }
-                        }       }
+                            </tr>
 
+                        }
+                    }       
+                }
 
             </tbody>
         </table>
     </div>
     <div class="d-flex">
-
-        <button type="button" class="btn btn-info botones"
-            @onclick="() => OpenNuevaObra()">
-            Nuevo
-        </button>
 
             @if (NuevaObraOpen)
             {

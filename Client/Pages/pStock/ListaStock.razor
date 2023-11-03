@@ -1,8 +1,9 @@
 ﻿@page "/stock"
 @using GestorStock.BD.Data;
+@inject IHttpServicio http
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
-@using Modals
+
 
 <PageTitle>Stock</PageTitle>
 
@@ -21,11 +22,11 @@
     <div class="insquare-header"> 
 
 
-        <h2 class="text-center">Stock</h2>
+        <h2 class="stock">Stock</h2>
 
         <button type="button" class="btn btn-info botones"
                 @onclick="() => OpenCargarDialog()">
-            Cargar
+            +
         </button>
 
     </div>
@@ -121,40 +122,17 @@
 
         </div>
 
-        <div class="d-flex">
-
-@*            <button type="button" class="btn btn-info botones"
-            @onclick="() => OpenEliminarDialog()">
-                Eliminar
-            </button>
-            <button type="button" class="btn btn-info botones"
-            @onclick="() => OpenModificarDialog()">
-                Modificar
-            </button>*@
-
-        </div>
-
-        @if (CargarDialogOpen)
+        @if (CargarStockOpen)
         {
-            <GestorStock.Client.Pages.Modals.Stock.ModalCargar Title="Cargar"
-                                                         Text=""
-                                                         OnClose="@OnCargarDialogClose">
-            </GestorStock.Client.Pages.Modals.Stock.ModalCargar>
+            <GestorStock.Client.Pages.pStock.modals.ModalCargar
+                                                         OnClose="@OnCargarStockClose">
+            </GestorStock.Client.Pages.pStock.modals.ModalCargar>
         }
 
-        @if (EliminarDialogOpen)
+        @if (ModificarStockOpen)
         {
-            <GestorStock.Client.Pages.Modals.Stock.ModalEliminar Title="Eliminar"
-                                                           Text=""
-                                                           OnClose="@OnEliminarDialogClose">
-            </GestorStock.Client.Pages.Modals.Stock.ModalEliminar>
-        }
-
-        @if (ModificarDialogOpen)
-        {
-            <GestorStock.Client.Pages.Modals.Stock.ModalModificar Title="Modificar"
-                                                           Text=""
-                                                           OnClose="@OnModificarDialogClose">
+            <GestorStock.Client.Pages.Modals.Stock.ModalModificar
+                                                           OnClose="@OnModificarStockClose">
             </GestorStock.Client.Pages.Modals.Stock.ModalModificar>
         }
 
@@ -267,59 +245,33 @@
 </html>
 
 @code {
+   
 
-    //stand by
+    public bool CargarStockOpen { get; set; }
 
-    //private List<Producto> Productos;
-
-    ////protected override async Task OnInitializedAsync()
-    //    {
-    //    Productos = await dbContext.Productos
-    //        .Include(p => p.Depositos) 
-    //        .ToListAsync();
-    //    }
-
-    
-
-    public bool CargarDialogOpen { get; set; }
-
-    public bool EliminarDialogOpen { get; set; }
-
-    public bool ModificarDialogOpen { get; set; }
+    public bool ModificarStockOpen { get; set; }
 
     private void OpenCargarDialog()
     {
-        CargarDialogOpen = true;
+        CargarStockOpen = true;
         StateHasChanged();
     }
 
-    private async Task OnCargarDialogClose(bool accepted)
+    private async Task OnCargarStockClose(bool accepted)
     {
-        CargarDialogOpen = false;
-        StateHasChanged();
-    }
-
-    private void OpenEliminarDialog()
-    {
-        EliminarDialogOpen = true;
-        StateHasChanged();
-    }
-
-    private async Task OnEliminarDialogClose(bool accepted)
-    {
-        EliminarDialogOpen = false;
+        CargarStockOpen = false;
         StateHasChanged();
     }
 
     private void OpenModificarDialog()
     {
-        ModificarDialogOpen = true;
+        ModificarStockOpen = true;
         StateHasChanged();
     }
 
-    private async Task OnModificarDialogClose(bool accepted)
+    private async Task OnModificarStockClose(bool accepted)
     {
-        ModificarDialogOpen = false;
+        ModificarStockOpen = false;
         StateHasChanged();
     }
 

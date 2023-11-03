@@ -1,0 +1,58 @@
+﻿@using GestorStock.Client.Pages.Productos
+@inject IHttpServicio http
+
+<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="color:white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cargar Producto</h5>
+                <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <FormProductos producto="producto" onValidSubmit="Agregar" onCancel="@ModalCancel"/>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@code {
+
+    private Producto producto = new();
+
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set; }
+
+
+    private async Task Agregar()
+    {
+        ProductoDTO productoDTO = new()
+            {
+                codigo = producto.codigo,
+                nombreProducto = producto.nombreProducto,
+                UnidadId = producto.UnidadId
+            };
+
+        var httpRespuesta = await http.Post<ProductoDTO>("api/Producto", productoDTO); //post
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+        
+        await OnClose.InvokeAsync(true);
+    }
+
+
+
+    private Task ModalCancel()
+    {
+        return OnClose.InvokeAsync(false);
+    }
+
+
+}

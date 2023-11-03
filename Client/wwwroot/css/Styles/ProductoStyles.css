@@ -6,7 +6,12 @@
     margin-top: 40px;
 }
 
-.stock {
+.edit-button {
+    color: aqua;
+    position: relative;
+}
+
+.productos {
     display: block;
     font-size: 32px;
     margin-block-start: auto;
@@ -27,6 +32,16 @@
     --bs-table-striped-bg: rgb(0 0 0);
     --bs-table-hover-bg: rgb(255 255 255 / 5%);
     --bs-table-bg: #0c0024;
+    font-size:20px;
+}
+
+.trash-button {
+    color: #ff0000;
+    position: relative;
+}
+
+.table-button{
+
 }
 
 .insquare-header {
@@ -37,10 +52,9 @@
     background-color: #341a5d63;
     padding: 10px 2%;
     margin-bottom: 1%;
-    max-width: 250px;
+    max-width: 300px;
     display: flex
 }
-
 
 .insquare {
     object-fit: fill;
@@ -50,7 +64,6 @@
     background-color: #341a5d63;
     padding: 2%;
 }
-
 .botones {
     font-family: Roboto Mono;
     width: auto;
@@ -62,15 +75,6 @@
     font-size: 30px;
 }
 
-.trash-button {
-    color: #ff0000;
-    position: relative;
-}
-
-.edit-button {
-    color: aqua;
-    position: relative;
-}
 
 .cont-botones {
     display:inline;
@@ -78,17 +82,13 @@
     
 }
 
-.th-cant {
-    max-width: 50px;
-}
-
-.th-cod{
-    max-width:50px;
-}
-
 @media screen and (max-width: 500px) {
 
-
+    .botones {
+        padding: 5px 9px;
+        font-size: 14px;
+        font-weight: 300;
+    }
     .px-4 {
         padding-right: 10px !important;
         padding-left: 10px !important;

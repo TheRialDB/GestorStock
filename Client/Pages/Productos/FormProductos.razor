@@ -1,0 +1,82 @@
+﻿@inject IHttpServicio http
+
+<EditForm Model="producto" OnValidSubmit="onValidSubmit">
+	<DataAnnotationsValidator />
+
+	<div class="form-group">
+		<label>Codigo del producto</label>
+		<div>
+			<InputText class="form-control" @bind-Value="@producto.codigo" />
+			<ValidationMessage For="@(() => producto.codigo)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Nombre del producto</label>
+		<div>
+			<InputText class="form-control" @bind-Value="@producto.nombreProducto" />
+			<ValidationMessage For="@(() => producto.nombreProducto)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Unidad del produco</label>
+		@if (unidades != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@producto.UnidadId">
+					<option value="0"> Selecciona una unidad </option>
+					@foreach (var unidad in unidades)
+					{
+						<option value="@unidad.id">@unidad.simbolo</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(() => producto.UnidadId)" />
+
+			</div>
+		}
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-info" type="submit">Aceptar</button>
+		<button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter] public Producto producto { get; set; } = new();
+	[Parameter] public EventCallback onValidSubmit { get; set; }
+	[Parameter] public EventCallback onCancel { get; set; }
+
+	public List<Unidad>? unidades { get; set; } = new();
+
+	bool error2 = false;
+	bool error = false;
+	string mensaje = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Leer();
+	}
+
+	private async Task Leer()
+	{
+		unidades = null;
+
+		var respuesta = await http.Get<List<Unidad>>("api/Unidad");
+
+
+		error = respuesta.Error;
+
+		if (!respuesta.Error)
+		{
+			unidades = respuesta.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta.ObtenerError();
+		}
+	
+	}
+}
