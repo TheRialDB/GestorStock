@@ -42,11 +42,26 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(Unidad entidad)
+        public async Task<ActionResult<int>> Post(UnidadDTO unidadDTO)
         {
-            context.Add(entidad);
-            await context.SaveChangesAsync();
-            return entidad.id;
+            try
+            {
+                Unidad nuevaUnidad = new Unidad();
+                nuevaUnidad.nombreUnidad = unidadDTO.nombreUnidad;
+                nuevaUnidad.simbolo = unidadDTO.simbolo;
+
+
+
+                context.Add(nuevaUnidad);
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
 
         }
 
