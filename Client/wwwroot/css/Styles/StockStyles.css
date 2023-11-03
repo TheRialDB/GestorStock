@@ -6,6 +6,16 @@
     margin-top: 40px;
 }
 
+.stock {
+    display: block;
+    font-size: 32px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    font-weight: bold;
+}
+
 #table-headers {
     font-size: 18px;
     font-weight: bold;
@@ -25,9 +35,10 @@
     margin-left: auto;
     margin-right: auto;
     background-color: #341a5d63;
-    padding: 2%;
+    padding: 10px 2%;
     margin-bottom: 1%;
-    max-width: 300px;
+    max-width: 250px;
+    display: flex
 }
 
 
@@ -47,8 +58,8 @@
     margin-right: auto;
     font-weight: 800;
     cursor: pointer;
-    padding: 9px 15px;
-    font-size: 20px;
+    padding: 0px 25px;
+    font-size: 30px;
 }
 
 .trash-button {
@@ -77,11 +88,7 @@
 
 @media screen and (max-width: 500px) {
 
-    .botones {
-        padding: 5px 9px;
-        font-size: 14px;
-        font-weight: 300;
-    }
+
     .px-4 {
         padding-right: 10px !important;
         padding-left: 10px !important;
