@@ -6,6 +6,12 @@
     margin-top: 40px;
 }
 
+
+.estado{
+    color:lawngreen;
+    
+}
+
 .stock {
     display: block;
     font-size: 32px;

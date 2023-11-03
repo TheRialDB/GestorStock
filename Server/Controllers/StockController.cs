@@ -23,7 +23,7 @@ namespace GestorStock.Server.Controllers
             //var lista = await context.Stocks.ToListAsync();
 
             var lista = await context.Stocks
-                    .Include(Stock => Stock.Productos) // Include the Estado navigation property
+                    .Include(Stock => Stock.Productos)
                     .ToListAsync();
 
 
@@ -53,10 +53,10 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Stocks.AnyAsync(x => x.id == entidad.DepositoId);
+                var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
                 if (!existe)
                 {
-                    return NotFound($"El stock de id = {entidad.DepositoId} no existe");
+                    return NotFound($"El Deposito de id = {entidad.DepositoId} no existe");
                 }
                 var existes = await context.Productos.AnyAsync(x => x.id == entidad.ProductoId);
                 if (!existes)

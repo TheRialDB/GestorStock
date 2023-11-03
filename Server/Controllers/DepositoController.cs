@@ -50,7 +50,7 @@ namespace GestorStock.Server.Controllers
                 var existe = await context.Obras.AnyAsync(x => x.id == entidad.ObraId);
                 if (!existe)
                 {
-                    return NotFound($"El deposito {entidad.ObraId} no existe");
+                    return NotFound($"La obra {entidad.ObraId} no existe");
                 }
 
                 Deposito nuevodeposito = new Deposito();

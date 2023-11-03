@@ -13,7 +13,7 @@
 
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link href="/css/Styles/StockStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+    <link href="/css/Styles/StockStyles.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -69,7 +69,7 @@
                                 <td>@item.Productos.codigo</td>
                                 <td>@item.Productos.nombreProducto</td>
                                 <td>@item.cantidad</td>
-                                <td>@item.estado</td>
+                                <td class="estado">@item.estado</td>
                                 <td>
 
                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
@@ -176,6 +176,19 @@
                                                            OnClose="@OnModificarStockClose">
             </GestorStock.Client.Pages.pStock.modals.ModalModificar>
         }
+
+        <Confirmacion @ref="confirmar"
+                      verCancelar="true"
+                      verOk="true"
+                      onCancel="Cancelar"
+                      onConfirm="Borrar">
+
+            <div>
+                <p>Está por borrar el producto @StockBorrar.Productos.nombreProducto</p>
+                <br />
+                <p>¿Está seguro que desea continuar?</p>
+            </div>
+        </Confirmacion>
 
 
     </div>
@@ -307,7 +320,7 @@
 
     private async Task Leer()
     {
-        stock = new();
+        stock = null;
         var respuesta = await http.Get<List<Stock>>("api/Stock"); //GET
         Error = respuesta.Error;
         if (!respuesta.Error)
@@ -325,6 +338,7 @@
         StockBorrar = stockBorrar;
         confirmar.Ver();
     }
+
     private async Task Borrar()
     {
         var respuesta = await http.Delete($"api/Stock/{StockBorrar.id}");
@@ -352,6 +366,7 @@
     private async Task OnCargarStockClose(bool accepted)
     {
         CargarStockOpen = false;
+        await Leer();
         StateHasChanged();
     }
 

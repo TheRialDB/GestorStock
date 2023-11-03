@@ -14,7 +14,8 @@ namespace GestorStock.BD.Data.Entity
 
 
         [Required(ErrorMessage = "La CANTIDAD es Obligatoria")]
-        public double cantidad { get; set; }
+		[Range(1, int.MaxValue, ErrorMessage = "La cantidad debe ser mayor que cero.")]
+		public double cantidad { get; set; }
 
         [Required(ErrorMessage = "El ESTADO es Obligatorio")]
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el ESTADO")]
