@@ -53,7 +53,7 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Stocks.AnyAsync(x => x.id == entidad.DepositoId);
+                var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
                 if (!existe)
                 {
                     return NotFound($"El stock de id = {entidad.DepositoId} no existe");
