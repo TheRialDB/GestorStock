@@ -60,7 +60,7 @@ namespace GestorStock.Server.Controllers
 
                 Stock nuevostock = new Stock();
 
-                nuevostock.id = entidad.DepositoId;
+                nuevostock.DepositoId = entidad.DepositoId;
                 nuevostock.cantidad = entidad.cantidad;
                 nuevostock.estado = entidad.estado;
                 nuevostock.ProductoId = entidad.ProductoId;
