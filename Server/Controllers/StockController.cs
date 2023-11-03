@@ -20,7 +20,13 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Stock>>> Get()
         {
-            var lista = await context.Stocks.ToListAsync();
+            //var lista = await context.Stocks.ToListAsync();
+
+            var lista = await context.Stocks
+                    .Include(Stock => Stock.Productos) // Include the Estado navigation property
+                    .ToListAsync();
+
+
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay stock");
@@ -60,7 +66,7 @@ namespace GestorStock.Server.Controllers
 
                 Stock nuevostock = new Stock();
 
-                nuevostock.id = entidad.DepositoId;
+                nuevostock.DepositoId = entidad.DepositoId;
                 nuevostock.cantidad = entidad.cantidad;
                 nuevostock.estado = entidad.estado;
                 nuevostock.ProductoId = entidad.ProductoId;

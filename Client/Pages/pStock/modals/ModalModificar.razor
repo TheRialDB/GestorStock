@@ -1,91 +1,68 @@
-﻿<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
+﻿@using GestorStock.Client.Pages.pStock
+@inject IHttpServicio http
+
+<div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Cargar Stock</h5>
                 <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <form action="/action_page.php">
 
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Codigo" style="margin-bottom:10px">
-
-                    </div>
-
-                     <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Nombre" style="margin-bottom:10px">
-
-                     </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Descripcion" style="margin-bottom:10px">
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Unidad" style="margin-bottom:10px">
-
-                    </div>
-
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Estado" style="margin-bottom:10px">
-
-                    </div>
-
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Deposito" style="margin-bottom:10px">
-
-                    </div>
-
-
-                    <div class="input-group">
-
-                        <input id="msg" type="text" class="form-control" name="msg" placeholder="Direccion" style="margin-bottom:10px">
-
-                    </div>
-
-                </form>
+                <FormStock stock="stock" onValidSubmit="Agregar" onCancel="@ModalCancel" />
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@ModalCancel">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="@ModalOk">Save changes</button>
-            </div>
+
         </div>
     </div>
 </div>
-
 @code {
 
-    [Parameter]
-    public string Title { get; set; }
-
-    [Parameter]
-    public string Text { get; set; }
+    private Stock stock = new();
+    string Mensaje = "";
 
     [Parameter]
     public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public int stockid { get; set; }
+    [Parameter] public int ItemId { get; set; }
+
+    private async Task Agregar()
+    {
+        var respuesta = await http.Put<Stock>($"api/Stock/{stockid}", stock);
+
+        if (respuesta.Error)
+        {
+            var body = respuesta.HttpResponseMessage;
+        }
+
+        await OnClose.InvokeAsync(true);
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Stock>($"api/Stock/{stockid}");
+
+        if (!respuesta.Error)
+        {
+            stock = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+
+    }
 
     private Task ModalCancel()
     {
         return OnClose.InvokeAsync(false);
     }
 
-    private Task ModalOk()
-    {
-        return OnClose.InvokeAsync(true);
-    }
+
+}
 
 }

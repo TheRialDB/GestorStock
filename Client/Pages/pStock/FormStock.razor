@@ -79,29 +79,24 @@
 
 	public List<Deposito>? depositos { get; set; } = new();
 
-	bool error2 = false;
-	bool error = false;
-	string mensaje = "";
-
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		await Leer();
+		await LeerProd();
+		await LeerDepo();
 	}
 
-	private async Task Leer()
+	private async Task LeerProd()
 	{
 		productos = null;
 
-		depositos = null;
+		string mensaje;
 
-		var respuesta = await http.Get<List<Producto>>("api/Estado");
+		bool error = false;
 
-		var respuesta2 = await http.Get<List<Deposito>>("api/Estado");
+		var respuesta = await http.Get<List<Producto>>("api/Producto");
 
 		error = respuesta.Error;
-
-		error2 = respuesta2.Error;
 
 		if (!respuesta.Error)
 		{
@@ -111,14 +106,27 @@
 		{
 			mensaje = await respuesta.ObtenerError();
 		}
+	}
 
-		if (!respuesta2.Error)
+	private async Task LeerDepo()
+	{
+		depositos = null;
+
+		string mensaje;
+
+		bool error = false;
+
+		var respuesta = await http.Get<List<Deposito>>("api/Deposito");
+
+		error = respuesta.Error;
+
+		if (!respuesta.Error)
 		{
-			depositos = respuesta2.Respuesta;
+			depositos = respuesta.Respuesta;
 		}
 		else
 		{
-			mensaje = await respuesta2.ObtenerError();
+			mensaje = await respuesta.ObtenerError();
 		}
 	}
 }

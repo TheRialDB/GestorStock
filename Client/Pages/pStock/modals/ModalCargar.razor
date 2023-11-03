@@ -30,7 +30,22 @@
 
     private async Task Agregar()
     {
+        StockDTO stockDTO = new()
+            {
+                ProductoId = stock.ProductoId,
+                cantidad = stock.cantidad,
+                estado = stock.estado,
+                DepositoId = stock.DepositoId
+            };
 
+        var httpRespuesta = await http.Post<StockDTO>("api/Stock", stockDTO); //post
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+
+        await OnClose.InvokeAsync(true);
     }
 
     private Task ModalCancel()
@@ -38,9 +53,5 @@
         return OnClose.InvokeAsync(false);
     }
 
-    private Task ModalOk()
-    {
-        return OnClose.InvokeAsync(true);
-    }
 
 }
