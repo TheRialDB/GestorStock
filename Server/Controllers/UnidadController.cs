@@ -42,27 +42,46 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(Unidad entidad)
+        public async Task<ActionResult<int>> Post(UnidadDTO unidadDTO)
         {
-            context.Add(entidad);
-            await context.SaveChangesAsync();
-            return entidad.id;
+            try
+            {
+                Unidad nuevaUnidad = new Unidad();
+                nuevaUnidad.nombreUnidad = unidadDTO.nombreUnidad;
+                nuevaUnidad.simbolo = unidadDTO.simbolo;
+
+
+
+                context.Add(nuevaUnidad);
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
 
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Unidad entidad, int id)
+        public async Task<ActionResult> Put(UnidadDTO unidadDTO, int id)
         {
-            if (id != entidad.id)
-            {
-                return BadRequest("El id de la unidad no corresponde");
-            }
 
             var existe = await context.Unidades.AnyAsync(x => x.id == id);
             if (!existe)
             {
-                return NotFound($"La unidad {id} no existe");
+                return NotFound($"La unidad con el ID={id} no existe ");
             }
+
+            Unidad entidad = new Unidad();
+
+            entidad.id = id;
+            entidad.nombreUnidad = unidadDTO.nombreUnidad;
+            entidad.simbolo = unidadDTO.simbolo;
+           
+
 
             context.Update(entidad);
             await context.SaveChangesAsync();

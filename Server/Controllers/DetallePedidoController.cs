@@ -47,10 +47,10 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Productos.AnyAsync(x => x.id == entidad.ProductoId);
+                var existe = await context.Stocks.AnyAsync(x => x.id == entidad.StockId);
                 if (!existe)
                 {
-                    return NotFound($"El producto de id={entidad.ProductoId} no existe");
+                    return NotFound($"El producto de id={entidad.StockId} no existe");
                 }
                 var existes = await context.NotaPedidos.AnyAsync(x => x.id == entidad.NotaPedidoId);
                 if (!existes)
@@ -63,7 +63,7 @@ namespace GestorStock.Server.Controllers
 
                 pepe.cantidad = entidad.cantidad;
                 pepe.NotaPedidoId = entidad.NotaPedidoId;
-                pepe.ProductoId = entidad.ProductoId;
+                pepe.StockId = entidad.StockId;
             
 
                 await context.AddAsync(pepe);
@@ -84,10 +84,10 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                var existe = await context.Productos.AnyAsync(x => x.id == detallePedidoDTO.ProductoId);
+                var existe = await context.Productos.AnyAsync(x => x.id == detallePedidoDTO.StockId);
                 if (!existe)
                 {
-                    return NotFound($"El producto de id={detallePedidoDTO.ProductoId} no existe");
+                    return NotFound($"El producto de id={detallePedidoDTO.StockId} no existe");
                 }
                 var existes = await context.NotaPedidos.AnyAsync(x => x.id == detallePedidoDTO.NotaPedidoId);
                 if (!existes)
@@ -105,7 +105,7 @@ namespace GestorStock.Server.Controllers
                 pepe.id = id;
                 pepe.cantidad = detallePedidoDTO.cantidad;
                 pepe.NotaPedidoId = detallePedidoDTO.NotaPedidoId;
-                pepe.ProductoId = detallePedidoDTO.ProductoId;
+                pepe.StockId = detallePedidoDTO.StockId;
 
                
 

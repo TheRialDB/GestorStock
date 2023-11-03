@@ -11,7 +11,7 @@ namespace GestorStock.Shared.DTO
         public int cantidad { get; set; }
 
         //Conexiones
-        public int ProductoId { get; set; }
+        public int StockId { get; set; }
         public int NotaPedidoId { get; set; }
     }
 }
