@@ -19,20 +19,20 @@ namespace GestorStock.BD.Data.Entity
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE")]
         public string nombreProducto { get; set; }
 
-        [Required(ErrorMessage = "La DESCRIPCIÓN del PRODUCTO es Obligatoria")]
-        [MaxLength(100, ErrorMessage = "Solo se aceptan hasta 100 caracteres en la DESCRIPCIÓN")]
-        public string descripcion { get; set; }
+        //[Required(ErrorMessage = "La DESCRIPCIÓN del PRODUCTO es Obligatoria")]
+        //[MaxLength(100, ErrorMessage = "Solo se aceptan hasta 100 caracteres en la DESCRIPCIÓN")]
+        //public string descripcion { get; set; }
 
-        [Required(ErrorMessage = "La CANTIDAD es Obligatoria")]
-        public double cantidad { get; set; }
+        //[Required(ErrorMessage = "La CANTIDAD es Obligatoria")]
+        //public double cantidad { get; set; }
 
-        [Required(ErrorMessage = "El ESTADO es Obligatorio")]
-        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el ESTADO")]
-        public string estado { get; set; }
+        //[Required(ErrorMessage = "El ESTADO es Obligatorio")]
+        //[MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el ESTADO")]
+        //public string estado { get; set; }
 
         //Conexiones
-        public int DepositoId { get; set; }
-        public Deposito Depositos { get; set; }
+        //public int DepositoId { get; set; }
+        //public Deposito Depositos { get; set; }
         public int UnidadId { get; set; }
         public Unidad Unidad { get; set; }
         public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();

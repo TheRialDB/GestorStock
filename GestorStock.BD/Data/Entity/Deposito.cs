@@ -22,7 +22,8 @@ namespace GestorStock.BD.Data.Entity
 
         //Conexiones
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
-        public List<Producto> Productos { get; set; } = new List<Producto>();
+        //public List<Producto> Productos { get; set; } = new List<Producto>();
+        public List<Stock> Stocks { get; set; } = new List<Stock>();
         public int ObraId { get; set; }
         public Obra Obra { get; set; }
     }
