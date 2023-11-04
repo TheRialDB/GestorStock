@@ -1,0 +1,57 @@
+﻿@if (Mostrar)
+{
+        <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear componente</h5>
+                        <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@onCancel">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    @ChildContent
+
+                    </div>
+
+                    <div class="modal-footer">
+                    @if (verOk)
+                    {
+                                <button @onclick="onConfirm" type="button" class="btn btn-secondary">
+                                    Aceptar
+                                </button>
+                    }
+                    @if (verCancelar)
+                    {
+                                <button @onclick="onCancel" type="button" class="btn btn-primary"
+                                        data-dismiss="modal">
+                                    Cancelar
+                                </button>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+
+@code {
+    private bool Mostrar = false;
+    [Parameter] public bool verCancelar { get; set; } = true;
+    [Parameter] public bool verOk { get; set; } = true;
+
+    [Parameter] public EventCallback onCancel { get; set; }
+    [Parameter] public EventCallback onConfirm { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    public void Ver()
+    {
+        Mostrar = true;
+    }
+
+    public void Ocultar()
+    {
+        Mostrar = false;
+    }
+}

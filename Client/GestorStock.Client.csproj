@@ -42,4 +42,10 @@
     <None Include="wwwroot\css\Styles\StockStyles.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Productos\Modals\ModalNewComp.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

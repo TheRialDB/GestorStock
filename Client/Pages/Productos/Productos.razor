@@ -41,6 +41,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
 
                 </thead>
@@ -69,6 +70,11 @@
                                     <td>@item.codigo</td>
                                     <td>@item.nombreProducto</td>
                                     <td>@item.Unidad.nombreUnidad</td>
+                                    <td>
+                                        
+                                        <span class="material-symbols-outlined" @onclick="()=>nuevo(item)"> add_box </span>
+                                        
+                                    </td>
                                     <td>
                                         <i class='bx bxs-component table-button'></i>
 
@@ -119,6 +125,20 @@
                 </div>
             </Confirmacion>
 
+            <GestorStock.Client.Pages.Productos.Modals.ModalNewComp @ref="nuevoComp"
+                         verCancelar="true"
+                         verOk="true"
+                         onCancel="CancelarComp"
+                         onConfirm="newComp">
+
+                <div>
+                    <p>Quiere convertir al producto @ProductoComp.nombreProducto en un componente?</p>
+                    <br />
+                    <p>¿Está seguro que desea continuar?</p>
+                </div>
+            
+            </GestorStock.Client.Pages.Productos.Modals.ModalNewComp>
+
         </div>
     </div>
 
@@ -135,12 +155,60 @@
     private NavigationManager NavigationManager { get; set; }
 
     Confirmacion confirmar;
+
+    GestorStock.Client.Pages.Productos.Modals.ModalNewComp nuevoComp;
+
     List<Producto>? productos;
     bool Error = false;
     string Mensaje = "";
+
     Producto ProductoBorrar;
 
+    Producto ProductoComp;
+
+    private Componente newComponente = new();
+
     List<Unidad>? unidades;
+
+
+    private async Task nuevo(Producto ProdComp)
+    {
+        ProductoComp = ProdComp;
+        nuevoComp.Ver();
+    }
+    private async Task newComp()
+    {
+        ComponenteDTO componenteDTO = new()
+            {
+                ProductoId = ProductoComp.id
+
+            };
+
+        var httpRespuesta = await http.Post<ComponenteDTO>("api/Componente", componenteDTO); //post
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+        CancelarComp();
+    }
+
+private async Task Eliminar(Producto prodBorrar)
+    {
+        ProductoBorrar = prodBorrar;
+        confirmar.Ver();
+    }
+private async Task Borrar()
+    {
+        var respuesta = await http.Delete($"api/Producto/{ProductoBorrar.id}");
+        if (respuesta.Error)
+        {
+            var body = "ERROR: no se pudo eliminar";
+        }
+
+        Cancelar();
+        await Leer();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -163,26 +231,17 @@
         }
     }
 
-    private async Task Eliminar(Producto obrBorrar)
-    {
-        ProductoBorrar = obrBorrar;
-        confirmar.Ver();
-    }
-    private async Task Borrar()
-    {
-        var respuesta = await http.Delete($"api/Producto/{ProductoBorrar.id}");
-        if (respuesta.Error)
-        {
-            var body = "ERROR: no se pudo eliminar";
-        }
 
-        Cancelar();
-        await Leer();
-    }
 
     private void Cancelar()
     {
         confirmar.Ocultar();
+        ProductoBorrar = null;
+    }
+
+    private void CancelarComp()
+    {
+        nuevoComp.Ocultar();
         ProductoBorrar = null;
     }
 
