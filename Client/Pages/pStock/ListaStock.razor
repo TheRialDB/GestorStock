@@ -69,7 +69,7 @@
                                 <td>@item.Productos.codigo</td>
                                 <td>@item.Productos.nombreProducto</td>
                                 <td>@item.cantidad</td>
-                                    <td class="@TextColor">@item.estado</td>
+                                    <td class="@TextColor">@item.estado</td> asignar(@item.estado);
                                 <td>
 
                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
@@ -80,10 +80,8 @@
 
                                 </td>
 
-                                </tr>
-
-                                asignar(@item.estado);
-                            }
+                            </tr>
+                        }
                     }
                 }
 
