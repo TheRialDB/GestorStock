@@ -51,6 +51,7 @@ namespace GestorStock.BD.Data
             modelBuilder.Entity<ProductoComponente>()
         .HasKey(ec => new { ec.ProductoId, ec.ComponenteId });
 
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231103212210_inicio")]
+    [Migration("20231104031313_inicio")]
     partial class inicio
     {
         /// <inheritdoc />
@@ -48,10 +48,12 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("cantidad")
+                    b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("Componentes");
                 });
@@ -95,7 +97,7 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("NotaPedidoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductoId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
@@ -106,7 +108,7 @@ namespace GestorStock.BD.Migrations
 
                     b.HasIndex("NotaPedidoId");
 
-                    b.HasIndex("ProductoId");
+                    b.HasIndex("StockId");
 
                     b.ToTable("DetallePedidos");
                 });
@@ -222,6 +224,9 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ComponenteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("cantidad")
                         .HasColumnType("int");
 
                     b.HasKey("ProductoId", "ComponenteId");
@@ -400,6 +405,17 @@ namespace GestorStock.BD.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+                });
+
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Obra", "Obra")
@@ -419,15 +435,15 @@ namespace GestorStock.BD.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                    b.HasOne("GestorStock.BD.Data.Entity.Stock", "Stock")
                         .WithMany("DetallePedidos")
-                        .HasForeignKey("ProductoId")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("NotaPedido");
 
-                    b.Navigation("Producto");
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
@@ -556,14 +572,17 @@ namespace GestorStock.BD.Migrations
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
                 {
-                    b.Navigation("DetallePedidos");
-
                     b.Navigation("ProductoComponentes");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Rol", b =>
                 {
                     b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Stock", b =>
+                {
+                    b.Navigation("DetallePedidos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Unidad", b =>

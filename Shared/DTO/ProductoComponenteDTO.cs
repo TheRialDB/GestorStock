@@ -5,15 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    public class ProductoComponente
+    public class ProductoComponenteDTO
     {
         public int ProductoId { get; set; }
-        public Producto Producto { get; set; }
         public int ComponenteId { get; set; }
-        public Componente Componente { get; set; }
-
         [Required(ErrorMessage = "La CANTIDAD de insumos es Obligatorio")]
         public int cantidad { get; set; }
     }
