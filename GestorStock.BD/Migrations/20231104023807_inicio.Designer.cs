@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231103212210_inicio")]
+    [Migration("20231104023807_inicio")]
     partial class inicio
     {
         /// <inheritdoc />
@@ -95,7 +95,7 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("NotaPedidoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductoId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
@@ -106,7 +106,7 @@ namespace GestorStock.BD.Migrations
 
                     b.HasIndex("NotaPedidoId");
 
-                    b.HasIndex("ProductoId");
+                    b.HasIndex("StockId");
 
                     b.ToTable("DetallePedidos");
                 });
@@ -419,15 +419,15 @@ namespace GestorStock.BD.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                    b.HasOne("GestorStock.BD.Data.Entity.Stock", "Stock")
                         .WithMany("DetallePedidos")
-                        .HasForeignKey("ProductoId")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("NotaPedido");
 
-                    b.Navigation("Producto");
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
@@ -556,14 +556,17 @@ namespace GestorStock.BD.Migrations
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
                 {
-                    b.Navigation("DetallePedidos");
-
                     b.Navigation("ProductoComponentes");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Rol", b =>
                 {
                     b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Stock", b =>
+                {
+                    b.Navigation("DetallePedidos");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Unidad", b =>

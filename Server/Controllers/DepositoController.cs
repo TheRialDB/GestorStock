@@ -21,8 +21,14 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Deposito>>> Get()
         {
-            var lista = await context.Depositos.ToListAsync();
-            if (lista == null || lista.Count == 0)
+            
+            //var lista = await context.Depositos.ToListAsync();
+
+			var lista = await context.Depositos
+			.Include(deposito => deposito.Obra) 
+			.ToListAsync();
+
+			if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay depositos cargados");
             }

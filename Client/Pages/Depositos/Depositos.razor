@@ -1,5 +1,221 @@
-﻿<h3>Depositos</h3>
+﻿@page "/Depositos"
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize]
+@inject IHttpServicio http
+
+<PageTitle>Depositos</PageTitle>
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/DepositosStyles.css?version=0.1" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="align-content-center">
+
+    <div class="insquare-header">
+
+        <h2 class="depositos">Depositos</h2>
+
+        <button type="button" class="btn btn-info botones"
+                @onclick="() => OpenNuevoDeposito()">
+            +
+        </button>
+
+    </div>
+
+    <div class="insquare">
+        <div class="table-responsive rounded-3">
+            <table class="table table-striped table-hover table-bordered text-center">
+                <thead id="table-headers">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Direccion</th>
+                        <th>Obra</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    @if (Error)
+                    {
+                            <tr>@Mensaje</tr>
+                    }
+                    else
+                    {
+
+                        @if (depositos == null)
+                        {
+                                    <tr>Cargando...</tr>
+                        }
+                        else if (depositos.Count == 0)
+                        {
+                                    <tr>No existen los datos</tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in depositos)
+                            {
+                                            <tr>
+                                                <td>@item.nombreDeposito</td>
+                                                <td>@item.direccion</td>
+                                                <td>@item.Obra.nombreObra</td>
+                                                <td>
+                                                    <i class='bx bxs-component table-button'></i>
+
+                                                </td>
+                                                <td>
+                                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarDeposito(item.id)"></i>
+                                                </td>
+                                                <td>
+                                                    <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                                </td>
+                                            </tr>
+                            }
+                        }       
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex">
+
+
+
+            @if (NuevoDepositoOpen)
+            {
+                    <GestorStock.Client.Pages.Depositos.Modals.ModalCargar 
+                                                                             OnClose="@OnNuevoDepositoClose">
+                    </GestorStock.Client.Pages.Depositos.Modals.ModalCargar>
+            }
+
+            @if (ModificarDepositoOpen)
+            {
+                    <GestorStock.Client.Pages.Depositos.Modals.ModalModificar 
+                                                                          depositoId="selectedItemToEditId"
+                                                                          OnClose="@OnModificarDepositoClose">
+                    </GestorStock.Client.Pages.Depositos.Modals.ModalModificar>
+            }
+
+            <Confirmacion @ref="confirmar"
+                          verCancelar="true"
+                          verOk="true"
+                          onCancel="Cancelar"
+                          onConfirm="Borrar">
+
+                <div>
+                    <p>Está por borrar el producto @depositoBorrar.nombreDeposito</p>
+                    <br />
+                    <p>¿Está seguro que desea continuar?</p>
+                </div>
+            </Confirmacion>
+
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
 
 @code {
 
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    Confirmacion confirmar;
+    List<Deposito>? depositos;
+    bool Error = false;
+    string Mensaje = "";
+    Deposito depositoBorrar;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        depositos = new();
+        var respuesta = await http.Get<List<Deposito>>("api/Deposito"); //GET
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+        {
+            depositos = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
+        }
+    }
+
+    private async Task Eliminar(Deposito obrBorrar)
+    {
+        depositoBorrar = obrBorrar;
+        confirmar.Ver();
+    }
+    private async Task Borrar()
+    {
+        var respuesta = await http.Delete($"api/Deposito/{depositoBorrar.id}");
+        if (respuesta.Error)
+        {
+            var body = "ERROR: no se pudo eliminar";
+        }
+
+        Cancelar();
+        await Leer();
+    }
+
+    private void Cancelar()
+    {
+        confirmar.Ocultar();
+        depositoBorrar = null;
+    }
+
+
+
+    public bool NuevoDepositoOpen { get; set; }
+
+    public bool ModificarDepositoOpen { get; set; }
+
+    private void OpenNuevoDeposito()
+    {
+        NuevoDepositoOpen = true;
+        StateHasChanged();
+
+    }
+
+    private async Task OnNuevoDepositoClose(bool accepted)
+    {
+        NuevoDepositoOpen = false;
+        StateHasChanged();
+    }
+
+    int selectedItemToEditId = -1;
+
+    private void OpenModificarDeposito(int itemId)
+    {
+        selectedItemToEditId = itemId;
+        ModificarDepositoOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnModificarDepositoClose(bool accepted)
+    {
+        ModificarDepositoOpen = false;
+        StateHasChanged();
+        await Leer();
+    }
 }

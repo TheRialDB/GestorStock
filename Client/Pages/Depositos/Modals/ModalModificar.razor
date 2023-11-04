@@ -1,31 +1,35 @@
-﻿@inject IHttpServicio http
-@using GestorStock.Client.Pages.Obras
-
+﻿@using GestorStock.Client.Pages.Depositos
+@inject IHttpServicio http
 
 <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block; background-color: rgba(10,10,10,.8);">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modificar Obra</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Cargar Deposito</h5>
                 <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <FormObra obra="obra" onValidSubmit="Agregar" onCancel="@ModalCancel"/>
+
+                <FormDeposito deposito="deposito" onValidSubmit="Agregar" onCancel="@ModalCancel"/>
 
             </div>
+
         </div>
     </div>
 </div>
-
 @code {
 
-    Obra obra = new();
+    private Deposito deposito = new();
     string Mensaje = "";
 
-    [Parameter] public int obraid { get; set; }
+    [Parameter] public int depositoId { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,11 +38,10 @@
 
     }
 
-    private async Task Agregar() //put
-    {
 
-        var respuesta = await http.Put<Obra>($"api/Obra/{obraid}",
-        obra);
+    private async Task Agregar()
+    {
+        var respuesta = await http.Put<Deposito>($"api/Deposito/{depositoId}", deposito);
 
         if (respuesta.Error)
         {
@@ -50,11 +53,11 @@
 
     private async Task Mostrar()
     {
-        var respuesta = await http.Get<Obra>($"api/Obra/{obraid}");
+        var respuesta = await http.Get<Deposito>($"api/Deposito/{depositoId}");
 
         if (!respuesta.Error)
         {
-            obra = respuesta.Respuesta;
+            deposito = respuesta.Respuesta;
         }
         else
         {
@@ -62,22 +65,13 @@
         }
 
     }
-
-
     [Parameter] public int ItemId { get; set; }
 
-
-    [Parameter]
-    public EventCallback<bool> OnClose { get; set; }
 
     private Task ModalCancel()
     {
         return OnClose.InvokeAsync(false);
     }
 
-    private Task ModalOk()
-    {
-        return OnClose.InvokeAsync(true);
-    }
 
 }

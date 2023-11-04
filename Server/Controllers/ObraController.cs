@@ -26,7 +26,7 @@ namespace GestorStock.Server.Controllers
             //var lista = await context.Obras.ToListAsync();
 
             var lista = await context.Obras
-            .Include(obra => obra.Estado) // Include the Estado navigation property
+            .Include(obra => obra.Estado) 
             .ToListAsync();
 
             if (lista == null || lista.Count == 0)

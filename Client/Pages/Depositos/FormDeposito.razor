@@ -1,0 +1,81 @@
+﻿@inject IHttpServicio http
+
+<EditForm Model="deposito" OnValidSubmit="onValidSubmit">
+	<DataAnnotationsValidator />
+
+	<div class="form-group">
+		<label>Nombre del deposito</label>
+		<div>
+			<InputText class="form-control" @bind-Value="@deposito.nombreDeposito" />
+			<ValidationMessage For="@(() => deposito.nombreDeposito)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Direccion del deposito</label>
+		<div>
+			<InputText class="form-control" @bind-Value="@deposito.direccion" />
+			<ValidationMessage For="@(() => deposito.direccion)" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Unidad del deposito</label>
+		@if (obras != null)
+		{
+				<div>
+					<InputSelect class="form-control" @bind-Value="@deposito.ObraId">
+						<option value="0"> Selecciona una Obra </option>
+					@foreach (var obra in obras)
+					{
+								<option value="@obra.id">@obra.nombreObra</option>
+					}
+					</InputSelect>
+					<ValidationMessage For="@(() => deposito.ObraId)" />
+
+				</div>
+		}
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-info" type="submit">Aceptar</button>
+		<button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter] public Deposito deposito { get; set; } = new();
+	[Parameter] public EventCallback onValidSubmit { get; set; }
+	[Parameter] public EventCallback onCancel { get; set; }
+
+	public List<Obra>? obras { get; set; } = new();
+
+	bool error = false;
+	string mensaje = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Leer();
+	}
+
+	private async Task Leer()
+	{
+		obras = null;
+
+		var respuesta = await http.Get<List<Obra>>("api/Obra");
+
+
+		error = respuesta.Error;
+
+		if (!respuesta.Error)
+		{
+			obras = respuesta.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta.ObtenerError();
+		}
+
+	}
+}
