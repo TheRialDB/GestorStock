@@ -104,11 +104,26 @@ td.indeterminado {
     max-width:50px;
 }
 
+.table-button-cell,
+.table-button-row td {
+    display: none;
+}
+
 @media screen and (max-width: 500px) {
 
 
     .px-4 {
         padding-right: 10px !important;
         padding-left: 10px !important;
+    }
+
+    .table-button-cell,
+    .table-button-row td {
+        display: table-cell; /* Display as table cells for smaller screens */
+        text-align: center; /* Center-align the buttons and empty cells */
+    }
+
+    .hide {
+        display: none;
     }
 }

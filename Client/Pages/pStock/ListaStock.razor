@@ -40,8 +40,8 @@
                     <th>Nombre</th>
                     <th class="th-cant">Cantidad</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
+                    <th class="hide"></th>
+                    <th class="hide"></th>
                 </tr>
             </thead>
             <tbody>
@@ -69,94 +69,27 @@
                                 <td>@item.Productos.codigo</td>
                                 <td>@item.Productos.nombreProducto</td>
                                 <td>@item.cantidad</td>
-                                    <td class="@TextColor">@item.estado</td> asignar(@item.estado);
-                                <td>
-
+                                <td class="@TextColor(@item.estado)">@item.estado</td>
+                                    <td class="hide">
                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
-
                                 </td>
-                                <td>
+                                <td class="hide">
                                     <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
                                 </td>
-
+                            </tr>
+                                <tr class="table-button-row">
+                                <td></td>
+                                <td class="table-button-cell">
+                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
+                                </td>
+                                <td class="table-button-cell"><i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i></td>
+                                <td></td>
                             </tr>
                         }
                     }
                 }
 
-                <tr>
-                    <td>3F2</td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style="color:lawngreen">D</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td> 3F2</td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style ="color:red">N</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style="color:lawngreen">D</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style="color:lawngreen">D</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style="color:lawngreen">D</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6</td>
-                    <td style="color:red">N</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6 </td>
-                    <td style="color:red">N</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6 </td>
-                    <td style="color:lawngreen">D</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
-                <tr>
-                    <td>3F2 </td>
-                    <td>Tornillo (unidad)</td>
-                    <td>6 </td>
-                    <td style="color:red">N</td>
-                    <td> <i class='bx bxs-edit-alt edit-button'></i> </td>
-                    <td> <i class='bx bx-trash trash-button table-button'></i> </td>
-                </tr>
             </tbody>
         </table>
 
@@ -172,6 +105,7 @@
         @if (ModificarStockOpen)
         {
             <GestorStock.Client.Pages.pStock.modals.ModalModificar
+                                                            stockid=selectedItemToEditId
                                                            OnClose="@OnModificarStockClose">
             </GestorStock.Client.Pages.pStock.modals.ModalModificar>
         }
@@ -299,29 +233,22 @@
 
 @code {
 
-    private string EstadoValue = "";
 
-    private void asignar(string value)
+    private string TextColor(string color)
     {
-        EstadoValue = value;
-    }
-
-    private string TextColor
-    {
-        get
+       
+        switch (color)
         {
-            switch (EstadoValue)
-            {
-                case "D":
-                    return "disponible"; // Green color
-                case "N":
-                    return "noDisponible"; // Red color
-                case "I":
-                    return "indeterminado"; // Gray color
-                default:
-                    return ""; // Default color
-            }
+            case "D":
+                return "disponible"; // Green color
+            case "N":
+                return "noDisponible"; // Red color
+            case "I":
+                return "indeterminado"; // Gray color
+            default:
+                return ""; // Default color
         }
+        
     }
 
 
@@ -398,6 +325,7 @@
 
     private void OpenModificarStock(int itemId)
     {
+        selectedItemToEditId = itemId;
         ModificarStockOpen = true;
         StateHasChanged();
     }

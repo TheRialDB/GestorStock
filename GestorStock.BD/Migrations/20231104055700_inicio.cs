@@ -200,25 +200,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231104023807_inicio.cs
-                name: "ProductoComponentes",
-                columns: table => new
-                {
-                    ProductoId = table.Column<int>(type: "int", nullable: false),
-                    ComponenteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductoComponentes", x => new { x.ProductoId, x.ComponenteId });
-                    table.ForeignKey(
-                        name: "FK_ProductoComponentes_Componentes_ComponenteId",
-                        column: x => x.ComponenteId,
-                        principalTable: "Componentes",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProductoComponentes_Productos_ProductoId",
-========
                 name: "Componentes",
                 columns: table => new
                 {
@@ -231,7 +212,6 @@ namespace GestorStock.BD.Migrations
                     table.PrimaryKey("PK_Componentes", x => x.id);
                     table.ForeignKey(
                         name: "FK_Componentes_Productos_ProductoId",
->>>>>>>> dev-izquierdo:GestorStock.BD/Migrations/20231104031313_inicio.cs
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "id",
@@ -291,8 +271,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231104023807_inicio.cs
-========
                 name: "ProductoComponentes",
                 columns: table => new
                 {
@@ -318,7 +296,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
->>>>>>>> dev-izquierdo:GestorStock.BD/Migrations/20231104031313_inicio.cs
                 name: "DetallePedidos",
                 columns: table => new
                 {
@@ -345,14 +322,11 @@ namespace GestorStock.BD.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231104023807_inicio.cs
-========
             migrationBuilder.CreateIndex(
                 name: "IX_Componentes_ProductoId",
                 table: "Componentes",
                 column: "ProductoId");
 
->>>>>>>> dev-izquierdo:GestorStock.BD/Migrations/20231104031313_inicio.cs
             migrationBuilder.CreateIndex(
                 name: "IX_Depositos_ObraId",
                 table: "Depositos",

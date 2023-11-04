@@ -5,7 +5,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cargar Stock</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modifcar Stock</h5>
                 <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -22,13 +22,20 @@
 </div>
 @code {
 
-    private Stock stock = new();
+    Stock stock = new();
     string Mensaje = "";
 
     [Parameter]
     public EventCallback<bool> OnClose { get; set; }
     [Parameter] public int stockid { get; set; }
     [Parameter] public int ItemId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Mostrar();
+
+    }
 
     private async Task Agregar()
     {
