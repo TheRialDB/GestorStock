@@ -148,7 +148,7 @@
 
     private async Task Leer()
     {
-        depositos = new();
+        depositos = null;
         var respuesta = await http.Get<List<Deposito>>("api/Deposito"); //GET
         Error = respuesta.Error;
         if (!respuesta.Error)
@@ -161,9 +161,9 @@
         }
     }
 
-    private async Task Eliminar(Deposito obrBorrar)
+    private async Task Eliminar(Deposito depoBorrar)
     {
-        depositoBorrar = obrBorrar;
+        depositoBorrar = depoBorrar;
         confirmar.Ver();
     }
     private async Task Borrar()
@@ -200,6 +200,7 @@
     private async Task OnNuevoDepositoClose(bool accepted)
     {
         NuevoDepositoOpen = false;
+        await Leer();
         StateHasChanged();
     }
 
@@ -215,7 +216,7 @@
     private async Task OnModificarDepositoClose(bool accepted)
     {
         ModificarDepositoOpen = false;
-        StateHasChanged();
         await Leer();
+        StateHasChanged();
     }
 }

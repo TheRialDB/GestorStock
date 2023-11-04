@@ -381,6 +381,7 @@
     private async Task OnModificarStockClose(bool accepted)
     {
         ModificarStockOpen = false;
+        await Leer();
         StateHasChanged();
     }
 

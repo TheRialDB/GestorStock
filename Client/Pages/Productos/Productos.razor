@@ -150,7 +150,7 @@
 
     private async Task Leer()
     {
-        productos = new();
+        productos = null;
         var respuesta = await http.Get<List<Producto>>("api/Producto"); //GET
         Error = respuesta.Error;
         if (!respuesta.Error)
