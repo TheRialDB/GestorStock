@@ -45,11 +45,20 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD
                     b.Property<int>("cantidad")
+=======
+                    b.Property<int>("ProductoId")
+>>>>>>> dev-izquierdo
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
+<<<<<<< HEAD
+=======
+                    b.HasIndex("ProductoId");
+
+>>>>>>> dev-izquierdo
                     b.ToTable("Componentes");
                 });
 
@@ -221,6 +230,12 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("ComponenteId")
                         .HasColumnType("int");
 
+<<<<<<< HEAD
+=======
+                    b.Property<int>("cantidad")
+                        .HasColumnType("int");
+
+>>>>>>> dev-izquierdo
                     b.HasKey("ProductoId", "ComponenteId");
 
                     b.HasIndex("ComponenteId");
@@ -397,6 +412,20 @@ namespace GestorStock.BD.Migrations
                         .IsRequired();
                 });
 
+<<<<<<< HEAD
+=======
+            modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
+                {
+                    b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+                });
+
+>>>>>>> dev-izquierdo
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Obra", "Obra")

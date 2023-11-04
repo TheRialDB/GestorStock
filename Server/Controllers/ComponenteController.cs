@@ -21,7 +21,11 @@ namespace GestorStock.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Componente>>> Get()
         {
-            var lista = await context.Componentes.ToListAsync();
+            var lista = await context.Componentes
+            .Include(componente => componente.Producto) // Include the Estado navigation property
+            .ToListAsync();
+
+            
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("No hay componentes cargados");
@@ -48,10 +52,17 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
+                var existe = await context.Productos.AnyAsync(x => x.id == entidad.ProductoId);
+                if (!existe)
+                {
+                    return NotFound($"El producto de id={entidad.ProductoId} no existe");
+                }
 
                 Componente componente = new Componente();
 
-                componente.cantidad = entidad.cantidad;
+                componente.ProductoId = entidad.ProductoId;
+                
+
 
                 await context.AddAsync(componente);
                 await context.SaveChangesAsync();
@@ -73,7 +84,7 @@ namespace GestorStock.Server.Controllers
 
                 Componente pepe = new Componente();
 
-                pepe.cantidad = componente.cantidad;
+                //pepe.cantidad = componente.cantidad;
                 pepe.id = id;
 
                 context.Update(pepe);
