@@ -27,6 +27,7 @@
 .trash-button {
     color: #f30808;
     position: relative;
+    cursor:pointer;
 }
 
 tr {
@@ -41,10 +42,9 @@ tr {
 }
 
 #table-headers {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: bold;
     border-radius: 9px;
-
 }
 
 th {
@@ -106,4 +106,22 @@ table td:nth-child(5) {
 
 .col-5 {
     flex-basis: 5%;
+}
+
+@media screen and (max-width: 750px) {
+
+    .button {
+        width: auto;
+        font-size:12px;
+    }
+
+    .trash-button {
+
+        font-size:15px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
 }

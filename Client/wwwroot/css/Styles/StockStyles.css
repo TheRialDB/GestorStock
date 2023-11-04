@@ -1,6 +1,18 @@
 ﻿body {
 }
 
+td.disponible{
+    color:lawngreen;
+}
+
+td.noDisponible {
+    color:red;
+}
+
+td.indeterminado {
+    color:gray;
+}
+
 .header {
     margin-bottom: 20px;
     margin-top: 40px;

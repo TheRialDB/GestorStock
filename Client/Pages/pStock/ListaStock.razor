@@ -69,7 +69,7 @@
                                 <td>@item.Productos.codigo</td>
                                 <td>@item.Productos.nombreProducto</td>
                                 <td>@item.cantidad</td>
-                                <td class="estado">@item.estado</td>
+                                    <td class="@TextColor">@item.estado</td>
                                 <td>
 
                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
@@ -80,9 +80,10 @@
 
                                 </td>
 
-                            </tr>
+                                </tr>
 
-                        }
+                                asignar(@item.estado);
+                            }
                     }
                 }
 
@@ -299,7 +300,32 @@
 </html>
 
 @code {
-   
+
+    private string EstadoValue = "";
+
+    private void asignar(string value)
+    {
+        EstadoValue = value;
+    }
+
+    private string TextColor
+    {
+        get
+        {
+            switch (EstadoValue)
+            {
+                case "D":
+                    return "disponible"; // Green color
+                case "N":
+                    return "noDisponible"; // Red color
+                case "I":
+                    return "indeterminado"; // Gray color
+                default:
+                    return ""; // Default color
+            }
+        }
+    }
+
 
     public bool CargarStockOpen { get; set; }
 
