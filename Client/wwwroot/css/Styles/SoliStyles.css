@@ -110,6 +110,10 @@ table td:nth-child(5) {
 
 @media screen and (max-width: 750px) {
 
+    tr {
+        padding: 25px 10px 25px 0px;
+    }
+
     .button {
         width: auto;
         font-size:12px;

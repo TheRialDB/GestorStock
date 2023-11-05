@@ -38,9 +38,8 @@
                         <th>Nombre</th>
                         <th>Direccion</th>
                         <th>Obra</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
                     </tr>
 
                 </thead>
@@ -69,14 +68,20 @@
                                                 <td>@item.nombreDeposito</td>
                                                 <td>@item.direccion</td>
                                                 <td>@item.Obra.nombreObra</td>
-                                                <td>
-                                                    <i class='bx bxs-component table-button'></i>
-
-                                                </td>
-                                                <td>
+                                                <td class="hide">
                                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarDeposito(item.id)"></i>
                                                 </td>
-                                                <td>
+                                                <td class="hide">
+                                                    <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="table-button-row">
+                                                <td class="table-button-cell"></td>
+                                                <td class="table-button-cell">
+                                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarDeposito(item.id)"></i>
+                                                </td>
+                                                <td class="table-button-cell">
                                                     <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
                                                 </td>

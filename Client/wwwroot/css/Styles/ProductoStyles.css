@@ -6,6 +6,11 @@
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
 }
 
+.newCompBtn {
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+}
 
 .header {
     margin-bottom: 20px;
@@ -35,11 +40,35 @@
 }
 
 .table {
-    --bs-table-striped-bg: rgb(0 0 0);
     --bs-table-hover-bg: rgb(255 255 255 / 5%);
-    --bs-table-bg: #0c0024;
     font-size:20px;
 }
+
+th {
+    background-color: rgb(0 0 0) !important;
+}
+
+.table > :not(caption) > * > * {
+    background: inherit;
+}
+
+.table {
+    --bs-table-hover-bg: rgb(255 255 255 / 5%);
+}
+
+tr:nth-child(4n+1),
+tr:nth-child(4n+2) {
+    --bs-table-bg: #0c0024;
+    background-color: #0c0024 !important;
+}
+
+
+tr:nth-child(4n+3),
+tr:nth-child(4n+4) {
+    --bs-table-striped-bg: rgb(0 0 0);
+    background-color: rgb(0 0 0) !important;
+}
+
 
 .trash-button {
     color: #ff0000;
@@ -49,6 +78,9 @@
 .table-button{
 
 }
+
+
+
 
 .insquare-header {
     object-fit: fill;
@@ -88,15 +120,30 @@
     
 }
 
+.table-button-cell,
+.table-button-row td {
+    display: none;
+}
+
 @media screen and (max-width: 500px) {
 
-    .botones {
-        padding: 5px 9px;
-        font-size: 14px;
-        font-weight: 300;
-    }
     .px-4 {
         padding-right: 10px !important;
         padding-left: 10px !important;
     }
+
+    .table-button-cell,
+    .table-button-row td {
+        display: table-cell; 
+        text-align: center; 
+    }
+        .table-button-row td,
+        .table-button-cell {
+            display: table-cell; 
+            text-align: center;
+        }
+
+        .hide {
+            display: none;
+        }
 }

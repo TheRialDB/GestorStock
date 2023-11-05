@@ -25,7 +25,7 @@
 
         <button type="button" class="btn btn-info botones"
                 @onclick="() => OpenNuevoProducto()">
-            +
+            + 
         </button>
 
     </div>
@@ -39,9 +39,9 @@
                         <th>Nombre</th>
                         <th>Unidad</th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
                     </tr>
 
                 </thead>
@@ -70,22 +70,42 @@
                                     <td>@item.codigo</td>
                                     <td>@item.nombreProducto</td>
                                     <td>@item.Unidad.nombreUnidad</td>
-                                    <td>
+                                    <td class="table-button-cell"></td>
+                                    <td class="hide">
                                         
-                                        <span class="material-symbols-outlined" @onclick="()=>nuevo(item)"> add_box </span>
+                                        <span class="material-symbols-outlined newCompBtn" @onclick="()=>nuevo(item)"> add_box </span>
                                         
                                     </td>
-                                    <td>
+                                    <td class="hide">
                                         <i class='bx bxs-component table-button'></i>
 
                                     </td>
-                                    <td>
+                                    <td class="hide">
                                         <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarProducto(item.id)"></i>
                                     </td>
-                                    <td>
+                                    <td class="hide">
                                         <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
                                     </td>
+                                </tr>
+                                <tr class="table-button-row">
+                                    <td class="table-button-cell">
+
+                                        <span class="material-symbols-outlined newCompBtn" @onclick="()=>nuevo(item)"> add_box </span>
+
+                                    </td>
+                                    <td class="table-button-cell">
+                                        <i class='bx bxs-component table-button'></i>
+
+                                    </td>
+                                    <td class="table-button-cell">
+                                        <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarProducto(item.id)"></i>
+                                    </td>
+                                    <td class="table-button-cell">
+                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                    </td>
+
                                 </tr>
                             }
                         }       
