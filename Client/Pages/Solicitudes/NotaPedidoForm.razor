@@ -1,0 +1,107 @@
+﻿@inject IHttpServicio http
+
+<EditForm Model="notaPedido" OnValidSubmit="onValidSubmit">
+    <DataAnnotationsValidator />
+    
+    <div class="padd"> 
+
+        <div class="form-group margin-b">
+            <label>Fecha</label>
+            <div>
+                <InputDate class="form-control" @bind-Value="@notaPedido.fechaPedido"/>
+                <ValidationMessage For="@(() => notaPedido.fechaPedido)" />
+            </div>
+        </div>
+
+        <div class="form-group margin-b">
+
+            <label>Emisor</label>
+
+            @if (depositos != null)
+            {
+                <div>
+                    <InputSelect class="form-control" @bind-Value="@notaPedido.emisor">
+                        <option value="0"> Seleccione un emisor </option>
+                        @foreach (var deposito in depositos)
+                        {
+                            <option value="@deposito.id">@deposito.nombreDeposito</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => notaPedido.emisor)" />
+
+                </div>
+            }
+        </div>
+
+        <div class="form-group margin-b">
+
+            <label>Receptor</label>
+
+            @if (depositos != null)
+            {
+                <InputSelect class="form-control" @bind-Value="@notaPedido.receptor">
+                    <option value="0"> Seleccione un receptor </option>
+                    @foreach (var deposito in depositos)
+                    {
+                        <option value="@deposito.id">@deposito.nombreDeposito</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => notaPedido.receptor)" />
+            }
+
+        </div>
+
+        <div class="form-group margin-b">
+            <label>Estado</label>
+            <div>
+                <InputSelect class="form-control" @bind-Value="@notaPedido.EstadoId">
+                    <option Value="1"> Pendiente </option>
+                </InputSelect>
+                <ValidationMessage For="@(() => notaPedido.EstadoId)" />
+            </div>
+        </div>
+
+        <div class="modal-footer footer justify-content-evenly">
+            <button class="btn btn-info" type="submit">Cargar Solicitud</button>
+            <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+        </div>
+
+    </div>
+</EditForm>
+
+@code{
+    [Parameter] public NotaPedido notaPedido { get; set; } = new();
+    [Parameter] public EventCallback onValidSubmit { get; set; }
+    [Parameter] public EventCallback onCancel { get; set; }
+     
+
+
+    public List<Deposito>? depositos { get; set; } = new();
+
+    bool error = false;
+    string mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        depositos = null;
+
+        var respuesta = await http.Get<List<Deposito>>("api/Deposito");
+
+        error = respuesta.Error;
+
+        if (!respuesta.Error)
+        {
+            depositos = respuesta.Respuesta;
+        }
+        else
+        {
+            mensaje = await respuesta.ObtenerError();
+        }
+    }
+}

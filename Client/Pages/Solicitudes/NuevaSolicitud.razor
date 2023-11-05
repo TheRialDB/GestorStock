@@ -1,0 +1,89 @@
+﻿@page "/Solicitudes/NuevaSolicitud"
+@inject IHttpServicio http
+
+<PageTitle>Nueva Solicitud</PageTitle>
+
+
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/css/Styles/NuevaSoli.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+    <div class="insquare-header">
+
+        <h2 class="newSolicitud">Nueva Solicitud</h2> 
+
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="insquare">
+                    <div class="center flex-fill">
+
+					<NotaPedidoForm notaPedido="notaPedido" onValidSubmit="Agregar"></NotaPedidoForm>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="insquare">
+
+
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="insquare">
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+
+
+@code {
+    private NotaPedido notaPedido = new() { fechaPedido = DateTime.Today };
+
+    private async Task Agregar()
+    {
+        NotaPedidoDTO notaPedidoDTO = new()
+            {
+                fechaPedido = notaPedido.fechaPedido,
+                emisor = notaPedido.emisor,
+                receptor = notaPedido.receptor,
+                EstadoId = notaPedido.EstadoId
+            };
+
+        var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+    }
+}

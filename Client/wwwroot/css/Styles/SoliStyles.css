@@ -1,6 +1,39 @@
 ﻿body {
 }
 
+.insquare-header {
+    object-fit: fill;
+    border-radius: 9px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #341a5d63;
+    padding: 10px 2%;
+    margin-bottom: 1%;
+    max-width: 320px;
+    display: flex
+}
+
+.botones {
+    font-family: Roboto Mono;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 0px 25px;
+    font-size: 30px;
+}
+
+.solicitudes {
+    display: block;
+    font-size: 32px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    font-weight: bold;
+}
+
 .insquare {
     object-fit: fill;
     border-radius: 9px;

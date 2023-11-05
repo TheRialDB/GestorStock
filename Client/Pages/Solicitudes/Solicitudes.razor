@@ -1,10 +1,20 @@
-﻿@page "/solicitudes"
+﻿@page "/Solicitudes"
 @using Microsoft.AspNetCore.Authorization;
 @attribute [Authorize]
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Solicitudes</PageTitle>
 
-<h3 class="text-center">Solicitudes</h3>
+<div class="insquare-header">
+
+
+    <h2 class="solicitudes">Solicitudes</h2>
+
+    <a class="btn btn-info botones" href="/Solicitudes/NuevaSolicitud">
+        +
+    </a>
+
+</div>
 
 <html>
 
