@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestorStock.BD.Data.Entity
+namespace GestorStock.Shared.DTO
 {
-    public class Envio
+    public class EnvioDTO
     {
-        public int id { get; set; }
-
         [Required(ErrorMessage = "El origen del envio debe ser OBLIGATORIO")]
         [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
         public string origen { get; set; }
@@ -21,6 +19,5 @@ namespace GestorStock.BD.Data.Entity
 
         //Atributos
         public int EstadoId { get; set; }
-        public Estado Estado { get; set; }
     }
 }

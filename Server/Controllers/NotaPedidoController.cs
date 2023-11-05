@@ -1,5 +1,6 @@
 ﻿using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
+using GestorStock.Client.Pages.pStock;
 using GestorStock.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,6 @@ namespace GestorStock.Server.Controllers
             }
 
             return Ok(lista);
-
         }
 
         [HttpGet("{id:int}")]
@@ -44,33 +44,58 @@ namespace GestorStock.Server.Controllers
         }
 
         [HttpPost]
-
-        public async Task<ActionResult<int>> Post(NotaPedidoDTO entidad)
+        public async Task<ActionResult<int>> Post(NotaPedidoDTO notaPedidoDTO)
         {
+            var existe = await context.Estados.AnyAsync(x => x.id == notaPedidoDTO.EstadoId);
+            if (!existe)
+            {
+                return NotFound($"El estado de id = {notaPedidoDTO.EstadoId} no existe");
+            }
+
             try
             {
-                var existe = await context.Estados.AnyAsync(x => x.id == entidad.EstadoId);
-                if (!existe)
-                {
-                    return NotFound($"El estado de id = {entidad.EstadoId} no existe");
-                }
+                NotaPedido entidad = new NotaPedido();
 
-                NotaPedido nuevanotapedido = new NotaPedido();
+                entidad.EstadoId = notaPedidoDTO.EstadoId;
+                entidad.fechaPedido = notaPedidoDTO.fechaPedido;
+                entidad.codDepEmisor = notaPedidoDTO.codDepEmisor;
+                entidad.codDepReceptor = notaPedidoDTO.codDepReceptor;
+                entidad.CodStock = notaPedidoDTO.CodStock;
+                entidad.Cantidad = notaPedidoDTO.Cantidad;
 
-                nuevanotapedido.EstadoId = entidad.EstadoId;
-                nuevanotapedido.fechaPedido = entidad.fechaPedido;
-                nuevanotapedido.emisor = entidad.emisor;
-                nuevanotapedido.receptor = entidad.receptor;
-
-                await context.AddAsync(nuevanotapedido);
+                await context.AddAsync(entidad);
                 await context.SaveChangesAsync();
-                return nuevanotapedido.id;
+                return entidad.id;
             }
-
-            catch (Exception e) 
-            { 
+            catch (Exception e)
+            {
                 return BadRequest(e.Message);
             }
+
+            //try
+            //{
+            //    var existe = await context.Estados.AnyAsync(x => x.id == notaPedidoDTO.EstadoId);
+            //    if (!existe)
+            //    {
+            //        return NotFound($"El estado de id = {notaPedidoDTO.EstadoId} no existe");
+            //    }
+
+            //    //NotaPedido entidad = new NotaPedido();
+
+            //    //entidad.EstadoId = notaPedidoDTO.EstadoId;
+            //    //entidad.fechaPedido = notaPedidoDTO.fechaPedido;
+            //    //entidad.codDepEmisor = notaPedidoDTO.codDepEmisor;
+            //    //entidad.codDepReceptor = notaPedidoDTO.codDepReceptor;
+
+            //    await context.AddAsync(entidad);
+            //    await context.SaveChangesAsync();
+            //    return entidad.id;
+            //}
+
+            //catch (Exception e) 
+            //{ 
+            //    return BadRequest(e.Message);
+            //}
         }
 
         [HttpPut("{id:int}")]
@@ -86,10 +111,10 @@ namespace GestorStock.Server.Controllers
 
             NotaPedido entidad = new NotaPedido();
             entidad.id = id;
-            entidad.fechaPedido = notaPedidoDTO.fechaPedido;
-            entidad.emisor = notaPedidoDTO.emisor;
-            entidad.receptor = notaPedidoDTO.receptor;
             entidad.EstadoId = notaPedidoDTO.EstadoId;
+            entidad.fechaPedido = notaPedidoDTO.fechaPedido;
+            entidad.codDepEmisor = notaPedidoDTO.codDepEmisor;
+            entidad.codDepReceptor = notaPedidoDTO.codDepReceptor;
 
             context.Update(entidad);
             await context.SaveChangesAsync();

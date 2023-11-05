@@ -12,6 +12,9 @@ namespace GestorStock.BD.Data.Entity
     {
         public int id { get; set; }
 
+        [Required]
+        public string codDeposito { get; set; }
+
         [Required(ErrorMessage = "El NOMBRE del DEPOSITO es Obligatorio")]
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el NOMBRE del DEPOSITO")]
         public string nombreDeposito { get; set; }
