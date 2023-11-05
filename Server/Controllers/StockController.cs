@@ -69,12 +69,21 @@ namespace GestorStock.Server.Controllers
                 {
                     foreach (var item in context.ProductoComponentes)
                     {
-                        if (chequeo)
+
+                        if (item.ProductoId == entidad.ProductoId)
                         {
-                            var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == entidad.cantidad);
-                            var comp = await context.Stocks.AnyAsync(x => x.cantidad == entidad.cantidad);
+                            var comp = await context.ProductoComponentes.AnyAsync(x => x.ComponenteId == item.ComponenteId);
+                            var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == item.cantidad);
+                            
 
                         }
+
+                        //if (chequeo)
+                        //{
+                        //    var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == entidad.cantidad);
+                        //    var comp = await context.Stocks.AnyAsync(x => x.cantidad == entidad.cantidad);
+
+                        //}
 
                         //if (item.ProductoId == entidad.ProductoId)
                         //{
