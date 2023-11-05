@@ -1,6 +1,7 @@
 ﻿using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
 using GestorStock.Shared.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +64,36 @@ namespace GestorStock.Server.Controllers
                 {
                     return NotFound($"El producto de id={entidad.ProductoId} no existe");
                 }
+                var chequeo = await context.ProductoComponentes.AnyAsync(x => x.ProductoId == entidad.ProductoId);
+                if (chequeo)
+                {
+                    foreach (var item in context.ProductoComponentes)
+                    {
+                        if (chequeo)
+                        {
+                            var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == entidad.cantidad);
+                            var comp = await context.Stocks.AnyAsync(x => x.cantidad == entidad.cantidad);
+
+                        }
+
+                        //if (item.ProductoId == entidad.ProductoId)
+                        //{
+                        //    var comp = await context.Stocks.AnyAsync(x => x.ProductoId == item.ComponenteId);
+                        //    if (comp)
+                        //    {
+                        //        var cant = await context.Stocks.AnyAsync(x => x.cantidad == item.cantidad);
+
+                        //        return Ok("llego hasta aca");
+                        //    }
+                        //    else
+                        //    {
+                        //        return BadRequest("No alcanzan los componentes");
+                        //    }
+                        //}
+                    }
+                } 
+               
+
 
                 Stock nuevostock = new Stock();
 
