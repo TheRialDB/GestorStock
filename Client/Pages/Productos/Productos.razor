@@ -77,7 +77,7 @@
                                         
                                     </td>
                                     <td class="hide">
-                                        <i class='bx bxs-component table-button'></i>
+                                        <i class='bx bxs-component table-button' @onclick="() => OpenProdComp(item.id, item.nombreProducto)"></i>
 
                                     </td>
                                     <td class="hide">
@@ -95,7 +95,7 @@
 
                                     </td>
                                     <td class="table-button-cell">
-                                        <i class='bx bxs-component table-button'></i>
+                                        <i class='bx bxs-component table-button' @onclick="() => OpenProdComp(item.id, item.nombreProducto)"></i>
 
                                     </td>
                                     <td class="table-button-cell">
@@ -105,7 +105,6 @@
                                         <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
                                     </td>
-
                                 </tr>
                             }
                         }       
@@ -132,6 +131,7 @@
                 </GestorStock.Client.Pages.Productos.Modals.ModalModificar>
             }
 
+          
             <Confirmacion @ref="confirmar"
                           verCancelar="true"
                           verOk="true"
@@ -158,6 +158,16 @@
                 </div>
             
             </GestorStock.Client.Pages.Productos.Modals.ModalNewComp>
+
+            @if (NuevoProdCompOpen)
+            {
+                <GestorStock.Client.Pages.Productos.Modals.ModalProdComp
+                                                                productoid="selectedItemToEditId"
+                                                                prodName="@prodName"
+                                                                OnClose="OnProdCompClose"
+                >                             
+                </GestorStock.Client.Pages.Productos.Modals.ModalProdComp>
+            }
 
         </div>
     </div>
@@ -213,12 +223,12 @@
         CancelarComp();
     }
 
-private async Task Eliminar(Producto prodBorrar)
+    private async Task Eliminar(Producto prodBorrar)
     {
         ProductoBorrar = prodBorrar;
         confirmar.Ver();
     }
-private async Task Borrar()
+    private async Task Borrar()
     {
         var respuesta = await http.Delete($"api/Producto/{ProductoBorrar.id}");
         if (respuesta.Error)
@@ -265,11 +275,29 @@ private async Task Borrar()
         ProductoBorrar = null;
     }
 
-
+    public bool NuevoProdCompOpen { get; set; }
 
     public bool NuevoProductoOpen { get; set; }
 
     public bool ModificarProductoOpen { get; set; }
+
+    string prodName = "";
+
+    private void OpenProdComp(int itemId, string itemName)
+    {
+        prodName = itemName;
+        selectedItemToEditId = itemId;
+        NuevoProdCompOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task OnProdCompClose(bool accepted)
+    {
+        NuevoProdCompOpen = false;
+        await Leer();
+        StateHasChanged();
+
+    }
 
     private void OpenNuevoProducto()
     {

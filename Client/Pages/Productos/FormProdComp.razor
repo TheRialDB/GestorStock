@@ -1,0 +1,104 @@
+﻿@inject IHttpServicio http
+
+<EditForm Model="prodComp" OnValidSubmit="onValidSubmit">
+	<DataAnnotationsValidator />
+
+	<div class="form-group">
+		<label>Producto</label>
+		@if (productos != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@prodComp.ProductoId">
+					<option Value="@prodId"> @prodName</option>
+				</InputSelect>
+				<ValidationMessage For="@(() => prodComp.ProductoId)" />
+			</div>
+		}
+	</div>
+
+	<div class="form-group">
+		<label>Componente</label>
+		@if (componentes != null)
+		{
+			<div>
+				<InputSelect class="form-control" @bind-Value="@prodComp.ComponenteId">
+					<option value="0"> Selecciona un componente </option>
+					@foreach (var componente in componentes)
+					{
+						<option value="@componente.id">@componente.Producto.nombreProducto</option>
+					}
+				</InputSelect>
+				<ValidationMessage For="@(() => prodComp.ComponenteId)" />
+
+			</div>
+		}
+	</div>
+
+	<div class="form-group">
+		<label>Cantidad</label>
+		<div>
+			<InputNumber class="form-control" @bind-Value="@prodComp.cantidad" />
+			<ValidationMessage For="@(() => prodComp.cantidad)" />
+		</div>
+	</div>
+
+
+	<div class="modal-footer">
+		<button class="btn btn-info" type="submit">Aceptar</button>
+		<button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter] public int prodId { get; set; }
+	[Parameter] public string prodName { get; set; }
+
+	[Parameter] public ProductoComponente prodComp { get; set; } = new();
+	[Parameter] public EventCallback onValidSubmit { get; set; }
+	[Parameter] public EventCallback onCancel { get; set; }
+
+	public List<Componente>? componentes { get; set; } = new();
+	public List<Producto>? productos { get; set; } = new();
+
+
+	bool error = false;
+	string mensaje = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Leer();
+	}
+
+	private async Task Leer()
+	{
+		componentes = null;
+		productos = null;
+
+		var respuesta = await http.Get<List<Componente>>("api/Componente");
+
+		var respuesta2 = await http.Get<List<Producto>>("api/Producto");
+
+		error = respuesta.Error;
+
+		if (!respuesta.Error)
+		{
+			componentes = respuesta.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta.ObtenerError();
+		}
+
+		if (!respuesta2.Error)
+		{
+			productos = respuesta2.Respuesta;
+		}
+		else
+		{
+			mensaje = await respuesta2.ObtenerError();
+		}
+
+
+	}
+}

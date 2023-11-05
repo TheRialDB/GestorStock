@@ -5,14 +5,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="color:white">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Cargar producto compuesto</h5>
                 <button type="button" class="close;" style=" border-width:0px; background-color: #00000000;" data-dismiss="modal" aria-label="Close" @onclick="@ModalCancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <FormProductos producto="producto" onValidSubmit="Agregar" onCancel="@ModalCancel" />
+                <FormProdComp prodComp="prodComp" onValidSubmit="Agregar" onCancel="@ModalCancel" prodId="@productoid" prodName="@prodName" />
 
             </div>
         </div>
@@ -20,52 +20,45 @@
 </div>
 
 @code {
-
-    Producto producto = new();
+    Producto producto;
+    ProductoComponente prodComp = new();
     string Mensaje = "";
 
     [Parameter] public int productoid { get; set; }
 
-    [Parameter] public int ItemId { get; set; }
+    [Parameter] public string prodName { get; set; }
 
-    [Parameter]
-    public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+    
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await Mostrar();
 
     }
 
     private async Task Agregar() //put
     {
 
-        var respuesta = await http.Put<Producto>($"api/Producto/{productoid}", producto);
+        
+            ProductoComponenteDTO prodCompDTO = new()
+            {
+                    ProductoId = prodComp.ProductoId,
+                    ComponenteId = prodComp.ComponenteId,
+                    cantidad = prodComp.cantidad
+             };
 
-        if (respuesta.Error)
-        {
-            var body = respuesta.HttpResponseMessage;
-        }
+             var httpRespuesta = await http.Post<ProductoComponenteDTO>("api/ProductoComponente", prodCompDTO); //post
 
-        await OnClose.InvokeAsync(true);
+            if (httpRespuesta.Error)
+            {
+                var body = httpRespuesta.HttpResponseMessage;
+            }
+
+            await OnClose.InvokeAsync(true);
     }
 
-    private async Task Mostrar()
-    {
-        var respuesta = await http.Get<Producto>($"api/Producto/{productoid}");
-
-        if (!respuesta.Error)
-        {
-            producto = respuesta.Respuesta;
-        }
-        else
-        {
-            Mensaje = await respuesta.ObtenerError();
-        }
-
-    }
-
+    [Parameter] public int ItemId { get; set; }
 
     private Task ModalCancel()
     {
