@@ -1,4 +1,5 @@
-﻿using GestorStock.BD.Data;
+﻿using Duende.IdentityServer.Models;
+using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
 using GestorStock.Shared.DTO;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -50,6 +51,7 @@ namespace GestorStock.Server.Controllers
 
         [HttpPost]
 
+        
         public async Task<ActionResult<int>> Post(StockDTO entidad)
         {
             try
@@ -89,7 +91,7 @@ namespace GestorStock.Server.Controllers
                                     //Guardo su producto ID
                                     var prodId = componente.ProductoId;
                                     //Busco el producto en la tabla de stock
-                                    var stock = await context.Stocks.AnyAsync(x => x.ProductoId == prodId);
+                                    var stock = await context.Stocks.AnyAsync(x => x.ProductoId == prodId && x.DepositoId == entidad.DepositoId);
 
                                     //En caso de que exista
                                     if (stock)
@@ -114,10 +116,16 @@ namespace GestorStock.Server.Controllers
                                                 }
                                                 else
                                                 {
+                                                    errormessage = "Faltan componentes";
                                                     return BadRequest("Faltan componentes");  
                                                 }
                                             }
                                         }
+                                    }
+                                    else
+                                    {
+                                        errormessage = "Faltan componentes";
+                                        return BadRequest("Faltan componentes");
                                     }
                                 }
                             }
@@ -211,6 +219,8 @@ namespace GestorStock.Server.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+        public string errormessage;
 
     }
 }

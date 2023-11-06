@@ -15,11 +15,13 @@
 
                 <FormStock stock="stock" onValidSubmit="Agregar" onCancel="@ModalCancel"/>
 
+                <h3 style="color:red" class="text-center">@errorMessages</h3>
             </div>
 
         </div>
     </div>
 </div>
+
 @code {
 
     private Stock stock = new();
@@ -27,6 +29,7 @@
     [Parameter]
     public EventCallback<bool> OnClose { get; set; }
 
+    private string errorMessages = "";
 
     private async Task Agregar()
     {
@@ -42,10 +45,16 @@
 
         if (httpRespuesta.Error)
         {
-            var body = httpRespuesta.HttpResponseMessage;
+            var errorContent = await httpRespuesta.HttpResponseMessage.Content.ReadAsStringAsync();
+            errorMessages = errorContent;
+        }
+        else
+        {
+            // Only close the modal when the response is successful
+            await OnClose.InvokeAsync(true);
+            errorMessages = "";
         }
 
-        await OnClose.InvokeAsync(true);
     }
 
     private Task ModalCancel()

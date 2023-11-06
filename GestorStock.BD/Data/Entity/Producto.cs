@@ -33,6 +33,8 @@ namespace GestorStock.BD.Data.Entity
         //Conexiones
         //public int DepositoId { get; set; }
         //public Deposito Depositos { get; set; }
+
+        [Required(ErrorMessage = "La UNIDAD del PRODUCTO es Obligatoria")]
         public int UnidadId { get; set; }
         public Unidad Unidad { get; set; }
 
