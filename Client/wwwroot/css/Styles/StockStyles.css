@@ -18,8 +18,6 @@ td.indeterminado {
     margin-top: 40px;
 }
 
-
-
 .estado{
     color:lawngreen;
     
@@ -52,6 +50,7 @@ th {
 
 .table {
     --bs-table-hover-bg: rgb(255 255 255 / 5%);
+    color:white;
 }
 
 tr:nth-child(4n+1),
@@ -105,11 +104,13 @@ tr:nth-child(4n+4) {
 .trash-button {
     color: #ff0000;
     position: relative;
+    cursor: pointer;
 }
 
 .edit-button {
     color: aqua;
     position: relative;
+    cursor: pointer;
 }
 
 .cont-botones {

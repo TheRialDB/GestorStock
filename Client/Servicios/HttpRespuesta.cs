@@ -27,7 +27,7 @@
             switch (statuscode)
                 {
                 case System.Net.HttpStatusCode.BadRequest:
-                return "Error, no se pudo procesar la información";
+                return await HttpResponseMessage.Content.ReadAsStringAsync();
                 case System.Net.HttpStatusCode.Unauthorized:
                 return "Error, no está logueado";
                 case System.Net.HttpStatusCode.Forbidden:
@@ -35,7 +35,7 @@
                 case System.Net.HttpStatusCode.NotFound:
                 return "Error, no se pudo encontrar la informacion";
                 default:
-                return HttpResponseMessage.Content.ReadAsStringAsync().ToString();
+                return await HttpResponseMessage.Content.ReadAsStringAsync();
                 }
             }
         }

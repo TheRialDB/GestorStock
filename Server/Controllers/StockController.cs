@@ -31,7 +31,7 @@ namespace GestorStock.Server.Controllers
 
             if (lista == null || lista.Count == 0)
             {
-                return BadRequest("No hay stock");
+                return BadRequest("No hay stock cargado");
             }
 
             return lista;

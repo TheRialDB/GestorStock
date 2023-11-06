@@ -9,6 +9,7 @@
 .edit-button {
     color: aqua;
     position: relative;
+    cursor: pointer;
 }
 
 .depositos {
@@ -36,6 +37,7 @@
 .trash-button {
     color: #ff0000;
     position: relative;
+    cursor:pointer;
 }
 
 .table-button{
