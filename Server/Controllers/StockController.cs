@@ -64,17 +64,49 @@ namespace GestorStock.Server.Controllers
                 {
                     return NotFound($"El producto de id={entidad.ProductoId} no existe");
                 }
+
+                //Revisa que lo que se quiera cargar sea un producto compuesto
                 var chequeo = await context.ProductoComponentes.AnyAsync(x => x.ProductoId == entidad.ProductoId);
                 if (chequeo)
                 {
+                    //Para cada producto compuesto
                     foreach (var item in context.ProductoComponentes)
                     {
-
+                        //Que se relaciona con prodId
                         if (item.ProductoId == entidad.ProductoId)
                         {
-                            var comp = await context.ProductoComponentes.AnyAsync(x => x.ComponenteId == item.ComponenteId);
-                            var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == item.cantidad);
-                            
+                            //Se guarda la cantidad de insumos necesarios 
+                            var cant = item.cantidad;
+                            //Guardo el ID del componente
+                            var comp = item.ComponenteId;
+
+                            //Reviso la tabla de componentes
+                            foreach (var componente in context.Componentes)
+                            {
+                                //Cuando encuentro el componente en cuestion
+                                if (componente.id == comp)
+                                {
+                                    //Guardo su producto ID
+                                    var prodId = componente.ProductoId;
+                                    //Busco el producto en la tabla de stock
+                                    var stock = await context.Stocks.AnyAsync(x => x.ProductoId == prodId);
+
+                                    //En caso de que exista
+                                    if (stock)
+                                    {
+                                        return Ok("llego hasta aca");
+                                    }
+
+                                }
+                            }
+
+                            var existeComp = await context.Componentes.AnyAsync(x => x.id == comp);
+
+                            //var stock = await context.Stocks.AnyAsync(x => x.ProductoId == item.ProductoId);
+                            //if (stock)
+                            //{
+                                
+                            //}       
 
                         }
 
