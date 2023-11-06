@@ -76,9 +76,9 @@ namespace GestorStock.Server.Controllers
                         if (item.ProductoId == entidad.ProductoId)
                         {
                             //Se guarda la cantidad de insumos necesarios 
-                            var cant = item.cantidad;
+                            var cant = item.cantidad*entidad.cantidad;
                             //Guardo el ID del componente
-                            var comp = item.ComponenteId;
+                            var comp = item.ComponenteId;                          
 
                             //Reviso la tabla de componentes
                             foreach (var componente in context.Componentes)
@@ -94,57 +94,70 @@ namespace GestorStock.Server.Controllers
                                     //En caso de que exista
                                     if (stock)
                                     {
-                                        return Ok("llego hasta aca");
-                                    }
+                                        //busco para cada insumo la cantidad cargada
+                                        foreach (var insumo in context.Stocks)
+                                        {
+                                            //Para el insumo necesario
+                                            if (insumo.ProductoId == prodId)
+                                            {
 
+                                                //Guardo la cantidad actual
+                                                var cantInsumo = insumo.cantidad;
+                                                if (cantInsumo >= cant)
+                                                {
+                                                    //Actualizo la cantidad 
+                                                    insumo.cantidad = insumo.cantidad - cant;
+                                                    
+                                                    context.Update(insumo);
+                                                    await context.SaveChangesAsync();
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    return BadRequest("Faltan componentes");  
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
-
-                            var existeComp = await context.Componentes.AnyAsync(x => x.id == comp);
-
-                            //var stock = await context.Stocks.AnyAsync(x => x.ProductoId == item.ProductoId);
-                            //if (stock)
-                            //{
-                                
-                            //}       
-
                         }
-
-                        //if (chequeo)
-                        //{
-                        //    var cant = await context.ProductoComponentes.AnyAsync(x => x.cantidad == entidad.cantidad);
-                        //    var comp = await context.Stocks.AnyAsync(x => x.cantidad == entidad.cantidad);
-
-                        //}
-
-                        //if (item.ProductoId == entidad.ProductoId)
-                        //{
-                        //    var comp = await context.Stocks.AnyAsync(x => x.ProductoId == item.ComponenteId);
-                        //    if (comp)
-                        //    {
-                        //        var cant = await context.Stocks.AnyAsync(x => x.cantidad == item.cantidad);
-
-                        //        return Ok("llego hasta aca");
-                        //    }
-                        //    else
-                        //    {
-                        //        return BadRequest("No alcanzan los componentes");
-                        //    }
-                        //}
                     }
-                } 
-               
+                }
 
+                //Validacion para sumar cantidades en caso de cargar el mismo producto
+                var existenteStock = await context.Stocks.FirstOrDefaultAsync(x => x.ProductoId == entidad.ProductoId && x.DepositoId == entidad.DepositoId);
+                if (existenteStock != null)
+                {
+                    //Modifica la cantidad del producto
+                    existenteStock.cantidad = existenteStock.cantidad+ entidad.cantidad;
+                    context.Update(existenteStock);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    //Crea un nuevo Stock
 
-                Stock nuevostock = new Stock();
+                    Stock nuevostock = new Stock();
 
-                nuevostock.DepositoId = entidad.DepositoId;
-                nuevostock.cantidad = entidad.cantidad;
-                nuevostock.estado = entidad.estado;
-                nuevostock.ProductoId = entidad.ProductoId;
+                    nuevostock.DepositoId = entidad.DepositoId;
+                    nuevostock.cantidad = entidad.cantidad;
+                    nuevostock.estado = entidad.estado;
+                    nuevostock.ProductoId = entidad.ProductoId;
 
-                await context.AddAsync(nuevostock);
-                await context.SaveChangesAsync();
+                    await context.AddAsync(nuevostock);
+                    await context.SaveChangesAsync();
+                }
+
+                //Validacion para que desaparezcan las filas cuya cantidad sea 0
+                foreach (var stock in context.Stocks)
+                {
+                    if (stock.cantidad == 0)
+                    {
+                        context.Stocks.Remove(stock);
+                        await context.SaveChangesAsync();
+                    }
+                }
                 return Ok();
 
             }
