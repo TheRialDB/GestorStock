@@ -29,6 +29,7 @@ namespace GestorStock.BD.Data
 
         public Context(DbContextOptions options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -54,7 +55,6 @@ namespace GestorStock.BD.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
 
     }
 }

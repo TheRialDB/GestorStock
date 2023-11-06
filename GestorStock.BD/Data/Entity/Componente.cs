@@ -19,6 +19,7 @@ namespace GestorStock.BD.Data.Entity
         //[Required(ErrorMessage = "La CANTIDAD de insumos es Obligatorio")]
         //public int cantidad { get; set; }
 
+
         //Conexiones
         public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
 

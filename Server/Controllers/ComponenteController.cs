@@ -57,11 +57,20 @@ namespace GestorStock.Server.Controllers
                 {
                     return NotFound($"El producto de id={entidad.ProductoId} no existe");
                 }
-
+                else if (existe == await context.Componentes.AnyAsync(x => x.ProductoId == entidad.ProductoId))
+                {
+                    return BadRequest($"El producto de id={entidad.ProductoId} ya es un componente");
+                }
                 Componente componente = new Componente();
-
                 componente.ProductoId = entidad.ProductoId;
-                
+
+                //var existe2 = await context.Componentes.AnyAsync(x => x.id == entidad.ProductoId);
+                //if (existe2)
+                //{
+                //    return BadRequest($"El producto de id={entidad.ProductoId} ya es un componente");
+                //}
+
+
 
 
                 await context.AddAsync(componente);

@@ -1,6 +1,7 @@
 ﻿using GestorStock.BD.Data;
 using GestorStock.BD.Data.Entity;
 using GestorStock.Shared.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,15 +65,99 @@ namespace GestorStock.Server.Controllers
                     return NotFound($"El producto de id={entidad.ProductoId} no existe");
                 }
 
-                Stock nuevostock = new Stock();
+                //Revisa que lo que se quiera cargar sea un producto compuesto
+                var chequeo = await context.ProductoComponentes.AnyAsync(x => x.ProductoId == entidad.ProductoId);
+                if (chequeo)
+                {
+                    //Para cada producto compuesto
+                    foreach (var item in context.ProductoComponentes)
+                    {
+                        //Que se relaciona con prodId
+                        if (item.ProductoId == entidad.ProductoId)
+                        {
+                            //Se guarda la cantidad de insumos necesarios 
+                            var cant = item.cantidad*entidad.cantidad;
+                            //Guardo el ID del componente
+                            var comp = item.ComponenteId;                          
 
-                nuevostock.DepositoId = entidad.DepositoId;
-                nuevostock.cantidad = entidad.cantidad;
-                nuevostock.estado = entidad.estado;
-                nuevostock.ProductoId = entidad.ProductoId;
+                            //Reviso la tabla de componentes
+                            foreach (var componente in context.Componentes)
+                            {
+                                //Cuando encuentro el componente en cuestion
+                                if (componente.id == comp)
+                                {
+                                    //Guardo su producto ID
+                                    var prodId = componente.ProductoId;
+                                    //Busco el producto en la tabla de stock
+                                    var stock = await context.Stocks.AnyAsync(x => x.ProductoId == prodId);
 
-                await context.AddAsync(nuevostock);
-                await context.SaveChangesAsync();
+                                    //En caso de que exista
+                                    if (stock)
+                                    {
+                                        //busco para cada insumo la cantidad cargada
+                                        foreach (var insumo in context.Stocks)
+                                        {
+                                            //Para el insumo necesario
+                                            if (insumo.ProductoId == prodId)
+                                            {
+
+                                                //Guardo la cantidad actual
+                                                var cantInsumo = insumo.cantidad;
+                                                if (cantInsumo >= cant)
+                                                {
+                                                    //Actualizo la cantidad 
+                                                    insumo.cantidad = insumo.cantidad - cant;
+                                                    
+                                                    context.Update(insumo);
+                                                    await context.SaveChangesAsync();
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    return BadRequest("Faltan componentes");  
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Validacion para sumar cantidades en caso de cargar el mismo producto
+                var existenteStock = await context.Stocks.FirstOrDefaultAsync(x => x.ProductoId == entidad.ProductoId && x.DepositoId == entidad.DepositoId);
+                if (existenteStock != null)
+                {
+                    //Modifica la cantidad del producto
+                    existenteStock.cantidad = existenteStock.cantidad+ entidad.cantidad;
+                    context.Update(existenteStock);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    //Crea un nuevo Stock
+
+                    Stock nuevostock = new Stock();
+
+                    nuevostock.DepositoId = entidad.DepositoId;
+                    nuevostock.cantidad = entidad.cantidad;
+                    nuevostock.estado = entidad.estado;
+                    nuevostock.ProductoId = entidad.ProductoId;
+
+                    await context.AddAsync(nuevostock);
+                    await context.SaveChangesAsync();
+                }
+
+                //Validacion para que desaparezcan las filas cuya cantidad sea 0
+                foreach (var stock in context.Stocks)
+                {
+                    if (stock.cantidad == 0)
+                    {
+                        context.Stocks.Remove(stock);
+                        await context.SaveChangesAsync();
+                    }
+                }
                 return Ok();
 
             }
