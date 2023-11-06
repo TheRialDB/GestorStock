@@ -103,18 +103,22 @@ namespace GestorStock.Server.Controllers
         public async Task<ActionResult> Put(NotaPedidoDTO notaPedidoDTO, int id)
         {
             
-            var exist = await context.NotaPedidos.AnyAsync(x => x.id == id);
-            if (!exist) 
+            var entidad = await context.NotaPedidos.FirstOrDefaultAsync(x => x.id == id);
+
+            if ( entidad == null) 
             {
                 return NotFound($"La nota pedido con el ID={id} no existe ");
             }
 
-            NotaPedido entidad = new NotaPedido();
+            
+
             entidad.id = id;
             entidad.EstadoId = notaPedidoDTO.EstadoId;
             entidad.fechaPedido = notaPedidoDTO.fechaPedido;
             entidad.codDepEmisor = notaPedidoDTO.codDepEmisor;
             entidad.codDepReceptor = notaPedidoDTO.codDepReceptor;
+            entidad.CodStock = notaPedidoDTO.CodStock;
+            entidad.Cantidad = notaPedidoDTO.Cantidad;
 
             context.Update(entidad);
             await context.SaveChangesAsync();

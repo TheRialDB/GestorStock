@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestorStock.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicio : Migration
+    public partial class inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -101,6 +101,8 @@ namespace GestorStock.BD.Migrations
                     fechaPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
                     codDepEmisor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     codDepReceptor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CodStock = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cantidad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EstadoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

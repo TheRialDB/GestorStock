@@ -25,11 +25,9 @@ namespace GestorStock.BD.Data.Entity
         public string codDepReceptor { get; set; }
 
         //[Required(ErrorMessage = "El Codigo del Producto es obligatorio")]
-        [NotMapped] // Esta propiedad no se mapea a una entidad en la base de datos
         public List<string> CodStock { get; set; } = new List<string>();
 
         //[Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
-        [NotMapped] // Esta propiedad no se mapea a una entidad en la base de datos
         public List<int> Cantidad { get; set; } = new List<int>();
 
         //Conexiones

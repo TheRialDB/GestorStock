@@ -1,5 +1,6 @@
 ﻿using GestorStock.BD.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,35 @@ namespace GestorStock.BD.Data
         .HasKey(ec => new { ec.ProductoId, ec.ComponenteId });
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<NotaPedido>(o =>
+            {
+                o.HasKey(b => b.id);
+                o.Property(b => b.fechaPedido);
+                o.Property(b => b.codDepEmisor);
+                o.Property(b => b.codDepReceptor);
+                o.Property(b => b.EstadoId);
+                o.Property(b => b.Cantidad)
+                .HasConversion(
+                v => string.Join(",", v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList())
+                .IsRequired()
+                .Metadata.SetValueComparer(new ValueComparer<List<int>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList()));
+
+                o.Property(b => b.CodStock)
+                    .HasConversion(
+                        v => string.Join(",", v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
+                    .IsRequired()
+                    .Metadata.SetValueComparer(new ValueComparer<List<string>>(
+                        (c1, c2) => c1.SequenceEqual(c2),
+                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                        c => c.ToList()));
+            });
+
         }
 
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231105213653_Inicio")]
-    partial class Inicio
+    [Migration("20231106000430_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,14 @@ namespace GestorStock.BD.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodStock")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EstadoId")
                         .HasColumnType("int");

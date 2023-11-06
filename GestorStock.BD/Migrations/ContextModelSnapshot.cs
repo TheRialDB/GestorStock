@@ -124,6 +124,14 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<string>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodStock")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EstadoId")
                         .HasColumnType("int");
 
