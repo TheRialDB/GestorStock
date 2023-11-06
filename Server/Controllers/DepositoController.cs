@@ -56,7 +56,6 @@ namespace GestorStock.Server.Controllers
                 Deposito nuevodeposito = new Deposito();
 
                 nuevodeposito.ObraId = entidad.ObraId;
-                nuevodeposito.codDeposito = entidad.codDeposito;
                 nuevodeposito.nombreDeposito = entidad.nombreDeposito;
                 nuevodeposito.direccion = entidad.direccion;
 
@@ -83,7 +82,6 @@ namespace GestorStock.Server.Controllers
 
             Deposito entidad = new Deposito();
             entidad.id = id;
-            entidad.codDeposito = depositoDTO.codDeposito;
             entidad.nombreDeposito = depositoDTO.nombreDeposito;
             entidad.direccion = depositoDTO.direccion;
             entidad.ObraId = depositoDTO.ObraId;
