@@ -21,13 +21,13 @@ namespace GestorStock.BD.Data.Entity
         public DateTime fechaEgreso { get; set; }
 
         [Required(ErrorMessage = "La Fecha de Ingreso del Remito debe ser OBLIGATORIO")]
-      
+
         public DateTime fechaIngreso { get; set; }
         [Required(ErrorMessage = "La DESCRIPCIÓN del remito es Obligatoria")]
         [MaxLength(150, ErrorMessage = "Solo se aceptan hasta 150 caracteres en la DESCRIPCIÓN")]
         public string descripcion { get; set; }
 
         //Conexiones
-        public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
+        //public List<NotaPedido> NotaPedidos { get; set; } = new List<NotaPedido>();
     }
 }

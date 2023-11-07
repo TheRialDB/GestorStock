@@ -33,6 +33,6 @@ namespace GestorStock.BD.Data.Entity
         public int DepositoId { get; set; }
         public Deposito Depositos { get; set; }
 
-        public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
+        //public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();
     }
 }

@@ -9,19 +9,19 @@ namespace GestorStock.BD.Data.Entity
 {
     public class DetallePedido
     {
-        [Key]
+        //[Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
-        [MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
-        public int cantidad { get; set; }
+        //[Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
+        //[MaxLength(40, ErrorMessage = "Solo se aceptan hasta 40 caracteres en el Nombre del Deposito")]
+        //public int cantidad { get; set; }
 
-        //Conexiones
+        ////Conexiones
 
-        public int StockId { get; set; }
-        public Stock Stock { get; set; }
-        public int NotaPedidoId { get; set; }
-        public NotaPedido NotaPedido { get; set; }
+        //public int StockId { get; set; }
+        //public Stock Stock { get; set; }
+        //public int NotaPedidoId { get; set; }
+        //public NotaPedido NotaPedido { get; set; }
 
     }
 }

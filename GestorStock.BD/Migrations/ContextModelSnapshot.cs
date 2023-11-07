@@ -45,13 +45,20 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD
                     b.Property<int>("ProductoId")
+=======
+                    b.Property<int>("cantidad")
+>>>>>>> dev-fernandez
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
+<<<<<<< HEAD
                     b.HasIndex("ProductoId");
 
+=======
+>>>>>>> dev-fernandez
                     b.ToTable("Componentes");
                 });
 
@@ -66,6 +73,13 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("ObraId")
                         .HasColumnType("int");
 
+<<<<<<< HEAD
+=======
+                    b.Property<string>("codDeposito")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+>>>>>>> dev-fernandez
                     b.Property<string>("direccion")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -91,6 +105,7 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD
                     b.Property<int>("NotaPedidoId")
                         .HasColumnType("int");
 
@@ -107,6 +122,10 @@ namespace GestorStock.BD.Migrations
 
                     b.HasIndex("StockId");
 
+=======
+                    b.HasKey("id");
+
+>>>>>>> dev-fernandez
                     b.ToTable("DetallePedidos");
                 });
 
@@ -136,10 +155,30 @@ namespace GestorStock.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD
                     b.Property<int>("EstadoId")
                         .HasColumnType("int");
 
                     b.Property<string>("emisor")
+=======
+                    b.Property<string>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodStock")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EstadoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("codDepEmisor")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("codDepReceptor")
+>>>>>>> dev-fernandez
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -147,11 +186,14 @@ namespace GestorStock.BD.Migrations
                     b.Property<DateTime>("fechaPedido")
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD
                     b.Property<string>("receptor")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+=======
+>>>>>>> dev-fernandez
                     b.HasKey("id");
 
                     b.HasIndex("EstadoId");
@@ -223,9 +265,12 @@ namespace GestorStock.BD.Migrations
                     b.Property<int>("ComponenteId")
                         .HasColumnType("int");
 
+<<<<<<< HEAD
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
+=======
+>>>>>>> dev-fernandez
                     b.HasKey("ProductoId", "ComponenteId");
 
                     b.HasIndex("ComponenteId");
@@ -372,6 +417,7 @@ namespace GestorStock.BD.Migrations
                     b.ToTable("Usuarios");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("NotaPedidoRemito", b =>
                 {
                     b.Property<int>("NotaPedidosid")
@@ -387,6 +433,8 @@ namespace GestorStock.BD.Migrations
                     b.ToTable("NotaPedidoRemito");
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("DepositoUsuario", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Deposito", null)
@@ -402,6 +450,7 @@ namespace GestorStock.BD.Migrations
                         .IsRequired();
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
@@ -413,6 +462,8 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Producto");
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Deposito", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Obra", "Obra")
@@ -424,6 +475,7 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Obra");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("GestorStock.BD.Data.Entity.DetallePedido", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", "NotaPedido")
@@ -443,6 +495,8 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Stock");
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Estado", "Estado")
@@ -525,6 +579,7 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Rol");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("NotaPedidoRemito", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.NotaPedido", null)
@@ -540,6 +595,8 @@ namespace GestorStock.BD.Migrations
                         .IsRequired();
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
                 {
                     b.Navigation("ProductoComponentes");
@@ -557,11 +614,14 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Obras");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("GestorStock.BD.Data.Entity.NotaPedido", b =>
                 {
                     b.Navigation("DetallePedidos");
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Obra", b =>
                 {
                     b.Navigation("Depositos");
@@ -577,11 +637,14 @@ namespace GestorStock.BD.Migrations
                     b.Navigation("Usuarios");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Stock", b =>
                 {
                     b.Navigation("DetallePedidos");
                 });
 
+=======
+>>>>>>> dev-fernandez
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Unidad", b =>
                 {
                     b.Navigation("Productos");
