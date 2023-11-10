@@ -12,21 +12,6 @@ namespace GestorStock.BD.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231106044716_inicio.cs
-========
-                name: "Componentes",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    cantidad = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Componentes", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DetallePedidos",
                 columns: table => new
                 {
@@ -39,7 +24,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
->>>>>>>> dev-fernandez:GestorStock.BD/Migrations/20231106000430_inicio.cs
                 name: "Estados",
                 columns: table => new
                 {
@@ -190,7 +174,6 @@ namespace GestorStock.BD.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    codDeposito = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     nombreDeposito = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     direccion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     ObraId = table.Column<int>(type: "int", nullable: false)
@@ -207,7 +190,6 @@ namespace GestorStock.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231106044716_inicio.cs
                 name: "Componentes",
                 columns: table => new
                 {
@@ -220,25 +202,6 @@ namespace GestorStock.BD.Migrations
                     table.PrimaryKey("PK_Componentes", x => x.id);
                     table.ForeignKey(
                         name: "FK_Componentes_Productos_ProductoId",
-========
-                name: "ProductoComponentes",
-                columns: table => new
-                {
-                    ProductoId = table.Column<int>(type: "int", nullable: false),
-                    ComponenteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductoComponentes", x => new { x.ProductoId, x.ComponenteId });
-                    table.ForeignKey(
-                        name: "FK_ProductoComponentes_Componentes_ComponenteId",
-                        column: x => x.ComponenteId,
-                        principalTable: "Componentes",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProductoComponentes_Productos_ProductoId",
->>>>>>>> dev-fernandez:GestorStock.BD/Migrations/20231106000430_inicio.cs
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "id",
@@ -322,33 +285,6 @@ namespace GestorStock.BD.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DetallePedidos",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    cantidad = table.Column<int>(type: "int", maxLength: 40, nullable: false),
-                    StockId = table.Column<int>(type: "int", nullable: false),
-                    NotaPedidoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DetallePedidos", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_DetallePedidos_NotaPedidos_NotaPedidoId",
-                        column: x => x.NotaPedidoId,
-                        principalTable: "NotaPedidos",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DetallePedidos_Stocks_StockId",
-                        column: x => x.StockId,
-                        principalTable: "Stocks",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Componentes_ProductoId",
                 table: "Componentes",
@@ -365,24 +301,6 @@ namespace GestorStock.BD.Migrations
                 column: "Usuariosid");
 
             migrationBuilder.CreateIndex(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231106044716_inicio.cs
-                name: "IX_DetallePedidos_NotaPedidoId",
-                table: "DetallePedidos",
-                column: "NotaPedidoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DetallePedidos_StockId",
-                table: "DetallePedidos",
-                column: "StockId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_NotaPedidoRemito_Remitosid",
-                table: "NotaPedidoRemito",
-                column: "Remitosid");
-
-            migrationBuilder.CreateIndex(
-========
->>>>>>>> dev-fernandez:GestorStock.BD/Migrations/20231106000430_inicio.cs
                 name: "IX_NotaPedidos_EstadoId",
                 table: "NotaPedidos",
                 column: "EstadoId");
@@ -434,26 +352,22 @@ namespace GestorStock.BD.Migrations
                 name: "ProductoComponentes");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:GestorStock.BD/Migrations/20231106044716_inicio.cs
-                name: "Usuarios");
-========
                 name: "Remitos");
 
             migrationBuilder.DropTable(
                 name: "Stocks");
->>>>>>>> dev-fernandez:GestorStock.BD/Migrations/20231106000430_inicio.cs
 
             migrationBuilder.DropTable(
-                name: "Stocks");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Componentes");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Depositos");
 
             migrationBuilder.DropTable(
-                name: "Depositos");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Productos");

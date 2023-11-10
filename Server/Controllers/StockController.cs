@@ -26,6 +26,7 @@ namespace GestorStock.Server.Controllers
 
             var lista = await context.Stocks
                     .Include(Stock => Stock.Productos)
+                        .ThenInclude(p => p.Unidad)
                     .ToListAsync();
 
 

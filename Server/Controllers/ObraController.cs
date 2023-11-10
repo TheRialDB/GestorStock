@@ -31,7 +31,7 @@ namespace GestorStock.Server.Controllers
 
             if (lista == null || lista.Count == 0)
             {
-                return NotFound("No hay obras cargadas");
+                return BadRequest("No hay obras cargadas");
             }
 
             return lista;
@@ -44,7 +44,7 @@ namespace GestorStock.Server.Controllers
             var existe = await context.Obras.AnyAsync(x => x.id == id);
             if (!existe)
             {
-                return NotFound($"La Obra {id} no existe");
+                return BadRequest($"La Obra {id} no existe");
             }
             return await context.Obras.FirstOrDefaultAsync(ped => ped.id == id);
         }
@@ -57,7 +57,7 @@ namespace GestorStock.Server.Controllers
                 var existe = await context.Estados.AnyAsync(x => x.id == entidad.EstadoId);
                 if (!existe)
                 {
-                    return NotFound($"El estado de id={entidad.EstadoId} no existe");
+                    return BadRequest($"El estado de id={entidad.EstadoId} no existe");
                 }
 
                 Obra nuevaobra = new Obra();
@@ -107,7 +107,7 @@ namespace GestorStock.Server.Controllers
             var existe = await context.Obras.AnyAsync(x => x.id == id);
             if (!existe)
             {
-                return NotFound($"La obra con el ID={id} no existe");
+                return BadRequest($"La obra con el ID={id} no existe");
             }
 
             context.Remove(new Obra() { id = id });

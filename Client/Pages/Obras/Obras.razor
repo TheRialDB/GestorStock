@@ -70,8 +70,24 @@
                         {
                             <tr>
                                 <td>@item.id</td>
-                                <td>@item.nombreObra</td>
-                                <td>@item.Estado.nombreEstado</td>
+                                <td>@item.nombreObra
+
+                                    <div class="table-button-cell">
+
+                                        <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarObra(item.id)"></i>
+
+                                    </div>
+                                
+                                </td>
+                                <td class="@TextColor(@item.Estado.nombreEstado)">@item.Estado.nombreEstado
+
+                                    <div class="table-button-cell">
+
+                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+
+                                    </div>
+                                
+                                </td>
                                 <td>@item.direccion</td>
                                 <td class="hide">
 
@@ -84,7 +100,7 @@
                                 </td>
 
                             </tr>
-                            <tr class="table-button-row">
+@*                            <tr class="table-button-row">
                                 <td class="table-button-cell"></td>
 
                                 <td class="table-button-cell">
@@ -100,7 +116,7 @@
                                 </td>
 
                                 <td class="table-button-cell"></td>
-                            </tr>
+                            </tr>*@
 
                         }
                     }       
@@ -152,6 +168,23 @@
 
 @*<Confirmacion @ref='confirmacion'></Confirmacion>*@
 @code {
+
+    private string TextColor(string color)
+    {
+
+        switch (color)
+        {
+            case "N":
+                return "noIniciado"; // Green color
+            case "E":
+                return "enEjecucion"; // Red color
+            case "T":
+                return "terminado"; // Gray color
+            default:
+                return ""; // Default color
+        }
+
+    }
 
 
     [Inject]

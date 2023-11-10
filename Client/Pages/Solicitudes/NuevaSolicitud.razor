@@ -26,11 +26,11 @@
             <div class="col-md-4">
 
                 <div class="insquare">
-                    <div class="center flex-fill">
+@*                    <div class="center flex-fill">
 
 					<NotaPedidoForm notaPedido="notaPedido" onValidSubmit="Agregar"></NotaPedidoForm>
 
-                    </div>
+                    </div>*@
                 </div>
 
             </div>
@@ -69,21 +69,21 @@
 @code {
     private NotaPedido notaPedido = new() { fechaPedido = DateTime.Today };
 
-    private async Task Agregar()
-    {
-        NotaPedidoDTO notaPedidoDTO = new()
-            {
-                fechaPedido = notaPedido.fechaPedido,
-                emisor = notaPedido.emisor,
-                receptor = notaPedido.receptor,
-                EstadoId = notaPedido.EstadoId
-            };
+    //private async Task Agregar()
+    //{
+    //    NotaPedidoDTO notaPedidoDTO = new()
+    //        {
+    //            fechaPedido = notaPedido.fechaPedido,
+    //            emisor = notaPedido.emisor,
+    //            receptor = notaPedido.receptor,
+    //            EstadoId = notaPedido.EstadoId
+    //        };
 
-        var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
+    //    var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
 
-        if (httpRespuesta.Error)
-        {
-            var body = httpRespuesta.HttpResponseMessage;
-        }
-    }
+    //    if (httpRespuesta.Error)
+    //    {
+    //        var body = httpRespuesta.HttpResponseMessage;
+    //    }
+    //}
 }

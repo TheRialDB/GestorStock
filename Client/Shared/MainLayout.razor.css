@@ -9,7 +9,7 @@
     background-image: linear-gradient(#07020d 0,#10061f 7%,#18082f 80%,#061029 100%) !important;
 }
 
-@media (max-width: 420px){
+@media (max-width: 500px){
 
     .main {
 

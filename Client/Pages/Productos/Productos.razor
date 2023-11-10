@@ -71,10 +71,27 @@
                             @foreach (var item in productos)
                             {
                                 <tr>
-                                    <td>@item.codigo</td>
-                                    <td>@item.nombreProducto</td>
-                                    <td>@item.Unidad.nombreUnidad</td>
-                                    <td class="table-button-cell"></td>
+                                    <td>@item.codigo
+                                        <div class="table-button-cell">
+                                            <span class="material-symbols-outlined newCompBtn" @onclick="()=>nuevo(item)"> add_box </span>
+                                            </div>
+                                        </td>
+                                    <td>@item.nombreProducto
+                                        <div class="table-button-cell">
+                                            <i class='bx bxs-component table-button' @onclick="() => OpenProdComp(item.id, item.nombreProducto)"></i>
+                                            </div>
+                                        </td>
+                                    <td>@item.Unidad.nombreUnidad
+                                        <div class="table-button-cell">
+                                        <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarProducto(item.id)"></i>
+                                        </div>
+                                    </td>
+                                <td class="table-button-cell">
+                                    <br>
+                                        <div>
+                                                <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+                                        </div>
+                                    </td>
                                     <td class="hide">
                                         
                                         <span class="material-symbols-outlined newCompBtn" @onclick="()=>nuevo(item)"> add_box </span>
@@ -88,24 +105,6 @@
                                         <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarProducto(item.id)"></i>
                                     </td>
                                     <td class="hide">
-                                        <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
-
-                                    </td>
-                                </tr>
-                                <tr class="table-button-row">
-                                    <td class="table-button-cell">
-
-                                        <span class="material-symbols-outlined newCompBtn" @onclick="()=>nuevo(item)"> add_box </span>
-
-                                    </td>
-                                    <td class="table-button-cell">
-                                        <i class='bx bxs-component table-button' @onclick="() => OpenProdComp(item.id, item.nombreProducto)"></i>
-
-                                    </td>
-                                    <td class="table-button-cell">
-                                        <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarProducto(item.id)"></i>
-                                    </td>
-                                    <td class="table-button-cell">
                                         <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
 
                                     </td>

@@ -35,7 +35,7 @@
 
   <div class="insquare"> 
     <div class="table-responsive rounded-3">
-            <table class="table table-hover table-bordered">
+        <table class="table table-striped table-hover table-bordered">
             <thead id="table-headers">
                 <tr>
                     <th class="th-cod">Cod</th>
@@ -70,25 +70,25 @@
                         @foreach (var item in stock)
                         {
                             <tr>
-                                <td>@item.Productos.codigo</td>
-                                <td>@item.Productos.nombreProducto</td>
-                                <td>@item.cantidad</td>
+                                <td>@item.Productos.codigo </td>
+                                <td>@item.Productos.nombreProducto  (@item.Productos.Unidad.simbolo)
+                                    <div class="table-button-cell">
+                                        <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
+                                    </div>
+                                </td>
+                                <td>@item.cantidad
+                                    <div class="table-button-cell">
+                                    <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
+                                    </div>
+                                </td>
                                 <td class="@TextColor(@item.estado)">@item.estado</td>
+
                                 <td class="hide">
                                     <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
                                 </td>
                                 <td class="hide">
                                     <i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i>
-
                                 </td>
-                            </tr>
-                                <tr class="table-button-row">
-                                <td></td>
-                                <td class="table-button-cell">
-                                    <i class='bx bxs-edit-alt edit-button' @onclick="() => OpenModificarStock(item.id)"></i>
-                                </td>
-                                <td class="table-button-cell"><i class='bx bx-trash trash-button table-button' @onclick="()=>Eliminar(item)"></i></td>
-                                <td></td>
                             </tr>
                         }
                     }
@@ -263,7 +263,10 @@
     List<Stock>? stock;
     bool Error = false;
     string Mensaje = "";
+    List<Producto>? productos;
+
     Stock StockBorrar;
+    //List<Unidad>? unidades;
 
 
     protected override async Task OnInitializedAsync()
@@ -285,6 +288,7 @@
         {
             Mensaje = await respuesta.ObtenerError(); //se llama el metodo ut
         }
+
     }
 
     private async Task Eliminar(Stock stockBorrar)
