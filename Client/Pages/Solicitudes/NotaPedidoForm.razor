@@ -1,4 +1,4 @@
-﻿@*@inject IHttpServicio http
+﻿@inject IHttpServicio http
 
 <EditForm Model="notaPedido" OnValidSubmit="onValidSubmit">
     <DataAnnotationsValidator />
@@ -20,14 +20,14 @@
             @if (depositos != null)
             {
                 <div>
-                    <InputSelect class="form-control" @bind-Value="@notaPedido.emisor">
+                    <InputSelect class="form-control" @bind-Value="@notaPedido.codDepEmisor">
                         <option value="0"> Seleccione un emisor </option>
                         @foreach (var deposito in depositos)
                         {
                             <option value="@deposito.id">@deposito.nombreDeposito</option>
                         }
                     </InputSelect>
-                    <ValidationMessage For="@(() => notaPedido.emisor)" />
+                    <ValidationMessage For="@(() => notaPedido.codDepEmisor)" />
 
                 </div>
             }
@@ -39,16 +39,40 @@
 
             @if (depositos != null)
             {
-                <InputSelect class="form-control" @bind-Value="@notaPedido.receptor">
+                <InputSelect class="form-control" @bind-Value="@notaPedido.codDepReceptor">
                     <option value="0"> Seleccione un receptor </option>
                     @foreach (var deposito in depositos)
                     {
                         <option value="@deposito.id">@deposito.nombreDeposito</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => notaPedido.receptor)" />
+                <ValidationMessage For="@(() => notaPedido.codDepReceptor)" />
             }
+        </div>
 
+        <div class="form-group">
+            <label class="mb-2 fw-bold color-primario">Cargar Stock</label>
+            <div class="mb-2">
+
+                @foreach (string stock in stocks)
+                {
+                    @foreach (int cant in cantidades)
+                    {
+                        <div class="d-flex justify-content-between my-1">
+                            <p class="mb-2">@stock</p>
+                            <a class="btn btn-danger" @onclick="() => EliminarProductos(stock, cant)">Eliminar</a>
+                        </div>
+                    }
+                }
+
+                <div class="form-group">
+                    <div class="input-group-append">
+                        <InputText class="form-control mt-2" @bind-Value="@productosStock" max="2" />
+                        <InputNumber class="form-control mt-2" @bind-Value="@productosCant" max="2" />
+                        <a class="btn btn-success mt-2" @onclick="@(()=>AgregarProductos(productosStock, productosCant))">Agregar Otro Producto</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="form-group margin-b">
@@ -73,13 +97,15 @@
     [Parameter] public NotaPedido notaPedido { get; set; } = new();
     [Parameter] public EventCallback onValidSubmit { get; set; }
     [Parameter] public EventCallback onCancel { get; set; }
-     
-
+    [Parameter] public List<string> stocks { get; set; } = new List<string>();
+    [Parameter] public List<int> cantidades { get; set; } = new List<int>();
 
     public List<Deposito>? depositos { get; set; } = new();
 
     bool error = false;
     string mensaje = "";
+    string productosStock;
+    int productosCant;
 
     protected override async Task OnInitializedAsync()
     {
@@ -104,4 +130,16 @@
             mensaje = await respuesta.ObtenerError();
         }
     }
-}*@
+
+    private void AgregarProductos(string addStock ,int addCant)
+    {
+        stocks.Add(addStock);
+        cantidades.Add(addCant);
+    }
+
+    private void EliminarProductos(string addStock, int addCant)
+    {
+        stocks.Remove(addStock);
+        cantidades.Remove(addCant);
+    }
+}

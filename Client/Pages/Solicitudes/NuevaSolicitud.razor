@@ -26,11 +26,119 @@
             <div class="col-md-4">
 
                 <div class="insquare">
-@*                    <div class="center flex-fill">
+                   <div class="center flex-fill">
 
-					<NotaPedidoForm notaPedido="notaPedido" onValidSubmit="Agregar"></NotaPedidoForm>
+                    <EditForm Model="notaPedido" OnValidSubmit="Agregar">
+                        <DataAnnotationsValidator />
 
-                    </div>*@
+                        <div class="padd">
+
+                            <div class="form-group margin-b">
+                                <label>Fecha</label>
+                                <div>
+                                    <InputDate class="form-control" @bind-Value="@notaPedido.fechaPedido" />
+                                    <ValidationMessage For="@(() => notaPedido.fechaPedido)" />
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-b">
+
+                                <label>Emisor</label>
+
+                                @if (depositos != null)
+                                {
+                                    <div>
+                                        <InputSelect class="form-control" @bind-Value="@notaPedido.codDepEmisor">
+                                            <option value="0"> Seleccione un emisor </option>
+                                            @foreach (var deposito in depositos)
+                                            {
+                                                <option value="@deposito.id">@deposito.nombreDeposito</option>
+                                            }
+                                        </InputSelect>
+                                        <ValidationMessage For="@(() => notaPedido.codDepEmisor)" />
+
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="form-group margin-b">
+
+                                <label>Receptor</label>
+
+                                @if (depositos != null)
+                                {
+                                    <InputSelect class="form-control" @bind-Value="@notaPedido.codDepReceptor">
+                                        <option value="0"> Seleccione un receptor </option>
+                                        @foreach (var deposito in depositos)
+                                        {
+                                            <option value="@deposito.id">@deposito.nombreDeposito</option>
+                                        }
+                                    </InputSelect>
+                                    <ValidationMessage For="@(() => notaPedido.codDepReceptor)" />
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label class="mb-2 fw-bold color-primario">Cargar Stock</label>
+                                <div class="mb-2">
+
+                                    @* @foreach (string stock in stocks)
+                                    {
+                                        @foreach (int cant in cantidades)
+                                        {
+                                            <div class="d-flex justify-content-between my-1">
+                                                <p class="mb-2">@stock</p>
+                                                <a class="btn btn-danger" @onclick="() => EliminarProductos(stock, cant)">Eliminar</a>
+                                            </div>
+                                        }
+                                    } *@
+
+                                    @for (int i = 0; i < stocks.Count; i++)
+                                    {
+                                        <div class="d-flex justify-content-between my-1">
+                                            <p class="mb-2">@stocks[i]</p>
+                                            <p class="mb-2">@cantidades[i]</p>
+                                            <a class="btn btn-danger" @onclick="() => EliminarProductos(stocks[i], cantidades[i])">Eliminar</a>
+                                        </div>
+                                    }
+
+                                    <div class="form-group">
+                                        <div class="input-group-append">
+                                            <InputText class="form-control mt-2" @bind-Value="@productosStock" max="2" />
+                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant" max="2" />
+                                            <a class="btn btn-success mt-2" @onclick="@(()=>AgregarProductos(productosStock, productosCant))">Agregar Otro Producto</a>
+                                        </div>
+                                    </div>
+
+                                    @* <div class="form-group">
+                                        <div class="input-group-append">
+                                            <InputText class="form-control mt-2" @bind-Value="@productosStock" max="2" />
+                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant" max="2" />
+                                            <a class="btn btn-success mt-2" @onclick="@(()=>AgregarProductos(productosStock, productosCant))">Agregar Otro Producto</a>
+                                        </div>
+                                    </div> *@
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-b">
+                                <label>Estado</label>
+                                <div>
+                                    <InputSelect class="form-control" @bind-Value="@notaPedido.EstadoId">
+                                        <option Value="1"> Pendiente </option>
+                                    </InputSelect>
+                                    <ValidationMessage For="@(() => notaPedido.EstadoId)" />
+                                </div>
+                            </div>
+
+                            <div class="modal-footer footer justify-content-evenly">
+                                <button class="btn btn-info" type="submit">Cargar Solicitud</button>
+                                @* <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button> *@
+                            </div>
+
+                        </div>
+                    </EditForm>
+
+                    </div>
                 </div>
 
             </div>
@@ -67,23 +175,67 @@
 
 
 @code {
+    private List<string> stocks { get; set; } = new List<string>();
+    private List<int> cantidades { get; set; } = new List<int>();
+    public List<Deposito>? depositos { get; set; } = new();
     private NotaPedido notaPedido = new() { fechaPedido = DateTime.Today };
+    
+    private bool error = false;
+    private string mensaje = "";
+    private string productosStock;
+    private int productosCant;
 
-    //private async Task Agregar()
-    //{
-    //    NotaPedidoDTO notaPedidoDTO = new()
-    //        {
-    //            fechaPedido = notaPedido.fechaPedido,
-    //            emisor = notaPedido.emisor,
-    //            receptor = notaPedido.receptor,
-    //            EstadoId = notaPedido.EstadoId
-    //        };
+    private async Task Agregar()
+    {
+       NotaPedidoDTO notaPedidoDTO = new()
+           {
+               fechaPedido = notaPedido.fechaPedido,
+               codDepEmisor = notaPedido.codDepEmisor,
+               codDepReceptor = notaPedido.codDepReceptor,
+               EstadoId = notaPedido.EstadoId
+           };
 
-    //    var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
+       var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
 
-    //    if (httpRespuesta.Error)
-    //    {
-    //        var body = httpRespuesta.HttpResponseMessage;
-    //    }
-    //}
+       if (httpRespuesta.Error)
+       {
+           var body = httpRespuesta.HttpResponseMessage;
+       }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        depositos = null;
+
+        var respuesta = await http.Get<List<Deposito>>("api/Deposito");
+
+        error = respuesta.Error;
+
+        if (!respuesta.Error)
+        {
+            depositos = respuesta.Respuesta;
+        }
+        else
+        {
+            mensaje = await respuesta.ObtenerError();
+        }
+    }
+
+    private void AgregarProductos(string addStock, int addCant)
+    {
+        stocks.Add(addStock);
+        cantidades.Add(addCant);
+    }
+
+    private void EliminarProductos(string addStock, int addCant)
+    {
+        stocks.Remove(addStock);
+        cantidades.Remove(addCant);
+    }
 }
