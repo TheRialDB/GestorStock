@@ -33,6 +33,8 @@ namespace GestorStock.BD.Data.Entity
         //Conexiones
         public int EstadoId { get; set; }
         public Estado Estado { get; set; }
+        public int stockId { get; set; }
+        public Stock stock { get; set; }
 
         //public List<Remito> Remitos { get; set; } = new List<Remito>();
         //public List<DetallePedido> DetallePedidos { get; set; } = new List<DetallePedido>();

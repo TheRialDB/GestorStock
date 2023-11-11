@@ -78,47 +78,28 @@
                                 }
                             </div>
 
+
                             <div class="form-group">
                                 <label class="mb-2 fw-bold color-primario">Cargar Stock</label>
                                 <div class="mb-2">
 
-                                    @* @foreach (string stock in stocks)
-                                    {
-                                        @foreach (int cant in cantidades)
-                                        {
-                                            <div class="d-flex justify-content-between my-1">
-                                                <p class="mb-2">@stock</p>
-                                                <a class="btn btn-danger" @onclick="() => EliminarProductos(stock, cant)">Eliminar</a>
-                                            </div>
-                                        }
-                                    } *@
-
-                                    @for (int i = 0; i < stocks.Count; i++)
-                                    {
-                                        <div class="d-flex justify-content-between my-1">
-                                            <p class="mb-2">@stocks[i]</p>
-                                            <p class="mb-2">@cantidades[i]</p>
-                                            <a class="btn btn-danger" @onclick="() => EliminarProductos(stocks[i], cantidades[i])">Eliminar</a>
-                                        </div>
-                                    }
-
                                     <div class="form-group">
                                         <div class="input-group-append">
-                                            <InputText class="form-control mt-2" @bind-Value="@productosStock" max="2" />
-                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant" max="2" />
-                                            <a class="btn btn-success mt-2" @onclick="@(()=>AgregarProductos(productosStock, productosCant))">Agregar Otro Producto</a>
+                                            <InputSelect class="form-control mt-2" @bind-Value="@productosStock">
+                                                <option value="0"> Selecciona un producto </option>
+                                                @foreach (var stock in stockk)
+                                                {
+                                                    <option value="@stock.id">@stock.Productos.nombreProducto</option>
+                                                }
+                                            </InputSelect>
+                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant"/>
+                                            <a class="btn btn-success mt-2" @onclick="@AgregarProductos">Agregar Otro Producto</a>
                                         </div>
                                     </div>
 
-                                    @* <div class="form-group">
-                                        <div class="input-group-append">
-                                            <InputText class="form-control mt-2" @bind-Value="@productosStock" max="2" />
-                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant" max="2" />
-                                            <a class="btn btn-success mt-2" @onclick="@(()=>AgregarProductos(productosStock, productosCant))">Agregar Otro Producto</a>
-                                        </div>
-                                    </div> *@
                                 </div>
                             </div>
+
 
                             <div class="form-group margin-b">
                                 <label>Estado</label>
@@ -148,7 +129,52 @@
 
                 <div class="insquare">
 
+                    <div class="table-responsive rounded-3">
+                        <table class="table table-striped table-hover table-bordered text-center">
+                            <thead id="table-headers">
+                                <tr>
+                                    <th>Productos</th>
+                                    <th>Cantidad</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                                @if (error)
+                                {
+                                    <tr>
+                                        <td colspan="6">@mensaje</td>
+                                    </tr>
+                                }
+                                else
+                                {
+
+                                    @if (stocks == null)
+                                    {
+                                        <tr>Cargando...</tr>
+                                    }
+                                    else if (stocks.Count == 0)
+                                    {
+                                        <tr>No existen los datos</tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var product in datosSolicitudDTO)
+                                        {
+                                            <tr>
+                                                <td>@product.Stock</td>
+                                                <td>@product.Quantity</td>
+                                                <td>
+                                                    <button class="btn btn-danger" @onclick="@(() => EliminarProductos(product))">Remove</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
 
 
                 </div>
@@ -179,7 +205,11 @@
     private List<int> cantidades { get; set; } = new List<int>();
     public List<Deposito>? depositos { get; set; } = new();
     private NotaPedido notaPedido = new() { fechaPedido = DateTime.Today };
-    
+    public List<Stock>? stockk { get; set; } = new();
+
+    private List<DatosSolicitudDTO> datosSolicitudDTO { get; set; } = new List<DatosSolicitudDTO>();
+
+
     private bool error = false;
     private string mensaje = "";
     private string productosStock;
@@ -187,7 +217,7 @@
 
     private async Task Agregar()
     {
-       NotaPedidoDTO notaPedidoDTO = new()
+        NotaPedidoDTO notaPedidoDTO = new()
            {
                fechaPedido = notaPedido.fechaPedido,
                codDepEmisor = notaPedido.codDepEmisor,
@@ -195,18 +225,19 @@
                EstadoId = notaPedido.EstadoId
            };
 
-       var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
+        var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
 
-       if (httpRespuesta.Error)
-       {
-           var body = httpRespuesta.HttpResponseMessage;
-       }
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await Leer();
+        await LeerStock();
     }
 
     private async Task Leer()
@@ -227,15 +258,53 @@
         }
     }
 
-    private void AgregarProductos(string addStock, int addCant)
+    private void AgregarProductos()
     {
-        stocks.Add(addStock);
-        cantidades.Add(addCant);
+        // Check if a product has been selected
+        if (!string.IsNullOrEmpty(productosStock) && productosCant > 0)
+        {
+            // Create a new ProductViewModel and add it to the list
+            datosSolicitudDTO.Add(new DatosSolicitudDTO
+            {
+                    Stock = productosStock,
+                    Cantidad = productosCant
+            });
+        }   
+
+
+            // Clear the input fields
+            productosStock = string.Empty;
+            productosCant = 0;
+    }
+        
+
+    private async Task LeerStock()
+    {
+        stockk = null;
+
+        string mensaje;
+
+        bool error = false;
+
+        var respuesta = await http.Get<List<Stock>>("api/Stock");
+
+        error = respuesta.Error;
+
+        if (!respuesta.Error)
+        {
+            stockk = respuesta.Respuesta;
+        }
+        else
+        {
+            mensaje = await respuesta.ObtenerError();
+        }
     }
 
-    private void EliminarProductos(string addStock, int addCant)
+
+    private void EliminarProductos(string removeStock, int removeCant)
     {
-        stocks.Remove(addStock);
-        cantidades.Remove(addCant);
+        // Remove the selected product from the list
+        productosStock.Remove(product);
+        productosStock.Remove(product);
     }
 }

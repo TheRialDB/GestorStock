@@ -22,7 +22,13 @@ namespace GestorStock.Server.Controllers
 
         public async Task<ActionResult<List<NotaPedido>>> Get()
         {
-            var lista = await context.NotaPedidos.ToListAsync();
+            //var lista = await context.NotaPedidos.ToListAsync();
+
+            var lista = await context.NotaPedidos
+                .Include(s => s.stock)
+                    .ThenInclude(p => p.Productos)
+                    .ToListAsync();
+
             if (lista == null || lista.Count == 0)
             {
                 return BadRequest("no hay nota de pedido cargada");
@@ -37,7 +43,7 @@ namespace GestorStock.Server.Controllers
             var existe = await context.NotaPedidos.AnyAsync(x => x.id == id);
             if (!existe)
             {
-                return NotFound($"La nota pedido {id} no existe");
+                return BadRequest($"La nota pedido {id} no existe");
             }
             
             return await context.NotaPedidos.FirstOrDefaultAsync(not => not.id == id);
@@ -49,7 +55,7 @@ namespace GestorStock.Server.Controllers
             var existe = await context.Estados.AnyAsync(x => x.id == notaPedidoDTO.EstadoId);
             if (!existe)
             {
-                return NotFound($"El estado de id = {notaPedidoDTO.EstadoId} no existe");
+                return BadRequest($"El estado de id = {notaPedidoDTO.EstadoId} no existe");
             }
 
             try
@@ -107,7 +113,7 @@ namespace GestorStock.Server.Controllers
 
             if ( entidad == null) 
             {
-                return NotFound($"La nota pedido con el ID={id} no existe ");
+                return BadRequest($"La nota pedido con el ID={id} no existe ");
             }
 
             

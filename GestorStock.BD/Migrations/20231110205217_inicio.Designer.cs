@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorStock.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231110192234_Inicio")]
-    partial class Inicio
+    [Migration("20231110205217_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,9 +149,14 @@ namespace GestorStock.BD.Migrations
                     b.Property<DateTime>("fechaPedido")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("stockId")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
 
                     b.HasIndex("EstadoId");
+
+                    b.HasIndex("stockId");
 
                     b.ToTable("NotaPedidos");
                 });
@@ -414,7 +419,15 @@ namespace GestorStock.BD.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("GestorStock.BD.Data.Entity.Stock", "stock")
+                        .WithMany()
+                        .HasForeignKey("stockId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Estado");
+
+                    b.Navigation("stock");
                 });
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Obra", b =>
