@@ -20,10 +20,10 @@ namespace GestorStock.Shared.DTO
         [MaxLength(50, ErrorMessage = "Solo se aceptan hasta 50 caracteres en el nombre del EMISOR")]
         public string codDepReceptor { get; set; }
 
-        [Required(ErrorMessage = "El Codigo del Producto es obligatorio")]
+        //[Required(ErrorMessage = "El Codigo del Producto es obligatorio")]
         public List<string> CodStock { get; set; } = new List<string>();
 
-        [Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
+        //[Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
         public List<int> Cantidad { get; set; } = new List<int>();
 
         //Conexiones
