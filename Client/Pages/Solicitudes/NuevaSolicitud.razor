@@ -93,7 +93,7 @@
                                                 }
                                             </InputSelect>
                                             <InputNumber class="form-control mt-2" @bind-Value="@productosCant"/>
-                                            <a class="btn btn-success mt-2" @onclick="@AgregarProductos">Agregar Otro Producto</a>
+                                            <a class="btn btn-success mt-2" @onclick="@AgregarProductos">Agregar Producto</a>
                                         </div>
                                     </div>
 
@@ -162,8 +162,8 @@
                                         @foreach (var product in datosSolicitudDTO)
                                         {
                                             <tr>
-                                                <td>@product.Stock</td>
-                                                <td>@product.Quantity</td>
+                                                <td>@product.CodStock.FirstOrDefault()</td>
+                                                <td>@product.Cantidad.FirstOrDefault()</td>
                                                 <td>
                                                     <button class="btn btn-danger" @onclick="@(() => EliminarProductos(product))">Remove</button>
                                                 </td>
@@ -207,7 +207,7 @@
     private NotaPedido notaPedido = new() { fechaPedido = DateTime.Today };
     public List<Stock>? stockk { get; set; } = new();
 
-    private List<DatosSolicitudDTO> datosSolicitudDTO { get; set; } = new List<DatosSolicitudDTO>();
+    private List<NotaPedidoDTO> datosSolicitudDTO { get; set; } = new List<NotaPedidoDTO>();
 
 
     private bool error = false;
@@ -218,12 +218,14 @@
     private async Task Agregar()
     {
         NotaPedidoDTO notaPedidoDTO = new()
-           {
-               fechaPedido = notaPedido.fechaPedido,
-               codDepEmisor = notaPedido.codDepEmisor,
-               codDepReceptor = notaPedido.codDepReceptor,
-               EstadoId = notaPedido.EstadoId
-           };
+            {
+                fechaPedido = notaPedido.fechaPedido,
+                codDepEmisor = notaPedido.codDepEmisor,
+                codDepReceptor = notaPedido.codDepReceptor,
+                CodStock = notaPedido.CodStock,
+                Cantidad = notaPedido.Cantidad,
+                EstadoId = notaPedido.EstadoId
+            };
 
         var httpRespuesta = await http.Post<NotaPedidoDTO>("api/NotaPedido", notaPedidoDTO); //post
 
@@ -231,6 +233,9 @@
         {
             var body = httpRespuesta.HttpResponseMessage;
         }
+
+        
+        
     }
 
     protected override async Task OnInitializedAsync()
@@ -263,18 +268,20 @@
         // Check if a product has been selected
         if (!string.IsNullOrEmpty(productosStock) && productosCant > 0)
         {
-            // Create a new ProductViewModel and add it to the list
-            datosSolicitudDTO.Add(new DatosSolicitudDTO
-            {
-                    Stock = productosStock,
-                    Cantidad = productosCant
-            });
-        }   
+            // Create a new NotaPedidoViewModel and add it to the list
+            datosSolicitudDTO.Add(new NotaPedidoDTO
+                {
 
+                    CodStock = new List<string> { productosStock },
+                    Cantidad = new List<int> { productosCant }
+                });
 
             // Clear the input fields
             productosStock = string.Empty;
             productosCant = 0;
+
+            StateHasChanged();
+        }
     }
         
 
@@ -301,10 +308,10 @@
     }
 
 
-    private void EliminarProductos(string removeStock, int removeCant)
+    private void EliminarProductos(NotaPedidoDTO product)
     {
         // Remove the selected product from the list
-        productosStock.Remove(product);
-        productosStock.Remove(product);
+        datosSolicitudDTO.Remove(product);
+
     }
 }
