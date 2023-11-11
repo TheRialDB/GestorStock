@@ -22,12 +22,12 @@ namespace GestorStock.Server.Controllers
 
         public async Task<ActionResult<List<NotaPedido>>> Get()
         {
-            //var lista = await context.NotaPedidos.ToListAsync();
+            var lista = await context.NotaPedidos.ToListAsync();
 
-            var lista = await context.NotaPedidos
-                .Include(s => s.stock)
-                    .ThenInclude(p => p.Productos)
-                    .ToListAsync();
+            //var lista = await context.NotaPedidos
+            //    .Include(s => s.)
+            //        .ThenInclude(p => p.Productos)
+            //        .ToListAsync();
 
             if (lista == null || lista.Count == 0)
             {

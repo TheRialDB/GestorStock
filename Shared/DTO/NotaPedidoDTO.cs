@@ -25,7 +25,6 @@ namespace GestorStock.Shared.DTO
 
         //[Required(ErrorMessage = "La Cantidad del Detalle Pedido debe ser OBLIGATORIO")]
         public List<int> Cantidad { get; set; } = new List<int>();
-
         //Conexiones
         public int EstadoId { get; set; }
     }

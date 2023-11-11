@@ -161,8 +161,10 @@
                                     {
                                         @foreach (var product in datosSolicitudDTO)
                                         {
+                                        var stockItem = stockk.FirstOrDefault(s => s.id == Int32.Parse(product.CodStock.First()));
+
                                             <tr>
-                                                <td>@product.CodStock.FirstOrDefault()</td>
+                                            <td>@stockItem?.Productos.nombreProducto</td>
                                                 <td>@product.Cantidad.FirstOrDefault()</td>
                                                 <td>
                                                     <button class="btn btn-danger" @onclick="@(() => EliminarProductos(product))">Remove</button>
@@ -217,13 +219,17 @@
 
     private async Task Agregar()
     {
+
+        var codStock = datosSolicitudDTO.SelectMany(p => p.CodStock).ToList();
+        var cantidades = datosSolicitudDTO.SelectMany(p => p.Cantidad).ToList();
+
         NotaPedidoDTO notaPedidoDTO = new()
             {
                 fechaPedido = notaPedido.fechaPedido,
                 codDepEmisor = notaPedido.codDepEmisor,
                 codDepReceptor = notaPedido.codDepReceptor,
-                CodStock = notaPedido.CodStock,
-                Cantidad = notaPedido.Cantidad,
+                CodStock = codStock,
+                Cantidad = cantidades,
                 EstadoId = notaPedido.EstadoId
             };
 
@@ -265,11 +271,15 @@
         // Check if a product has been selected
         if (!string.IsNullOrEmpty(productosStock) && productosCant > 0)
         {
+            var selectedProductId = Int32.Parse(productosStock);
+            var selectedProduct = stockk.FirstOrDefault(s => s.id == selectedProductId);
+
+            var nombreProducto = selectedProduct.Productos.nombreProducto;
             // Crear una nueva NotaPedidoDTO y agregarla a la lista
             var nuevoProducto = new NotaPedidoDTO
                 {
-                    CodStock = new List<string> { productosStock }, // Convertir el string a una lista de string
-                    Cantidad = new List<int> { productosCant }
+                    CodStock = new List<string> { productosStock },
+                    Cantidad = new List<int> { productosCant },
                 };
 
             // Agregar el nuevo producto a la lista
@@ -310,6 +320,6 @@
     {
         // Remove the selected product from the list
         datosSolicitudDTO.Remove(product);
-
+        StateHasChanged();
     }
 }
