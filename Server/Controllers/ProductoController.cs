@@ -51,11 +51,6 @@ namespace GestorStock.Server.Controllers
         {
             try
             {
-                //var existe = await context.Depositos.AnyAsync(x => x.id == entidad.DepositoId);
-                //if (!existe)
-                //{
-                //    return NotFound($"El deposito de id={entidad.DepositoId} no existe");
-                //}
 
                 var existe = await context.Unidades.AnyAsync(x => x.id == entidad.UnidadId);
                 if (!existe)
@@ -65,13 +60,11 @@ namespace GestorStock.Server.Controllers
 
                 Producto nuevoproducto = new Producto();
 
-                //nuevoproducto.DepositoId = entidad.DepositoId;
+
                 nuevoproducto.UnidadId = entidad.UnidadId;
                 nuevoproducto.codigo = entidad.codigo;
                 nuevoproducto.nombreProducto = entidad.nombreProducto;
-               //nuevoproducto.descripcion = entidad.descripcion;
-                //nuevoproducto.cantidad = entidad.cantidad;
-                //nuevoproducto.estado = entidad.estado;
+
 
 
                 await context.AddAsync(nuevoproducto);

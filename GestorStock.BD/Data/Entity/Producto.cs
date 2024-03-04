@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,9 @@ namespace GestorStock.BD.Data.Entity
         public int UnidadId { get; set; }
         public Unidad Unidad { get; set; }
 
-     
+        public Componente Componente { get; set; }
+
+
         public List<ProductoComponente> ProductoComponentes { get; set; } = new List<ProductoComponente>();
         
     }

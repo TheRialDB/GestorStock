@@ -39,10 +39,21 @@
 
         var httpRespuesta = await http.Post<ProductoDTO>("api/Producto", productoDTO); //post
 
-        if (httpRespuesta.Error)
+        if (!httpRespuesta.Error)
         {
-            var body = httpRespuesta.HttpResponseMessage;
+            var product = httpRespuesta.Respuesta;
+
+
+            Console.WriteLine($"Product Id: {producto.id}");
         }
+        else
+        {
+
+
+            var body = httpRespuesta.HttpResponseMessage;
+           
+        }
+
         
         await OnClose.InvokeAsync(true);
     }

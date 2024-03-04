@@ -15,6 +15,29 @@
     background-color: #341a5d63;
 }
 
+.bienvenido {
+    display: block;
+    font-size: 45px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    font-weight: bold;
+}
+
+.insquare-header {
+    object-fit: fill;
+    border-radius: 9px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    background-color: #341a5d63;
+    padding: 10px 2%;
+    margin-bottom: 1%;
+    max-width: 300px;
+    display: flex
+}
+
 .infoIndex {
     color: #ffff;
     padding-left: 20px;

@@ -84,19 +84,20 @@
                                 <div class="mb-2">
 
                                     <div class="form-group">
-                                        <div class="input-group-append">
-                                            <InputSelect class="form-control mt-2" @bind-Value="@productosStock">
-                                                <option value="0"> Selecciona un producto </option>
-                                                @foreach (var stock in stockk)
-                                                {
-                                                    <option value="@stock.id">@stock.Productos.nombreProducto</option>
-                                                }
-                                            </InputSelect>
-                                            <InputNumber class="form-control mt-2" @bind-Value="@productosCant"/>
-                                            <a class="btn btn-success mt-2" @onclick="@AgregarProductos">Agregar Producto</a>
-                                        </div>
+                                        @if (stockk != null ){
+                                            <div class="input-group-append">
+                                                <InputSelect class="form-control mt-2" @bind-Value="@productosStock">
+                                                    <option value="0"> Selecciona un producto </option>
+                                                    @foreach (var stock in stockk)
+                                                    {
+                                                        <option value="@stock.id">@stock.Productos.nombreProducto</option>
+                                                    }
+                                                </InputSelect>
+                                                <InputNumber class="form-control mt-2" @bind-Value="@productosCant"/>
+                                                <a class="btn btn-success mt-2" @onclick="@AgregarProductos">Agregar Producto</a>
+                                            </div>
+                                        }
                                     </div>
-
                                 </div>
                             </div>
 

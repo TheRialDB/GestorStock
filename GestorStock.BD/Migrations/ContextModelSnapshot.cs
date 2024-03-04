@@ -50,7 +50,8 @@ namespace GestorStock.BD.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ProductoId");
+                    b.HasIndex("ProductoId")
+                        .IsUnique();
 
                     b.ToTable("Componentes");
                 });
@@ -384,9 +385,9 @@ namespace GestorStock.BD.Migrations
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Componente", b =>
                 {
                     b.HasOne("GestorStock.BD.Data.Entity.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithOne("Componente")
+                        .HasForeignKey("GestorStock.BD.Data.Entity.Componente", "ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Producto");
@@ -509,6 +510,9 @@ namespace GestorStock.BD.Migrations
 
             modelBuilder.Entity("GestorStock.BD.Data.Entity.Producto", b =>
                 {
+                    b.Navigation("Componente")
+                        .IsRequired();
+
                     b.Navigation("ProductoComponentes");
                 });
 

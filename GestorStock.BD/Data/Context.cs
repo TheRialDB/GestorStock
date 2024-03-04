@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,12 @@ namespace GestorStock.BD.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Producto>()
+                .HasOne(p => p.Componente)
+                .WithOne(c => c.Producto)
+                .HasForeignKey<Componente>(c => c.ProductoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<NotaPedido>(o =>
             {
                 o.HasKey(b => b.id);
@@ -85,6 +92,9 @@ namespace GestorStock.BD.Data
             });
 
         }
+        
+
+        
 
     }
 }

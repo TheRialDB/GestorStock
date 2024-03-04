@@ -205,7 +205,7 @@ namespace GestorStock.BD.Migrations
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,7 +288,8 @@ namespace GestorStock.BD.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Componentes_ProductoId",
                 table: "Componentes",
-                column: "ProductoId");
+                column: "ProductoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Depositos_ObraId",
